@@ -589,3 +589,9 @@ tr.sgrid td { vertical-align: top; }
 .tseasons.solo .tsrow { margin-top: 6px; }
 [data-page="champions"] td.tagwrap:has(.solo), [data-page="teamtitles"] td.tagwrap:has(.solo) { min-width: 0; }
 @media (max-width: 600px) { [data-page="teamtitles"] #rows td.tagwrap:has(> .none) { display: none; } }
+/* Home pickers: arrow sits beside the title */
+.home .pk { padding-right: 16px; }
+.home .pk .pt1 .ar { position: static; transform: none; display: inline-block; margin-left: 8px; font-size: 18px; transition: transform .15s; }
+.home a.pk:hover .pt1 .ar { transform: translateX(3px); }
+@media (max-width: 480px) { .home .pick .pt1 { font-size: 17px; letter-spacing: .04em; } .home .pk .pt1 .ar { margin-left: 5px; font-size: 16px; } }
+.home .pk .pt1 .nw { white-space: nowrap; }
