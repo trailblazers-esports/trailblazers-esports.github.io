@@ -24,6 +24,8 @@ window.SERIES["gt3-endurance-s15"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Monza", "Circuit Gilles-Villeneuve", "Red Bull Ring", "Nürburgring Endurance", "Catalunya GP", "Suzuka", "Spa-Francorchamps", "Interlagos", "Watkins Glen Long Course", "Yas Marina"],
+  roundDates: ["16 Jan 2026", "23 Jan 2026", "30 Jan 2026", "6 Feb 2026", "13 Feb 2026", "20 Feb 2026", "27 Feb 2026", "6 Mar 2026", "13 Mar 2026", "20 Mar 2026"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","NWR_NICO71","17",["30","45p1","40","45p1","43p2","NP","43p2","43p2","43p2","45p1"],377,-30,347,0],
     ["2","Luke_GT13","13",["–","37","43p2","43p2","41p3","NP","41p3","40","45p1","40"],330,0,330,0],

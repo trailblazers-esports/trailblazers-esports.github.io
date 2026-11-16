@@ -7,8 +7,8 @@
   });
   var page = document.body.getAttribute("data-page");
   // Records pages are club-wide (records-*.html): ?series=<id> shows one series, otherwise All Time.
-  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles|milestones|seasoncal|driver|compare|team)$/;
-  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html", teamtitles: "records-teamtitles.html", milestones: "records-milestones.html", seasoncal: "season-calendar.html" };
+  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles|milestones|seasoncal|tracks|driver|compare|team)$/;
+  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html", teamtitles: "records-teamtitles.html", milestones: "records-milestones.html", seasoncal: "season-calendar.html", tracks: "tracks.html" };
   var wantSeries = RECORD_PAGES.test(page) ? new URLSearchParams(location.search).get("series") : null;
   var BASE = (wantSeries && ALL[wantSeries] && !ALL[wantSeries].group ? ALL[wantSeries] : null) || ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
   var groupOf = function (x) { return x.group || x.id; };
@@ -84,8 +84,8 @@
     // Two rows: results and standings first, then the records pages.
     if (RECORD_PAGES.test(page)) {
       // Records section: its own tabs; Teams' Titles is shown once team championship data exists.
-      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"], ["milestones", "Milestones"], ["seasoncal", "Calendar"]].map(function (t) {
-        return '<a href="' + REC[t[0]] + (t[0] === "seasoncal" ? "" : recQuery) + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
+      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"], ["milestones", "Milestones"], ["tracks", "Tracks"], ["seasoncal", "Calendar"]].map(function (t) {
+        return '<a href="' + REC[t[0]] + (t[0] === "seasoncal" || t[0] === "tracks" ? "" : recQuery) + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
       }).join("");
     }
     // Series pages: current-season race results and championship standings only.
@@ -97,7 +97,7 @@
     if (!RECORD_PAGES.test(page) && tabs.length < 2) $("pageNav").hidden = true;
 
     // Records pages: All Time / Tuesday / Narly / WJF picker.
-    if (RECORD_PAGES.test(page) && page !== "seasoncal" && page !== "driver" && page !== "compare" && page !== "team") {
+    if (RECORD_PAGES.test(page) && page !== "seasoncal" && page !== "tracks" && page !== "driver" && page !== "compare" && page !== "team") {
       var sp = $("scopePicker");
       if (!sp) {
         sp = document.createElement("div"); sp.id = "scopePicker"; sp.className = "pills scope";
@@ -1627,6 +1627,92 @@
     });
   }
 
+  /* ---------------- Track history (tracks.html, tracks.html?t=…) ---------------- */
+  var TRACK_RULES = [
+    [/tokyo/i, "Tokyo Expressway"], [/monza/i, "Monza"], [/sardegna/i, "Sardegna"], [/interlagos/i, "Interlagos"],
+    [/watkins/i, "Watkins Glen"], [/panorama|bathurst/i, "Mount Panorama"], [/trial mountain/i, "Trial Mountain"],
+    [/spa/i, "Spa-Francorchamps"], [/suzuka/i, "Suzuka"], [/kyoto/i, "Kyoto Driving Park"], [/brands/i, "Brands Hatch"],
+    [/le mans|sarthe/i, "Le Mans"], [/alsace/i, "Alsace"], [/catalunya/i, "Catalunya"], [/red bull/i, "Red Bull Ring"],
+    [/st\.? croix/i, "St Croix"], [/dragon trail/i, "Dragon Trail"], [/n[uü]rburgring/i, "Nürburgring"],
+    [/gilles|villeneuve/i, "Circuit Gilles-Villeneuve"], [/yas marina|abu dhabi/i, "Yas Marina"], [/blue moon/i, "Blue Moon Bay"],
+    [/sugo/i, "Sugo"], [/road atlanta|michelin raceway/i, "Road Atlanta"], [/autopolis/i, "Autopolis"], [/autumn ring/i, "Autumn Ring"],
+    [/deep forest/i, "Deep Forest"], [/fuji/i, "Fuji"], [/daytona/i, "Daytona"], [/laguna/i, "Laguna Seca"], [/goodwood/i, "Goodwood"],
+    [/high speed ring/i, "High Speed Ring"], [/grand valley/i, "Grand Valley"], [/willow/i, "Willow Springs"], [/barcelona/i, "Catalunya"]
+  ];
+  var trackOf = function (nm) { for (var i = 0; i < TRACK_RULES.length; i++) if (TRACK_RULES[i][0].test(nm)) return TRACK_RULES[i][1]; return nm; };
+  function trackEvents() {
+    var ev = [];
+    Object.keys(ALL).map(function (k) { return ALL[k]; }).forEach(function (x) {
+      var gid = groupOf(x), season = x.season || 18;
+      if (x.standingsFormat === "archive" && x.roundNames) {
+        x.roundNames.forEach(function (nm, i) {
+          if (!nm) return;
+          var pod = [null, null, null], run = false;
+          (x.standings || []).forEach(function (r) {
+            var c = String((r[3] || [])[i] || ""), m = /p([123])d?\*?$/.exec(c);
+            if (m && !pod[+m[1] - 1]) pod[+m[1] - 1] = r[1];
+            if (/^\d/.test(c) || /^(RGQ|DNF|DQ|CC)$/.test(c)) run = true;
+          });
+          ev.push({ x: x, gid: gid, season: season, round: i + 1, name: nm, track: trackOf(nm), date: x.roundDates ? x.roundDates[i] : "", pod: pod, run: run && !!pod[0] });
+        });
+      } else if (x.rounds && !x.final) {
+        x.rounds.forEach(function (rd) {
+          var fin = rd.rows.filter(function (r) { return r[8] !== "o"; }), best = null;
+          rd.rows.forEach(function (r) { if (r[7] && (!best || secs(r[7]) < secs(best[7]))) best = r; });
+          ev.push({ x: x, gid: gid, season: season, round: rd.no, name: rd.track || rd.short, track: trackOf(rd.track || rd.short), pod: [0, 1, 2].map(function (j) { return fin[j] ? fin[j][0] : null; }), run: true, fl: best ? [best[0], best[7]] : null, cur: true });
+        });
+      }
+    });
+    return ev;
+  }
+  function tracksPage() {
+    var ev = trackEvents(), q = new URLSearchParams(location.search).get("t");
+    var tcol = function (n, s) { return ((clubTeam(n, s) || {}).colour) || "#fff"; };
+    var who = function (n, s) { return n ? '<span style="color:' + tcol(n, s) + '">' + plink(n) + "</span>" : '<span class="none">–</span>'; };
+    var seasonsOf = function (l) { return uniq(l.map(function (e) { return e.season; })).sort(function (a, b) { return a - b; }); };
+    var known = seasonsOf(ev);
+    var CAL = window.CALENDAR, upcoming = CAL ? CAL.rounds.filter(function (r) { return !r.tbc && r.no > Math.max.apply(null, ev.filter(function (e) { return e.cur; }).map(function (e) { return e.round; }).concat([0])); }) : [];
+    var groups = {};
+    ev.forEach(function (e) { (groups[e.track] = groups[e.track] || []).push(e); });
+    upcoming.forEach(function (r) { var t = trackOf(r.track); groups[t] = groups[t] || []; });
+    var tally = function (l) { var w = {}; l.forEach(function (e) { if (e.run && e.pod[0]) { var k = e.pod[0]; w[k] = w[k] || { n: k, c: 0, s: e.season }; w[k].c++; w[k].s = Math.max(w[k].s, e.season); } }); return Object.keys(w).map(function (k) { return w[k]; }).sort(function (a, b) { return b.c - a.c || b.s - a.s; }); };
+    var note = '<p class="pfnote">Track names are on the site for GT7 Season' + (known.length > 1 ? "s " : " ") + known.join(", ") + " so far – more seasons will be added as the club’s calendars come in. All three series race the same track each round. Season 18 counts rounds raced so far.</p>";
+    if (!q) {
+      var list = Object.keys(groups).map(function (t) { var l = groups[t], run = l.filter(function (e) { return e.run; }); return { t: t, l: l, run: run, top: tally(l)[0], last: l.reduce(function (m, e) { return Math.max(m, e.season); }, 0), next: upcoming.filter(function (r) { return trackOf(r.track) === t; })[0] }; })
+        .sort(function (a, b) { return b.run.length - a.run.length || b.last - a.last || a.t.localeCompare(b.t); });
+      var most = list[0], wins = tally(ev)[0];
+      document.title = "Track History · TB Race Results";
+      $("tiles").innerHTML = '<div class="tile"><div class="label">Tracks raced</div><div class="tile-big">' + list.filter(function (o) { return o.run.length; }).length + '</div><div class="sub">GT7 Seasons ' + known.join(", ") + "</div></div>" +
+        '<div class="tile"><div class="label">Most raced</div><div class="tile-big">' + esc(most.t) + '</div><div class="sub">' + most.run.length + " races</div></div>" +
+        '<div class="tile"><div class="label">Most track wins</div><div class="tile-big" style="color:' + tcol(wins.n, wins.s) + '">' + plink(wins.n) + '</div><div class="sub">' + wins.c + " wins across " + uniq(ev.filter(function (e) { return e.pod[0] === wins.n; }).map(function (e) { return e.track; })).length + " tracks</div></div>";
+      $("trk").innerHTML = '<div class="trgrid">' + list.map(function (o) {
+        return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '"><div class="trn">' + esc(o.t) + "</div>" +
+          '<div class="trm">' + (o.run.length ? o.run.length + " race" + (o.run.length === 1 ? "" : "s") + " · S" + seasonsOf(o.l).join(", S") : "Not raced yet") + "</div>" +
+          (o.top ? '<div class="trw">Most wins <b style="color:' + tcol(o.top.n, o.top.s) + '">' + esc(o.top.n) + "</b> ×" + o.top.c + "</div>" : "") +
+          (o.next ? '<div class="trnext">Next up · Season ' + CAL.season + " Round " + o.next.no + "</div>" : "") + "</a>";
+      }).join("") + "</div>" + note;
+      return;
+    }
+    var T = trackOf(q), l = (groups[T] || []).slice().sort(function (a, b) { return b.season - a.season || b.round - a.round || ORDER.indexOf(a.gid) - ORDER.indexOf(b.gid); });
+    document.title = T + " · Track History · TB Race Results";
+    $("h1title").textContent = T;
+    var run = l.filter(function (e) { return e.run; }), tl = tally(l), layouts = uniq(l.map(function (e) { return e.name; }));
+    var nx = upcoming.filter(function (r) { return trackOf(r.track) === T; })[0];
+    var fls = l.filter(function (e) { return e.fl; }).sort(function (a, b) { return secs(a.fl[1]) - secs(b.fl[1]); });
+    $("tiles").innerHTML = '<div class="tile"><div class="label">Races here</div><div class="tile-big">' + run.length + '</div><div class="sub">' + (seasonsOf(l).length ? "GT7 Season" + (seasonsOf(l).length > 1 ? "s " : " ") + seasonsOf(l).join(", ") : "") + "</div></div>" +
+      (tl[0] ? '<div class="tile"><div class="label">Most wins here</div><div class="tile-big" style="color:' + tcol(tl[0].n, tl[0].s) + '">' + plink(tl[0].n) + '</div><div class="sub">' + tl[0].c + " win" + (tl[0].c === 1 ? "" : "s") + " · " + tl.length + " different winners</div></div>" : "") +
+      (nx ? '<div class="tile"><div class="label">Next visit</div><div class="tile-big">Round ' + nx.no + '</div><div class="sub">' + esc(nx.dates.join(" · ")) + "</div></div>" : fls[0] ? '<div class="tile"><div class="label">Fastest lap on record</div><div class="tile-big"><span class="fl">' + esc(fls[0].fl[1]) + '</span></div><div class="sub">' + esc(fls[0].fl[0]) + " · S" + fls[0].season + " " + esc(ALL[fls[0].gid].navLabel) + "</div></div>" : "");
+    var rows = l.map(function (e) {
+      var b = baseOf(e.x), href = e.cur ? b.pages.results + "#round=" + e.round : b.pages.championship + seasonQuery(e.x);
+      return "<tr><td class=\"nowrap\"><a href=\"" + href + '">S' + e.season + " R" + e.round + "</a>" + (e.date ? '<div class="sub">' + esc(e.date) + "</div>" : "") + '</td><td class="nowrap">' + esc(ALL[e.gid].navLabel) + (layouts.length > 1 ? '<div class="sub">' + esc(e.name) + "</div>" : "") + "</td>" +
+        (e.run ? "<td>" + who(e.pod[0], e.season) + "</td><td class=\"hidesm\">" + who(e.pod[1], e.season) + "</td><td class=\"hidesm\">" + who(e.pod[2], e.season) + "</td>" : '<td colspan="3"><span class="none">Not run</span></td>') + "</tr>";
+    }).join("");
+    $("trk").innerHTML = (layouts.length ? '<p class="meta">Layout' + (layouts.length > 1 ? "s" : "") + " raced: " + layouts.map(esc).join(" · ") + "</p>" : "") +
+      '<h2 class="section-title">Every race here</h2><div class="scroll"><table class="pftable"><thead><tr><th scope="col">Round</th><th scope="col">Series</th><th scope="col">Winner</th><th scope="col" class="hidesm">2nd</th><th scope="col" class="hidesm">3rd</th></tr></thead><tbody>' + (rows || '<tr><td colspan="5" class="none">Not raced yet in the seasons on the site.</td></tr>') + "</tbody></table></div>" +
+      (tl.length ? '<h2 class="section-title">Winners here</h2><div class="trwin">' + tl.map(function (w) { return '<span><span class="bar" style="background:' + tcol(w.n, w.s) + '"></span>' + plink(w.n) + " <b>×" + w.c + "</b></span>"; }).join("") + "</div>" : "") +
+      '<p style="margin-top:18px"><a class="cmpbtn" href="tracks.html">← All tracks</a></p>' + note;
+  }
+
   /* ---------------- Milestones (starts clubs every 100, points clubs every 1,000) ---------------- */
   function milestonesPage() {
     var DRD = driverRecordsData(), all = DRD.all, seasons = DRD.seasons;
@@ -1785,6 +1871,7 @@
   if (page === "driver") driverPage();
   if (page === "compare") comparePage();
   if (page === "team") teamPage();
+  if (page === "tracks") tracksPage();
   dlButton();
   if (page === "home") driverSearch(document.querySelector(".sub3"), searchList(driverRecordsData(true), teamRecordsData(true)));
 

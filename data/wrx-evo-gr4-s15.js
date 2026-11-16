@@ -25,6 +25,8 @@ window.SERIES["wrx-evo-gr4-s15"] = {
   // Round cell codes: "45p1" win, "43p2" 2nd, "41p3" 3rd; "NE" = no event; "RGQ"; "–" = did not race
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Monza", "Circuit Gilles-Villeneuve", "Red Bull Ring", "Nürburgring GP", "Catalunya GP", "Suzuka", "Spa-Francorchamps", "Interlagos", "Watkins Glen Long Course", "Yas Marina"],
+  roundDates: ["13 Jan 2026", "20 Jan 2026", "27 Jan 2026", "3 Feb 2026", "10 Feb 2026", "17 Feb 2026", "24 Feb 2026", "3 Mar 2026", "10 Mar 2026", "17 Mar 2026"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["41p3","45p1","NE","43p2","45p1","–","45p1","43p2","43p2","45p1"],350,0,350,0],
     ["2","iphonedoc","744",["40","39","NE","45p1","41p3","41p3","43p2","39","41p3","43p2"],372,-39,333,0],

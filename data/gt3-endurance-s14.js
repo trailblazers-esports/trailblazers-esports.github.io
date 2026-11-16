@@ -25,6 +25,8 @@ window.SERIES["gt3-endurance-s14"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Brands Hatch", "Le Mans", "Alsace Village", "Catalunya No Chicane", "Monza", "Red Bull Ring", "St Croix Layout A Reverse", "Spa-Francorchamps", "Dragon Trail Seaside", "Nürburgring GP"],
+  roundDates: ["10 Oct 2025", "17 Oct 2025", "24 Oct 2025", "31 Oct 2025", "7 Nov 2025", "14 Nov 2025", "21 Nov 2025", "28 Nov 2025", "5 Dec 2025", "12 Dec 2025"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Rollscanhardly","270",["45p1","–","45p1","45p1","45p1","40","40","41p3","45p1","45p1"],391,0,391,0],
     ["2","NWR_NICO71","17",["40","–","43p2","43p2","41p3","39","43p2","45p1","43p2","43p2"],380,0,380,0],

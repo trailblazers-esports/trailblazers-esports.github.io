@@ -23,6 +23,8 @@ window.SERIES["narly-cup-s14"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Brands Hatch", "Le Mans", "Alsace Village", "Catalunya No Chicane", "Monza", "Red Bull Ring", "St Croix Layout A Reverse", "Spa-Francorchamps", "Dragon Trail Seaside", "Nürburgring GP"],
+  roundDates: ["9 Oct 2025", "16 Oct 2025", "23 Oct 2025", "30 Oct 2025", "6 Nov 2025", "13 Nov 2025", "20 Nov 2025", "27 Nov 2025", "4 Dec 2025", "11 Dec 2025"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Rollscanhardly","270",["45p1","–","45p1","45p1","43p2","33","45p1","43p2","40","45p1"],384,0,384,0],
     ["2","iphonedoc","744",["43p2","36","40","38","40","41p3","40","41p3","41p3","43p2"],403,-36,367,0],

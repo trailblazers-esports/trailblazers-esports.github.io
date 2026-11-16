@@ -23,6 +23,8 @@ window.SERIES["wrx-evo-gr4-s14"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Brands Hatch", "Le Mans", "Alsace Village", "Catalunya No Chicane", "Monza", "Red Bull Ring", "St Croix Layout A Reverse", "Spa-Francorchamps", "Dragon Trail Seaside", "Nürburgring GP"],
+  roundDates: ["7 Oct 2025", "14 Oct 2025", "21 Oct 2025", "28 Oct 2025", "4 Nov 2025", "11 Nov 2025", "18 Nov 2025", "25 Nov 2025", "2 Dec 2025", "9 Dec 2025"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Rollscanhardly","270",["45p1","45p1","45p1","45p1","45p1","43p2","45p1","45p1","45p1","45p1"],448,-43,405,0],
     ["2","MAD_MITCH_76","76",["40","43p2","39","39","43p2","45p1","40","43p2","43p2","40"],415,-39,376,0],

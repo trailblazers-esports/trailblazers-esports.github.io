@@ -21,6 +21,8 @@ window.SERIES["narly-cup-s15"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Monza", "Circuit Gilles-Villeneuve", "Red Bull Ring", "Nürburgring GP", "Catalunya GP", "Suzuka", "Spa-Francorchamps", "Interlagos", "Watkins Glen Long Course", "Yas Marina"],
+  roundDates: ["15 Jan 2026", "22 Jan 2026", "29 Jan 2026", "5 Feb 2026", "12 Feb 2026", "19 Feb 2026", "26 Feb 2026", "5 Mar 2026", "12 Mar 2026", "19 Mar 2026"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["41p3","45p1","32","45p1","39","41p3","36","43p2","45p1","45p1"],412,-32,380,0],
     ["2","MasoMarvel87","333",["–","36","38","40","45p1","45p1","45p1","45p1","41p3","36"],371,0,371,0],
