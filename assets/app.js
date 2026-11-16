@@ -1180,12 +1180,12 @@
           pos = '<span class="chip' + (!out && idx < 3 ? " p" + (idx + 1) : out ? " nc" : "") + '">' + (idx + 1) + "</span>";
           res = out ? '<span class="status">' + esc(me[4] || "DNF") + "</span>" : idx === 0 ? '<span class="t">' + esc(me[4]) + '</span> <span class="rwin">Win</span>' : '<span class="t">' + esc(me[5] || me[4]) + "</span>";
           best = me[7] ? (secs(me[7]) === fastest ? '<span class="fl" title="Fastest lap of the round">' + esc(me[7]) + "</span>" : '<span class="t">' + esc(me[7]) + "</span>") : "";
-          if (x.hasLobbies && me[2]) res += ' <span class="sub nowrap" style="display:inline">' + bar(LOB[me[2]] || "#8C939D") + esc(me[2]) + "</span>";
+          if (x.hasLobbies && me[2]) res += ' <span class="sub nowrap rbrlob">' + bar(LOB[me[2]] || "#8C939D") + esc(me[2]) + "</span>";
         } else {
           pos = '<span class="none">\u2013</span>';
           res = /^(DNS|RGQ|DQ)$/.test(cellv) ? '<span class="status">' + cellv + "</span>" : '<span class="none">Did not enter</span>';
         }
-        return '<tr><td class="nowrap rbrrd"><a href="' + href + '">R' + rd.no + '</a></td><td><a class="rbrno" href="' + href + '">R' + rd.no + "</a>" + esc(rd.short) + '</td><td class="c">' + pos + "</td><td>" + res + '</td><td class="r rbrbl">' + (best || '<span class="none">\u2013</span>') + '</td><td class="c rbrpts">' + roundCell(cellv) + "</td></tr>";
+        return '<tr><td class="nowrap rbrrd"><a href="' + href + '">R' + rd.no + '</a></td><td><a class="rbrno" href="' + href + '">R' + rd.no + "</a>" + esc(rd.short) + '</td><td class="c">' + pos + '</td><td><div class="rbrres">' + res + "</div></td>" + '<td class="r rbrbl">' + (best || '<span class="none">\u2013</span>') + '</td><td class="c rbrpts">' + roundCell(cellv) + "</td></tr>";
       }).join("");
       var left = (x.roundCount || 10) - x.rounds.length;
       return '<div class="rbr"><div class="rbrh"><b>' + esc(x.navLabel) + '</b><span>P' + st[0] + " \u00b7 " + st[8] + " pts" + (left > 0 ? " \u00b7 " + left + " rounds to go" : "") + '</span></div><div class="scroll"><table class="pftable rbrt"><thead><tr><th scope="col" class="rbrrd">Rd</th><th scope="col">Track</th><th scope="col" class="c">Pos</th><th scope="col">Result</th><th scope="col" class="r rbrbl">Best<span class="rbrlg"> lap</span></th><th scope="col" class="c rbrpts">Points</th></tr></thead><tbody>' + rows + "</tbody></table></div></div>";

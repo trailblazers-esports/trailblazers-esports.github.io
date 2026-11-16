@@ -613,3 +613,11 @@ tr.sgrid td { vertical-align: top; }
   .rbrt .rbrno { display: block; font-size: 11px; letter-spacing: .1em; color: var(--dim); }
   .rbrt td.rbrbl { font-size: 13px; }
 }
+.rbrt .rbrlob { display: inline; margin-left: 6px; }
+@media (max-width: 600px) {
+  .rbrt .rbrbl { display: none; }
+  .rbrt .rbrlob { margin-left: 14px; }
+}
+.rbrt .rbrres { display: flex; flex-wrap: wrap; align-items: center; column-gap: 8px; row-gap: 2px; }
+.rbrt .rbrres .rbrlob { margin-left: 0; }
+@media (max-width: 600px) { .rbrt .rbrres { column-gap: 14px; } .rbrt .rbrres .rbrlob { margin-left: 0; } }
