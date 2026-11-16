@@ -595,3 +595,14 @@ tr.sgrid td { vertical-align: top; }
 .home a.pk:hover .pt1 .ar { transform: translateX(3px); }
 @media (max-width: 480px) { .home .pick .pt1 { font-size: 17px; letter-spacing: .04em; } .home .pk .pt1 .ar { margin-left: 5px; font-size: 16px; } }
 .home .pk .pt1 .nw { white-space: nowrap; }
+/* Season 18 round by round (profiles) */
+.rbrs { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.rbr { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.rbrh { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.rbrh b { font-family: var(--cond); font-size: 18px; letter-spacing: .06em; text-transform: uppercase; color: var(--bright); }
+.rbrh span { color: var(--muted); font-size: 13px; }
+.rbrt td, .rbrt th { padding: 7px 8px; }
+.rbrt .c { text-align: center; }
+.rbrt .rwin { font-family: var(--cond); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #F2C14E; border: 1px solid rgba(242,193,78,.5); border-radius: 999px; padding: 0 6px; }
+@media (max-width: 600px) { .rbrs { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .rbrt .rbrbl { display: none; } .rbrt td, .rbrt th { padding: 7px 5px; } .rbrh { flex-direction: column; gap: 2px; } }

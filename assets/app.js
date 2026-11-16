@@ -1158,6 +1158,41 @@
   }
 
   /* ---------------- Driver profile (driver.html?name=…) ---------------- */
+  /* Season 18 round by round on driver profiles. */
+  function roundByRound(N) {
+    var cal = window.CALENDAR || window.SEASON_CALENDAR || null;
+    var blocks = ORDER.map(function (id) {
+      var x = ALL[id]; if (!x || x.final || !x.rounds) return "";
+      var st = (x.standings || []).filter(function (r) { return r[1] === N; })[0];
+      if (!st) return "";
+      var LOB = { Blue: "#4C8DFF", Red: "#F0524A" };
+      var rows = x.rounds.map(function (rd, i) {
+        var all = rd.rows, idx = -1;
+        all.forEach(function (r, j) { if (r[0] === N) idx = j; });
+        var me = idx >= 0 ? all[idx] : null;
+        var fastest = Infinity; all.forEach(function (r) { var v = secs(r[7]); if (v < fastest) fastest = v; });
+        var cellv = String((st[4] || [])[i] == null ? "–" : st[4][i]);
+        var href = x.pages.results + "#round=" + rd.no;
+        var pos, res, best = "";
+        if (me && me[4] === "DNS") me = null;
+        if (me) {
+          var out = me[8] === "o";
+          pos = '<span class="chip' + (!out && idx < 3 ? " p" + (idx + 1) : out ? " nc" : "") + '">' + (idx + 1) + "</span>";
+          res = out ? '<span class="status">' + esc(me[4] || "DNF") + "</span>" : idx === 0 ? '<span class="t">' + esc(me[4]) + '</span> <span class="rwin">Win</span>' : '<span class="t">' + esc(me[5] || me[4]) + "</span>";
+          best = me[7] ? (secs(me[7]) === fastest ? '<span class="fl" title="Fastest lap of the round">' + esc(me[7]) + "</span>" : '<span class="t">' + esc(me[7]) + "</span>") : "";
+          if (x.hasLobbies && me[2]) res += ' <span class="sub nowrap" style="display:inline">' + bar(LOB[me[2]] || "#8C939D") + esc(me[2]) + "</span>";
+        } else {
+          pos = '<span class="none">\u2013</span>';
+          res = /^(DNS|RGQ|DQ)$/.test(cellv) ? '<span class="status">' + cellv + "</span>" : '<span class="none">Did not enter</span>';
+        }
+        return '<tr><td class="nowrap"><a href="' + href + '">R' + rd.no + "</a></td><td>" + esc(rd.short) + '</td><td class="c">' + pos + "</td><td>" + res + '</td><td class="r rbrbl">' + (best || '<span class="none">\u2013</span>') + '</td><td class="r">' + roundCell(cellv) + "</td></tr>";
+      }).join("");
+      var left = (x.roundCount || 10) - x.rounds.length;
+      return '<div class="rbr"><div class="rbrh"><b>' + esc(x.navLabel) + '</b><span>P' + st[0] + " \u00b7 " + st[8] + " pts" + (left > 0 ? " \u00b7 " + left + " rounds to go" : "") + '</span></div><div class="scroll"><table class="pftable rbrt"><thead><tr><th scope="col">Rd</th><th scope="col">Track</th><th scope="col" class="c">Pos</th><th scope="col">Result</th><th scope="col" class="r rbrbl">Best lap</th><th scope="col" class="r">Points</th></tr></thead><tbody>' + rows + "</tbody></table></div></div>";
+    }).join("");
+    return blocks ? '<h2 class="section-title">Season 18 round by round</h2><div class="rbrs">' + blocks + '</div><p class="pfnote">Pos = finishing position in the round (all lobbies together). Purple best lap = fastest lap of the round. Struck-out points = dropped round.</p>' : "";
+  }
+
   function driverPage() {
     var q = new URLSearchParams(location.search).get("name") || "";
     var DRD = driverRecordsData(true), all = DRD.all;
@@ -1218,6 +1253,7 @@
       '<div class="pftiles"><div><b>' + o.starts + "</b><span>Starts</span></div><div><b>" + o.wins + "</b><span>Wins</span></div><div><b>" + o.podiums + "</b><span>Podiums</span></div><div><b>" + titles.length + "</b><span>Titles</span></div><div><b>" + fmt(o.points) + "</b><span>Points</span></div><div><b>" + o.seasons.length + "</b><span>Seasons</span></div></div>" +
       ms("starts", 100, "starts") + ms("points", 1000, "points") +
       '<div class="pfsers">' + series + "</div>" +
+      roundByRound(N) +
       '<h2 class="section-title">Season by season</h2><div class="scroll"><table class="pftable"><thead><tr><th scope="col">Season</th><th scope="col">Series</th><th scope="col">Team</th><th scope="col">Finish</th><th scope="col" class="r">Starts</th><th scope="col" class="r">Wins</th><th scope="col" class="r">Podiums</th><th scope="col" class="r">Points</th></tr></thead><tbody>' + trs + "</tbody></table></div>" +
       '<p class="pfnote">Starts, wins and podiums are counted as on Driver Records. Points are each season’s championship points (after drops and penalties; Season 1 had no points). Finish = championship position out of the drivers in that season’s standings; for the current season it\u2019s the position so far, after the latest round. Teams are from each season’s team list.</p>';
   }
