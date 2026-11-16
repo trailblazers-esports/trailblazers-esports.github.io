@@ -1507,7 +1507,7 @@
       // Footer
       var fy = top + th + 24;
       footLines.forEach(function (l, i) { text(l, PAD, fy + i * 19, footFont, C.dim); });
-      text("7hryk5tbz7-creator.github.io/tbraceresults", W - PAD, fy, "400 13px " + BODY, C.soft, "right");
+      text((/github\.io$|\.[a-z]{2,}$/.test(location.hostname) ? location.hostname : "trailblazers-esports.github.io"), W - PAD, fy, "400 13px " + BODY, C.soft, "right");
       return new Promise(function (res, rej) {
         cv.toBlob(function (blob) {
           if (!blob) return rej(new Error("no image"));
