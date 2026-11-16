@@ -1185,10 +1185,10 @@
           pos = '<span class="none">\u2013</span>';
           res = /^(DNS|RGQ|DQ)$/.test(cellv) ? '<span class="status">' + cellv + "</span>" : '<span class="none">Did not enter</span>';
         }
-        return '<tr><td class="nowrap"><a href="' + href + '">R' + rd.no + "</a></td><td>" + esc(rd.short) + '</td><td class="c">' + pos + "</td><td>" + res + '</td><td class="r rbrbl">' + (best || '<span class="none">\u2013</span>') + '</td><td class="r">' + roundCell(cellv) + "</td></tr>";
+        return '<tr><td class="nowrap"><a href="' + href + '">R' + rd.no + "</a></td><td>" + esc(rd.short) + '</td><td class="c">' + pos + "</td><td>" + res + '</td><td class="r rbrbl">' + (best || '<span class="none">\u2013</span>') + '</td><td class="c rbrpts">' + roundCell(cellv) + "</td></tr>";
       }).join("");
       var left = (x.roundCount || 10) - x.rounds.length;
-      return '<div class="rbr"><div class="rbrh"><b>' + esc(x.navLabel) + '</b><span>P' + st[0] + " \u00b7 " + st[8] + " pts" + (left > 0 ? " \u00b7 " + left + " rounds to go" : "") + '</span></div><div class="scroll"><table class="pftable rbrt"><thead><tr><th scope="col">Rd</th><th scope="col">Track</th><th scope="col" class="c">Pos</th><th scope="col">Result</th><th scope="col" class="r rbrbl">Best lap</th><th scope="col" class="r">Points</th></tr></thead><tbody>' + rows + "</tbody></table></div></div>";
+      return '<div class="rbr"><div class="rbrh"><b>' + esc(x.navLabel) + '</b><span>P' + st[0] + " \u00b7 " + st[8] + " pts" + (left > 0 ? " \u00b7 " + left + " rounds to go" : "") + '</span></div><div class="scroll"><table class="pftable rbrt"><thead><tr><th scope="col">Rd</th><th scope="col">Track</th><th scope="col" class="c">Pos</th><th scope="col">Result</th><th scope="col" class="r rbrbl">Best lap</th><th scope="col" class="c">Points</th></tr></thead><tbody>' + rows + "</tbody></table></div></div>";
     }).join("");
     return blocks ? '<h2 class="section-title">Season 18 round by round</h2><div class="rbrs">' + blocks + '</div><p class="pfnote">Pos = finishing position in the round (all lobbies together). Purple best lap = fastest lap of the round. Struck-out points = dropped round.</p>' : "";
   }

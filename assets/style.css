@@ -606,3 +606,4 @@ tr.sgrid td { vertical-align: top; }
 .rbrt .rwin { font-family: var(--cond); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #F2C14E; border: 1px solid rgba(242,193,78,.5); border-radius: 999px; padding: 0 6px; }
 @media (max-width: 600px) { .rbrs { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .rbrt .rbrbl { display: none; } .rbrt td, .rbrt th { padding: 7px 5px; } .rbrh { flex-direction: column; gap: 2px; } }
+.rbrt td.rbrpts { width: 70px; }
