@@ -621,3 +621,5 @@ tr.sgrid td { vertical-align: top; }
 .rbrt .rbrres { display: flex; flex-wrap: wrap; align-items: center; column-gap: 8px; row-gap: 2px; }
 .rbrt .rbrres .rbrlob { margin-left: 0; }
 @media (max-width: 600px) { .rbrt .rbrres { column-gap: 14px; } .rbrt .rbrres .rbrlob { margin-left: 0; } }
+.rbrt td .rbrlob, .rbrt td .rbrres .rbrlob { margin-left: 0 !important; }
+@media (max-width: 380px) { .rbrt td, .rbrt th { padding: 7px 3px; } .rbrt th { letter-spacing: .04em; } .rbrt .chip { min-width: 26px; } }
