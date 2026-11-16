@@ -609,7 +609,7 @@ tr.sgrid td { vertical-align: top; }
 .rbrt td.rbrpts { width: 70px; }
 .rbrt .rbrno { display: none; }
 @media (max-width: 600px) {
-  .rbrt .rbrrd, .rbrt .rbrlg { display: none; }
+  .rbrt .rbrrd { display: none; } .rbrt .rbrlg { display: block; }
   .rbrt .rbrno { display: block; font-size: 11px; letter-spacing: .1em; color: var(--dim); }
   .rbrt td.rbrbl { font-size: 13px; }
 }
