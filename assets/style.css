@@ -636,3 +636,4 @@ tr.sgrid td { vertical-align: top; }
 .trwin > span { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--panel); }
 .trwin b { color: #F2C14E; }
 #trk .section-title { margin: 28px 0 12px; }
+@media (max-width: 600px) { #trk .pftable td .sub { white-space: normal; } #trk .pftable td:nth-child(2) .sub { display: none; } #trk .pftable td, #trk .pftable th { padding: 8px 6px; } }
