@@ -1893,6 +1893,17 @@
   if (page === "compare") comparePage();
   if (page === "team") teamPage();
   if (page === "tracks") tracksPage();
+
+  /* Back-to-top button: appears once the visitor has scrolled down a long page. */
+  (function () {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "totop"; b.setAttribute("aria-label", "Back to top"); b.title = "Back to top";
+    b.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 5l-7 7m7-7l7 7M12 5v14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    b.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+    document.body.appendChild(b);
+    var tick = function () { b.classList.toggle("show", window.scrollY > 700); };
+    window.addEventListener("scroll", tick, { passive: true }); tick();
+  })();
   dlButton();
   if (page === "home") driverSearch(document.querySelector(".sub3"), searchList(driverRecordsData(true), teamRecordsData(true)));
 

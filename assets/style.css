@@ -651,3 +651,8 @@ tr.sgrid td { vertical-align: top; }
 .trgrid { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
 .trcard .trlast { font-size: 12px; color: var(--dim); margin-top: 2px; }
 .tile-big .tsor { color: var(--dim); font-size: .7em; }
+/* Back to top */
+.totop { position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 50; width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,.18); background: rgba(20,21,24,.92); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,.5); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s, border-color .2s; }
+.totop.show { opacity: 1; transform: none; pointer-events: auto; }
+.totop:hover { border-color: var(--red); }
+@media print { .totop { display: none; } }
