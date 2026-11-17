@@ -26,6 +26,7 @@ window.SERIES["wrx-evo-gr4-s13"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Daytona Road Course", "Blue Moon Bay Speedway", "Road Atlanta", "Laguna Seca", "Grand Valley Highway", "Trial Mountain", "Willow Springs International Speedway", "Interlagos", "Blue Moon Bay Speedway", "Watkins Glen"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Rollscanhardly","270",["45p1","45p1","45p1","45p1","43p2","45p1","45p1","45p1","45p1","45p1"],448,-43,405,0],
     ["2","Colin_t24","85",["31","41p3","41p3","40","45p1","43p2","43p2","38","43p2","36"],401,-31,370,0],

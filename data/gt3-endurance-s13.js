@@ -26,6 +26,7 @@ window.SERIES["gt3-endurance-s13"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Daytona Road Course", "Blue Moon Bay Speedway", "Road Atlanta", "Laguna Seca", "Grand Valley Highway", "Trial Mountain", "Willow Springs International Speedway", "Interlagos", "Blue Moon Bay Speedway", "Watkins Glen"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","N-spud-P666","32",["43p2","39","43p2","41p3","45p1","43p2","45p1","45p1","41p3","45p1"],430,-39,391,0],
     ["2","Rollscanhardly","270",["45p1","45p1","45p1","45p1","43p2","–","41p3","43p2","43p2","40"],390,0,390,0],

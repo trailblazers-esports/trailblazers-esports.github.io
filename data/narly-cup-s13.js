@@ -25,6 +25,7 @@ window.SERIES["narly-cup-s13"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Daytona Road Course", "Blue Moon Bay Speedway", "Road Atlanta", "Laguna Seca", "Grand Valley Highway", "Trial Mountain", "Willow Springs International Speedway", "Interlagos", "Blue Moon Bay Speedway", "Watkins Glen"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["45p1","NP","45p1","40","45p1","43p2","43p2","45p1","43p2","43p2"],392,-40,352,0],
     ["2","iphonedoc","744",["43p2","NP","43p2","45p1","–","41p3","41p3","43p2","41p3","45p1"],342,0,342,0],
