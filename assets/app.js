@@ -1703,7 +1703,7 @@
         '<div class="tile"><div class="label">Most track wins</div><div class="tile-big" style="color:' + tcol(wins.n, wins.s) + '">' + plink(wins.n) + '</div><div class="sub">' + wins.c + " wins across " + uniq(ev.filter(function (e) { return e.pod[0] === wins.n; }).map(function (e) { return e.track; })).length + " tracks</div></div>";
       $("trk").innerHTML = '<div class="trgrid">' + list.map(function (o) {
         return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '"><div class="trn">' + esc(o.t) + "</div>" +
-          '<div class="trm">' + (o.run.length ? rr(o.l, o.run.length) + " · S" + seasonsOf(o.l).join(", S") : "Not raced yet") + "</div>" +
+          '<div class="trm">' + (o.run.length ? rr(o.l, o.run.length) : "Not raced yet") + "</div>" +
           (o.run.length ? '<div class="trw">Most wins</div>' + seriesRows(o.l, "tsrows") : "") +
           (o.next ? '<div class="trnext">Next up · Season ' + CAL.season + " Round " + o.next.no + "</div>" : "") + "</a>";
       }).join("") + "</div>" + note;
