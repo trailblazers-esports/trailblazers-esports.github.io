@@ -637,3 +637,15 @@ tr.sgrid td { vertical-align: top; }
 .trwin b { color: #F2C14E; }
 #trk .section-title { margin: 28px 0 12px; }
 @media (max-width: 600px) { #trk .pftable td .sub { white-space: normal; } #trk .pftable td:nth-child(2) .sub { display: none; } #trk .pftable td, #trk .pftable th { padding: 8px 6px; } }
+.trcard .trw { margin-top: 10px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.tsrows { margin-top: 4px; display: grid; gap: 3px; }
+.tsr { display: grid; grid-template-columns: 62px 1fr auto; align-items: baseline; gap: 6px; font-size: 13px; }
+.tsr .tsl { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.tsr .tsn { overflow-wrap: anywhere; } .tsr .tsn b { font-weight: 600; }
+.tsr .tsc { color: #F2C14E; font-weight: 600; white-space: nowrap; }
+.tsbig { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.tsbig .tile-big { font-size: 22px; overflow-wrap: anywhere; } .tsbig .tsor { color: var(--dim); font-size: 16px; }
+@media (max-width: 600px) { .tsbig { grid-template-columns: 1fr; } }
+.tsr .tsn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; overflow-wrap: normal; }
+.tsr .tst { color: var(--dim); font-weight: 400; font-size: 12px; }
+.trgrid { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
