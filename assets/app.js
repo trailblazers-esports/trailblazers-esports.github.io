@@ -1700,8 +1700,7 @@
       var most = list[0], wins = tally(ev)[0];
       document.title = "Track History · TB Race Results";
       $("tiles").innerHTML = '<div class="tile"><div class="label">Tracks raced</div><div class="tile-big">' + list.filter(function (o) { return o.run.length; }).length + '</div><div class="sub">GT7 Seasons ' + known.join(", ") + "</div></div>" +
-        '<div class="tile"><div class="label">Most raced</div><div class="tile-big">' + esc(most.t) + '</div><div class="sub">' + rr(most.l, most.run.length) + "</div></div>" +
-        '<div class="tile"><div class="label">Most track wins</div><div class="tile-big" style="color:' + tcol(wins.n, wins.s) + '">' + plink(wins.n) + '</div><div class="sub">' + wins.c + " wins across " + uniq(ev.filter(function (e) { return e.pod[0] === wins.n; }).map(function (e) { return e.track; })).length + " tracks</div></div>";
+        '<div class="tile"><div class="label">Most raced</div><div class="tile-big">' + esc(most.t) + '</div><div class="sub">' + rr(most.l, most.run.length) + "</div></div>";
       $("trk").innerHTML = '<div class="trgrid">' + list.map(function (o) {
         return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '"><div class="trn">' + esc(o.t) + "</div>" +
           '<div class="trm">' + (o.run.length ? rr(o.l, o.run.length) + '<div class="trlast">Last raced S' + o.run.reduce(function (m, e) { return Math.max(m, e.season); }, 0) + "</div>" : "Not raced yet") + "</div>" +
