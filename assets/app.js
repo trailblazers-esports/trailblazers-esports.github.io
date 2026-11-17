@@ -73,20 +73,21 @@
   /* ---------------- Navigation ---------------- */
   function renderNav() {
     if (page === "home") {
-      $("seriesNav").innerHTML = '<a href="index.html" aria-current="page">Home</a>' + ORDER.map(function (id) { return '<a href="' + ALL[id].pages.results + '">' + esc(ALL[id].navLabel) + "</a>"; }).join("");
+      $("seriesNav").innerHTML = '<a href="index.html" aria-current="page">Home</a>' + ORDER.map(function (id) { return '<a href="' + ALL[id].pages.results + '">' + esc(ALL[id].navLabel) + "</a>"; }).join("") + '<a href="season-calendar.html">Calendar</a>';
       return;
     }
     $("seriesNav").innerHTML = '<a href="index.html">Home</a>' + ORDER.map(function (id) {
       var x = ALL[id];
       return '<a href="' + x.pages.results + '"' + (!RECORD_PAGES.test(page) && id === groupOf(S) ? ' aria-current="page"' : "") + ">" + esc(x.navLabel) + "</a>";
-    }).join("");
+    }).join("") + '<a href="season-calendar.html"' + (page === "seasoncal" ? ' aria-current="page"' : "") + ">Calendar</a>";
     // An archived season without race results links back to the current season's results.
     // Two rows: results and standings first, then the records pages.
     if (RECORD_PAGES.test(page)) {
       // Records section: its own tabs; Teams' Titles is shown once team championship data exists.
-      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"], ["milestones", "Milestones"], ["tracks", "Tracks"], ["seasoncal", "Calendar"]].map(function (t) {
+      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"], ["milestones", "Milestones"], ["tracks", "Tracks"]].map(function (t) {
         return '<a href="' + REC[t[0]] + (t[0] === "seasoncal" || t[0] === "tracks" ? "" : recQuery) + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
       }).join("");
+      if (page === "seasoncal") $("pageNav").hidden = true; // the combined calendar is in the top menu now
     }
     // Series pages: current-season race results and championship standings only.
     var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", '<span class="tab-long">Championship </span>Standings'], ["calendar", "Calendar"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
@@ -1716,7 +1717,7 @@
     var nx = upcoming.filter(function (r) { return trackOf(r.track) === T; })[0];
     var fls = l.filter(function (e) { return e.fl; }).sort(function (a, b) { return secs(a.fl[1]) - secs(b.fl[1]); });
     $("tiles").innerHTML = '<div class="tile"><div class="label">Rounds here</div><div class="tile-big">' + roundsOf(l) + '</div><div class="sub">' + run.length + " race" + (run.length === 1 ? "" : "s") + " across the three series" + (seasonsOf(l).length ? " \u00b7 GT7 Season" + (seasonsOf(l).length > 1 ? "s " : " ") + seasonsOf(l).join(", ") : "") + "</div></div>" +
-      (tl[0] ? '<div class="tile"><div class="label">Most wins here</div><div class="tile-big" style="color:' + tcol(tl[0].n, tl[0].s) + '">' + plink(tl[0].n) + '</div><div class="sub">' + tl[0].c + " win" + (tl[0].c === 1 ? "" : "s") + " · " + tl.length + " different winners</div></div>" : "") +
+      (tl[0] ? (function () { var lead = tl.filter(function (w) { return w.c === tl[0].c; }); return '<div class="tile"><div class="label">Most wins here</div><div class="tile-big">' + lead.map(function (w) { return '<span style="color:' + tcol(w.n, w.s) + '">' + plink(w.n) + "</span>"; }).join('<span class="tsor"> &amp; </span>') + '</div><div class="sub">' + tl[0].c + " win" + (tl[0].c === 1 ? "" : "s") + (lead.length > 1 ? " each" : "") + " \u00b7 " + tl.length + " different winners</div></div>"; })() : "") +
       (nx ? '<div class="tile"><div class="label">Next visit</div><div class="tile-big">Round ' + nx.no + '</div><div class="sub">' + esc(nx.dates.join(" · ")) + "</div></div>" : fls[0] ? '<div class="tile"><div class="label">Fastest lap on record</div><div class="tile-big"><span class="fl">' + esc(fls[0].fl[1]) + '</span></div><div class="sub">' + esc(fls[0].fl[0]) + " · S" + fls[0].season + " " + esc(ALL[fls[0].gid].navLabel) + "</div></div>" : "");
     var rows = l.map(function (e) {
       var b = baseOf(e.x), href = e.cur ? b.pages.results + "#round=" + e.round : b.pages.championship + seasonQuery(e.x);
