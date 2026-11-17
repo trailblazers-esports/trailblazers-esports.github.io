@@ -1637,7 +1637,7 @@
     [/gilles|villeneuve/i, "Circuit Gilles-Villeneuve"], [/yas marina|abu dhabi/i, "Yas Marina"], [/blue moon/i, "Blue Moon Bay"],
     [/sugo/i, "Sugo"], [/road atlanta|michelin raceway/i, "Road Atlanta"], [/autopolis/i, "Autopolis"], [/autumn ring/i, "Autumn Ring"],
     [/deep forest/i, "Deep Forest"], [/fuji/i, "Fuji"], [/daytona/i, "Daytona"], [/laguna/i, "Laguna Seca"], [/goodwood/i, "Goodwood"],
-    [/high speed ring/i, "High Speed Ring"], [/grand valley/i, "Grand Valley"], [/willow/i, "Willow Springs"], [/barcelona/i, "Catalunya"]
+    [/lago maggiore/i, "Lago Maggiore"], [/high speed ring/i, "High Speed Ring"], [/grand valley/i, "Grand Valley"], [/willow/i, "Willow Springs"], [/barcelona/i, "Catalunya"]
   ];
   var trackOf = function (nm) { for (var i = 0; i < TRACK_RULES.length; i++) if (TRACK_RULES[i][0].test(nm)) return TRACK_RULES[i][1]; return nm; };
   function trackEvents() {

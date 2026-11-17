@@ -21,6 +21,7 @@ window.SERIES["narly-cup-s16"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Alsace Village Reverse", "Lago Maggiore West", "Deep Forest Reverse", "Grand Valley Highway 1 Reverse", "Dragon Trail Gardens Reverse", "Yas Marina", "Circuit Gilles-Villeneuve", "Tokyo East Counterclockwise", "Sardegna Layout B", "St Croix Layout B Reverse"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["45p1","45p1","45p1","40","43p2","45p1","45p1","45p1","45p1","45p1"],443,-40,403,0],
     ["2","iphonedoc","744",["40","41p3","41p3","45p1","37","41p3","40","40","41p3","40"],406,-37,369,0],

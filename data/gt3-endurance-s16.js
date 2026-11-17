@@ -20,6 +20,7 @@ window.SERIES["gt3-endurance-s16"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Alsace Village Reverse", "Lago Maggiore West", "Deep Forest Reverse", "Grand Valley Highway 1 Reverse", "Dragon Trail Gardens Reverse", "Yas Marina", "Circuit Gilles-Villeneuve", "Tokyo East Counterclockwise", "Sardegna Layout B", "St Croix Layout B Reverse"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Arty_Bicycle","217",["43p2","38","41p3","–","45p1","45p1","41p3","45p1","NP","45p1"],343,0,343],
     ["2","Luke_GT13","13",["41p3","39","36","34","41p3","41p3","43p2","40","NP","41p3"],356,-34,322],
