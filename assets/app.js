@@ -1721,7 +1721,7 @@
       (nx ? '<div class="tile"><div class="label">Next visit</div><div class="tile-big">Round ' + nx.no + '</div><div class="sub">' + esc(nx.dates.join(" · ")) + "</div></div>" : fls[0] ? '<div class="tile"><div class="label">Fastest lap on record</div><div class="tile-big"><span class="fl">' + esc(fls[0].fl[1]) + '</span></div><div class="sub">' + esc(fls[0].fl[0]) + " · S" + fls[0].season + " " + esc(ALL[fls[0].gid].navLabel) + "</div></div>" : "");
     var rows = l.map(function (e) {
       var b = baseOf(e.x), href = e.cur ? b.pages.results + "#round=" + e.round : b.pages.championship + seasonQuery(e.x);
-      return "<tr><td class=\"nowrap\"><a href=\"" + href + '">S' + e.season + " R" + e.round + "</a>" + (e.date ? '<div class="sub">' + esc(e.date) + "</div>" : "") + '</td><td class="nowrap">' + esc(ALL[e.gid].navLabel) + (layouts.length > 1 ? '<div class="sub">' + esc(e.name) + "</div>" : "") + "</td>" +
+      return "<tr><td class=\"nowrap\"><a href=\"" + href + '">S' + e.season + " R" + e.round + "</a>" + "" + '</td><td class="nowrap">' + esc(ALL[e.gid].navLabel) + (layouts.length > 1 ? '<div class="sub">' + esc(e.name) + "</div>" : "") + "</td>" +
         (e.run ? "<td>" + who(e.pod[0], e.season) + "</td><td class=\"hidesm\">" + who(e.pod[1], e.season) + "</td><td class=\"hidesm\">" + who(e.pod[2], e.season) + "</td>" : '<td colspan="3"><span class="none">Not run</span></td>') + "</tr>";
     }).join("");
     $("trk").innerHTML = (run.length ? '<h2 class="section-title">Most wins by series</h2>' + '<div class="tsbig">' + ORDER.map(function (id) {
