@@ -21,6 +21,7 @@ window.SERIES["narly-cup-s17"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Daytona Road Course", "Suzuka", "Interlagos", "Spa-Francorchamps", "Catalunya", "Watkins Glen", "Monza", "St Croix Layout C Reverse", "Fuji (No Chicane)", "Le Mans"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["43p2","41p3","40","40","43p2","45p1","37","43p2","43p2","45p1"],420,-37,383,0],
     ["2","iphonedoc","744",["41p3","43p2","43p2","43p2","40","41p3","43p2","41p3","39","43p2"],417,-39,378,0],

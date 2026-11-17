@@ -28,6 +28,7 @@ window.SERIES["gt3-endurance-s17"] = {
   // Round cell codes: "45p1" = 45 pts, won that round; "43p2" = 2nd; "41p3" = 3rd; "NP" = round not run; "RGQ"; "DNF"; "–" = did not enter
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Daytona Road Course", "Suzuka", "Interlagos", "Spa-Francorchamps", "Catalunya", "Watkins Glen", "Monza", "St Croix Layout C Reverse", "Fuji (No Chicane)", "Le Mans"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","N-spud-P666","32",["45p1","–","NP","45p1","40","45p1","45p1","43p2","43p2","43p2"],349,0,349],
     ["2","Arty_Bicycle","1",["–","45p1","NP","39","43p2","43p2","43p2","41p3","40","40"],334,0,334],

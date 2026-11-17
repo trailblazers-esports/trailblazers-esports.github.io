@@ -21,6 +21,7 @@ window.SERIES["wrx-evo-gr4-s17"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Daytona Road Course", "Suzuka", "Interlagos", "Spa-Francorchamps", "Catalunya", "Watkins Glen", "Monza", "St Croix Layout C Reverse", "Fuji (No Chicane)", "Le Mans"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["45p1","43p2","43p2","43p2","40","43p2","45p1","43p2","41p3","45p1"],431,-40,391],
     ["2","iphonedoc","744",["38","38","38","36","41p3","39","43p2","41p3","43p2","40"],397,-36,361],
