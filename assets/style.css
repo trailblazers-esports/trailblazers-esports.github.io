@@ -649,3 +649,4 @@ tr.sgrid td { vertical-align: top; }
 .tsr .tsn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; overflow-wrap: normal; }
 .tsr .tst { color: var(--dim); font-weight: 400; font-size: 12px; }
 .trgrid { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
+.trcard .trlast { font-size: 12px; color: var(--dim); margin-top: 2px; }
