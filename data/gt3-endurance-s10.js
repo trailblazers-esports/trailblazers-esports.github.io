@@ -26,6 +26,7 @@ window.SERIES["gt3-endurance-s10"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Mount Panorama", "Autopolis Long Course", "Spa-Francorchamps", "Interlagos", "Brands Hatch GP", "Nürburgring Sprint", "Circuit de la Sarthe No Chicane", "Monza No Chicane", "Watkins Glen Short Course", "Red Bull Ring"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Rollscanhardly","270",["33p1","24","32p1","27p1","24p1","23p2","–","25p1","24p1","22p3"],234,0,234,0],
     ["2","N-spud-P666","32",["31p2","31p1","27","23p3","20p3","25p1","22","21p3","–","–"],200,0,200,0],

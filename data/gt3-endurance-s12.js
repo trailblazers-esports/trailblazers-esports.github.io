@@ -29,6 +29,7 @@ window.SERIES["gt3-endurance-s12"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Sardegna Layout A", "Brands Hatch GP", "St Croix Layout C", "Red Bull Ring", "Lago Maggiore Full Course", "Nürburgring 24h", "Spa-Francorchamps", "Deep Forest Raceway", "Circuit de la Sarthe", "Monza"], // club calendar (Season 12 Rounds 3 and 6: Tuesday ran a different layout)
   standings: [
     ["1","BarberXR6T","41",["38","40","41p3","43p2","35","33","41p3","41p3","38","38"],388,-33,355,0],
     ["2","N-spud-P666","32",["41p3","–","45p1","45p1","–","41p3","40","45p1","43p2","40"],340,0,340,0],

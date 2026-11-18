@@ -25,6 +25,7 @@ window.SERIES["narly-cup-s11"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Suzuka", "Tokyo South Clockwise", "Mount Panorama", "Kyoto Yamagiwa Reverse", "Autopolis Short", "Tokyo East Clockwise", "Fuji Full Course", "Autopolis", "Tokyo South Counterclockwise", "Kyoto Yamagiwa + Miyabi"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["45p1","45p1","45p1","45p1","45p1","45p1","45p1","45p1","45p1","43p2"],448,-43,405,0],
     ["2","iphonedoc","744",["41p3","34","43p2","41p3","37","43p2","37","43p2","43p2","37"],399,-34,365,0],

@@ -24,6 +24,7 @@ window.SERIES["gt3-endurance-s11"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Suzuka", "Tokyo South Clockwise", "Mount Panorama", "Kyoto Yamagiwa Reverse", "Autopolis Short", "Tokyo East Clockwise", "Fuji Full Course", "Autopolis", "Tokyo South Counterclockwise", "Kyoto Yamagiwa + Miyabi"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","N-spud-P666","32",["45p1","45p1","43p2","39","45p1","43p2","43p2","45p1","41p3","43p2"],432,-39,393,0],
     ["2","BigBruceTheShark","99",["36","36","–","37","35","41p3","39","40","37","41p3"],342,0,342,0],

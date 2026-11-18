@@ -26,6 +26,7 @@ window.SERIES["narly-cup-s8"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Alsace Village Reverse", "Sardegna Road Track A", "Brands Hatch GP", "Catalunya GP No Chicane", "Spa 24h Layout", "Lago Maggiore West", "Nürburgring GP", "Dragon Trail Seaside Reverse", "Red Bull Ring", "Circuit de la Sarthe (24 Heures du Mans)"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","",["23p2","24p1","21p1","21p1","19p1","16p2","20p1","12","15p3","14p2"],185,-12,173,0],
     ["2","Pjmack75","",["19","22p2","15","–","11","–","17p3","18p1","19p1","8"],129,0,129,0],

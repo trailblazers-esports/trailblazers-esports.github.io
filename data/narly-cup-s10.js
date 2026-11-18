@@ -24,6 +24,7 @@ window.SERIES["narly-cup-s10"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Mount Panorama", "Autopolis Long Course", "Spa-Francorchamps", "Interlagos", "Brands Hatch GP", "Nürburgring Sprint", "Circuit de la Sarthe No Chicane", "Monza No Chicane", "Watkins Glen Short Course", "Red Bull Ring"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["24p1","17p3","–","15","17p3","14p1","12","16p2","10","18p1"],143,0,143,0],
     ["2","GLR_Scotty","37",["16","16","17p2","18p2","5","12p2","15p2","14p3","13p3","16p2"],142,-5,137,0],

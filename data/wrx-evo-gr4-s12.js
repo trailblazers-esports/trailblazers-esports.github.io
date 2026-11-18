@@ -25,6 +25,7 @@ window.SERIES["wrx-evo-gr4-s12"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Sardegna Layout A", "Brands Hatch GP", "St Croix Layout A", "Red Bull Ring", "Lago Maggiore Full Course", "Nürburgring GP", "Spa-Francorchamps", "Deep Forest Raceway", "Circuit de la Sarthe", "Monza"], // club calendar (Season 12 Rounds 3 and 6: Tuesday ran a different layout)
   standings: [
     ["1","Rollscanhardly","270",["45p1","45p1","43p2","45p1","45p1","45p1","45p1","28","43p2","45p1"],429,-28,401,0],
     ["2","MAD_MITCH_76","76",["41p3","41p3","41p3","43p2","41p3","41p3","39","41p3","41p3","41p3"],410,-39,371,0],

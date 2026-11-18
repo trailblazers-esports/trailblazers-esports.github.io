@@ -26,6 +26,7 @@ window.SERIES["wrx-evo-gr4-s11"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Suzuka", "Tokyo South Clockwise", "Mount Panorama", "Kyoto Yamagiwa Reverse", "Autopolis Short", "Tokyo East Clockwise", "Fuji Full Course", "Autopolis", "Tokyo South Counterclockwise", "Kyoto Yamagiwa + Miyabi"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["43p2","45p1","43p2","43p2","40","43p2","37","38","43p2","41p3"],416,-37,379,0],
     ["2","MAD_MITCH_76","76",["38","39","39","45p1","43p2","41p3","43p2","43p2","40","38"],409,-38,371,0],

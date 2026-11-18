@@ -25,6 +25,7 @@ window.SERIES["wrx-evo-gr4-s10"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Mount Panorama", "Autopolis Long Course", "Spa-Francorchamps", "Interlagos", "Brands Hatch GP", "Nürburgring Sprint", "Circuit de la Sarthe No Chicane", "Monza No Chicane", "Watkins Glen Short Course", "Red Bull Ring"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","N-spud-P666","32",["23p1","25p1","21p3","26p1","19p1","19p1","19p1","17p1","16p1","18p1"],203,-16,187,0],
     ["2","Rollscanhardly","270",["21p2","23p2","25p1","24p2","17p2","13","–","12","–","12"],147,0,147,0],

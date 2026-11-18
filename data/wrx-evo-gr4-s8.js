@@ -25,6 +25,7 @@ window.SERIES["wrx-evo-gr4-s8"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Alsace Village Reverse", "Sardegna Road Track A", "Brands Hatch GP", "Catalunya GP No Chicane", "Spa 24h Layout", "Lago Maggiore West", "Nürburgring GP", "Dragon Trail Seaside Reverse", "Red Bull Ring", "Circuit de la Sarthe (24 Heures du Mans)"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Rollscanhardly","",["25p1","26p1","23p1","22p1","17p3","20p1","22p1","19p1","20p1","8"],202,-17,185,0],
     ["2","MAD_MITCH_76","",["23p2","24p2","18","16","21p1","15","20p2","17p2","18p2","12"],184,-15,169,0],

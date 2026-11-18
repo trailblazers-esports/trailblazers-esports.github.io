@@ -29,6 +29,7 @@ window.SERIES["gt3-endurance-s8"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Alsace Village Reverse", "Sardegna Road Track A", "Brands Hatch GP", "Catalunya GP No Chicane", "Spa 24h Layout", "Lago Maggiore West", "Nürburgring GP", "Dragon Trail Seaside Reverse", "Red Bull Ring", "Circuit de la Sarthe (24 Heures du Mans)"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","N-spud-P666","32",["26","32p1","24p2","–","29p2","21","25p1","20p2","27p1","27p1"],231,0,231,0],
     ["2","Rollscanhardly","270",["29p2","28p3","26p1","24p3","27p3","22p3","23p2","22p1","25p2","25p2"],251,-22,229,0],

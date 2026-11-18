@@ -29,6 +29,7 @@ window.SERIES["narly-cup-s12"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Sardegna Layout A", "Brands Hatch GP", "St Croix Layout C", "Red Bull Ring", "Lago Maggiore Full Course", "Nürburgring 24h", "Spa-Francorchamps", "Deep Forest Raceway", "Circuit de la Sarthe", "Monza"], // club calendar (Season 12 Rounds 3 and 6: Tuesday ran a different layout)
   standings: [
     ["1","Colin_t24","85",["43p2","43p2","45p1","45p1","45p1","39","40","43p2","43p2","43p2"],429,-39,390,0],
     ["2","Pjmack75","21",["35","41p3","40","36","41p3","43p2","38","36","38","39"],387,-35,352,0],
