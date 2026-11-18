@@ -1716,8 +1716,7 @@
         .sort(function (a, b) { return roundsOf(b.l) - roundsOf(a.l) || b.run.length - a.run.length || b.last - a.last || a.t.localeCompare(b.t); });
       var most = list[0], wins = tally(ev)[0];
       document.title = "Track History · TB Race Results";
-      $("tiles").innerHTML = '<div class="tile"><div class="label">Tracks raced</div><div class="tile-big">' + list.filter(function (o) { return o.run.length; }).length + '</div><div class="sub">GT7 Seasons ' + known.join(", ") + "</div></div>" +
-        '<div class="tile"><div class="label">Most raced</div><div class="tile-big">' + esc(most.t) + '</div><div class="sub">' + rr(most.l, most.run.length) + "</div></div>";
+      $("tiles").innerHTML = ""; $("tiles").hidden = true;
       $("trk").innerHTML = '<div class="trgrid">' + list.map(function (o) {
         return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '">' + trackArt(o.t, "trart") + '<div class="trbody"><div class="trn">' + trackFlag(o.t) + esc(o.t) + "</div>" +
           '<div class="trm">' + (o.run.length ? rr(o.l, o.run.length) + '<div class="trlast">Last raced S' + o.run.reduce(function (m, e) { return Math.max(m, e.season); }, 0) + "</div>" : "Not raced yet") + "</div>" +
@@ -1726,6 +1725,7 @@
       }).join("") + "</div>" + note;
       return;
     }
+    $("tiles").hidden = false;
     var T = trackOf(q), l = (groups[T] || []).slice().sort(function (a, b) { return b.season - a.season || b.round - a.round || ORDER.indexOf(a.gid) - ORDER.indexOf(b.gid); });
     document.title = T + " · Track History · TB Race Results";
     $("h1title").innerHTML = trackFlag(T) + esc(T);
