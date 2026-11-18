@@ -693,7 +693,7 @@ h1 .trflag { width: .9em; vertical-align: 0; }
 .smpanel a:hover, .smpanel a:focus-visible { background: rgba(255,255,255,.05); border-color: var(--border); outline: none; }
 .smpanel a[aria-current="page"] { border-color: rgba(215,38,30,.6); background: rgba(215,38,30,.08); }
 html.smopen { overflow: hidden; }
-/* mock: home pickers moved into the menu */
+/* Home pickers moved into the site menu (18 Nov) */
 .home .pick { display: none; }
 .site-header .wrap { flex-wrap: wrap; }
 .site-header .brand { min-width: 0; flex: 0 1 auto; }
