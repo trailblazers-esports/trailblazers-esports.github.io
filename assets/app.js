@@ -1641,6 +1641,14 @@
     [/lago maggiore/i, "Lago Maggiore"], [/high speed ring/i, "High Speed Ring"], [/grand valley/i, "Grand Valley"], [/willow/i, "Willow Springs"], [/barcelona/i, "Catalunya"]
   ];
   var trackOf = function (nm) { for (var i = 0; i < TRACK_RULES.length; i++) if (TRACK_RULES[i][0].test(nm)) return TRACK_RULES[i][1]; return nm; };
+  // Track layout images (assets/tracks/<slug>.png) – add a slug here as each image arrives.
+  var TRACK_IMG = { "Le Mans": "le-mans" };
+  var trackArt = function (t, cls) {
+    var k = TRACK_IMG[t];
+    if (k) return '<div class="' + cls + '"><img src="assets/tracks/' + k + '.png" alt="' + esc(t) + ' track layout" loading="lazy"></div>';
+    var ini = t.replace(/[^A-Za-z ]/g, "").split(/\s+/).filter(Boolean).map(function (w) { return w[0]; }).join("").slice(0, 3).toUpperCase();
+    return '<div class="' + cls + ' noimg"><span>' + esc(ini) + "</span></div>";
+  };
   function trackEvents() {
     var ev = [];
     Object.keys(ALL).map(function (k) { return ALL[k]; }).forEach(function (x) {
@@ -1702,16 +1710,18 @@
       $("tiles").innerHTML = '<div class="tile"><div class="label">Tracks raced</div><div class="tile-big">' + list.filter(function (o) { return o.run.length; }).length + '</div><div class="sub">GT7 Seasons ' + known.join(", ") + "</div></div>" +
         '<div class="tile"><div class="label">Most raced</div><div class="tile-big">' + esc(most.t) + '</div><div class="sub">' + rr(most.l, most.run.length) + "</div></div>";
       $("trk").innerHTML = '<div class="trgrid">' + list.map(function (o) {
-        return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '"><div class="trn">' + esc(o.t) + "</div>" +
+        return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '">' + trackArt(o.t, "trart") + '<div class="trbody"><div class="trn">' + esc(o.t) + "</div>" +
           '<div class="trm">' + (o.run.length ? rr(o.l, o.run.length) + '<div class="trlast">Last raced S' + o.run.reduce(function (m, e) { return Math.max(m, e.season); }, 0) + "</div>" : "Not raced yet") + "</div>" +
           (o.run.length ? '<div class="trw">Most wins</div>' + seriesRows(o.l, "tsrows") : "") +
-          (o.next ? '<div class="trnext">Next up · Season ' + CAL.season + " Round " + o.next.no + "</div>" : "") + "</a>";
+          (o.next ? '<div class="trnext">Next up · Season ' + CAL.season + " Round " + o.next.no + "</div>" : "") + "</div></a>";
       }).join("") + "</div>" + note;
       return;
     }
     var T = trackOf(q), l = (groups[T] || []).slice().sort(function (a, b) { return b.season - a.season || b.round - a.round || ORDER.indexOf(a.gid) - ORDER.indexOf(b.gid); });
     document.title = T + " · Track History · TB Race Results";
     $("h1title").textContent = T;
+    var hero = document.getElementById("trhero"); if (hero) hero.remove();
+    $("h1title").insertAdjacentHTML("afterend", trackArt(T, "trhero").replace('class="trhero', 'id="trhero" class="trhero'));
     var run = l.filter(function (e) { return e.run; }), tl = tally(l), layouts = uniq(l.map(function (e) { return e.name; }));
     var nx = upcoming.filter(function (r) { return trackOf(r.track) === T; })[0];
     var fls = l.filter(function (e) { return e.fl; }).sort(function (a, b) { return secs(a.fl[1]) - secs(b.fl[1]); });

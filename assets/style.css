@@ -656,3 +656,19 @@ tr.sgrid td { vertical-align: top; }
 .totop.show { opacity: 1; transform: none; pointer-events: auto; }
 .totop:hover { border-color: var(--red); }
 @media print { .totop { display: none; } }
+/* Track tiles with layout images */
+.trcard { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.trcard .trbody { padding: 12px 16px 14px; }
+.trart { aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; padding: 14px 18px; background: radial-gradient(120% 90% at 50% 40%, rgba(255,255,255,.06), transparent 70%), #0d0e11; border-bottom: 1px solid var(--border); }
+.trart img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 6px rgba(255,255,255,.12)); transition: transform .2s; }
+.trcard:hover .trart img { transform: scale(1.04); }
+.trart.noimg span, .trhero.noimg span { font-family: var(--cond); font-weight: 700; font-size: 34px; letter-spacing: .12em; color: rgba(255,255,255,.14); }
+.trhero { max-width: 520px; aspect-ratio: 16 / 10; margin: 10px 0 18px; display: flex; align-items: center; justify-content: center; padding: 18px 24px; background: radial-gradient(120% 90% at 50% 40%, rgba(255,255,255,.06), transparent 70%), var(--tile); border: 1px solid var(--border); border-radius: 12px; }
+.trhero img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.trhero.noimg { display: none; }
+@media (max-width: 600px) { .trgrid { grid-template-columns: 1fr 1fr; gap: 8px; } .trcard .trbody { padding: 10px 10px 12px; } .trcard .trn { font-size: 15px; } .trcard .tsrows { display: none; } .trcard .trw { display: none; } .trhero { max-width: none; } }
+.trart { aspect-ratio: auto; height: 170px; }
+.trart img { width: auto; height: 100%; max-height: 142px; }
+.trhero { aspect-ratio: auto; height: 260px; max-width: 460px; }
+.trhero img { height: 100%; width: auto; max-height: 224px; }
+@media (max-width: 600px) { .trart { height: 110px; padding: 10px; } .trart img { max-height: 90px; } .trhero { height: 200px; } .trhero img { max-height: 164px; } }
