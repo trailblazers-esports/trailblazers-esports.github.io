@@ -1709,7 +1709,7 @@
     };
     // A round = one visit to the track (all three series race it); races = the series races actually run.
     var roundsOf = function (l) { return uniq(l.map(function (e) { return e.season + "-" + e.round; })).length; };
-    var rr = function (l, run) { var n = roundsOf(l); return n + " round" + (n === 1 ? "" : "s") + " \u00b7 " + run + " race" + (run === 1 ? "" : "s"); };
+    var rr = function (l, run) { var n = roundsOf(l); return n + " Round" + (n === 1 ? "" : "s") + " \u2013 " + run + " Race" + (run === 1 ? "" : "s"); };
     var note = '<p class="pfnote">Track names are on the site for GT7 Season' + (known.length > 1 ? "s " : " ") + known.join(", ") + " so far – more seasons will be added as the club’s calendars come in. All three series race the same track each round. Season 18 counts rounds raced so far.</p>";
     if (!q) {
       var list = Object.keys(groups).map(function (t) { var l = groups[t], run = l.filter(function (e) { return e.run; }); return { t: t, l: l, run: run, top: tally(l)[0], last: l.reduce(function (m, e) { return Math.max(m, e.season); }, 0), next: upcoming.filter(function (r) { return trackOf(r.track) === t; })[0] }; })
