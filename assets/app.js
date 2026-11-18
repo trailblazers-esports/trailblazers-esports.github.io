@@ -1709,7 +1709,7 @@
     };
     // A round = one visit to the track (all three series race it); races = the series races actually run.
     var roundsOf = function (l) { return uniq(l.map(function (e) { return e.season + "-" + e.round; })).length; };
-    var rr = function (l, run) { var n = roundsOf(l); return n + " Round" + (n === 1 ? "" : "s") + " \u2013 " + run + " Race" + (run === 1 ? "" : "s"); };
+    var rr = function (l, run) { var n = roundsOf(l); return n + " round" + (n === 1 ? "" : "s") + " \u00b7 " + run + " race" + (run === 1 ? "" : "s"); };
     var note = '<p class="pfnote">Track names are on the site for GT7 Season' + (known.length > 1 ? "s " : " ") + known.join(", ") + " so far – more seasons will be added as the club’s calendars come in. All three series race the same track each round. Season 18 counts rounds raced so far.</p>";
     if (!q) {
       var list = Object.keys(groups).map(function (t) { var l = groups[t], run = l.filter(function (e) { return e.run; }); return { t: t, l: l, run: run, top: tally(l)[0], last: l.reduce(function (m, e) { return Math.max(m, e.season); }, 0), next: upcoming.filter(function (r) { return trackOf(r.track) === t; })[0] }; })
@@ -1732,7 +1732,7 @@
     var run = l.filter(function (e) { return e.run; }), tl = tally(l), layouts = uniq(l.map(function (e) { return e.name; }));
     var nx = upcoming.filter(function (r) { return trackOf(r.track) === T; })[0];
     var fls = l.filter(function (e) { return e.fl; }).sort(function (a, b) { return secs(a.fl[1]) - secs(b.fl[1]); });
-    $("tiles").innerHTML = '<div class="tile"><div class="label">Rounds here</div><div class="tile-big">' + roundsOf(l) + '</div><div class="sub">' + run.length + " race" + (run.length === 1 ? "" : "s") + " across the three series" + (seasonsOf(l).length ? " \u00b7 GT7 Season" + (seasonsOf(l).length > 1 ? "s " : " ") + seasonsOf(l).join(", ") : "") + "</div></div>" +
+    $("tiles").innerHTML = '<div class="tile"><div class="label">Rounds \u2013 Races</div><div class="tile-big">' + roundsOf(l) + " \u2013 " + run.length + '</div><div class="sub">' + (seasonsOf(l).length ? "GT7 Season" + (seasonsOf(l).length > 1 ? "s " : " ") + seasonsOf(l).join(", ") : "") + "</div></div>" +
       (tl[0] ? (function () { var lead = tl.filter(function (w) { return w.c === tl[0].c; }); return '<div class="tile"><div class="label">Most wins here</div><div class="tile-big">' + lead.map(function (w) { return '<span style="color:' + tcol(w.n, w.s) + '">' + plink(w.n) + "</span>"; }).join('<span class="tsor"> &amp; </span>') + '</div><div class="sub">' + tl[0].c + " win" + (tl[0].c === 1 ? "" : "s") + (lead.length > 1 ? " each" : "") + " \u00b7 " + tl.length + " different winners</div></div>"; })() : "") +
       (nx ? '<div class="tile"><div class="label">Next visit</div><div class="tile-big">Round ' + nx.no + '</div><div class="sub">' + esc(nx.dates.join(" · ")) + "</div></div>" : fls[0] ? '<div class="tile"><div class="label">Fastest lap on record</div><div class="tile-big"><span class="fl">' + esc(fls[0].fl[1]) + '</span></div><div class="sub">' + esc(fls[0].fl[0]) + " · S" + fls[0].season + " " + esc(ALL[fls[0].gid].navLabel) + "</div></div>" : "");
     var rows = l.map(function (e) {
