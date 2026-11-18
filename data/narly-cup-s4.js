@@ -27,6 +27,8 @@ window.SERIES["narly-cup-s4"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Brands Hatch GP", "Interlagos", "Laguna Seca", "Red Bull Ring", "Monza", "Mount Panorama", "Nürburgring GP", "Suzuka", "Spa-Francorchamps", "Circuit de la Sarthe"], // club calendar (all three series use the same track each round)
+  roundDates: ["20 Apr 2023", "27 Apr 2023", "4 May 2023", "11 May 2023", "18 May 2023", "25 May 2023", "1 Jun 2023", "8 Jun 2023", "15 Jun 2023", "22 Jun 2023"],
   standings: [
     ["1","CerbHoppxr","246",["19p2","17p3","15p2","–","19p3","NP","16p2","16p2","14p3","18p1"],134,0,134,0],
     ["2","S7R_Ando787","787",["21p1","21p1","17p1","23p1","23p1","NP","–","–","18p1","–"],123,0,123,0],

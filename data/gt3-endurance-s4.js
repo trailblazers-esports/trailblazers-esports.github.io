@@ -27,6 +27,8 @@ window.SERIES["gt3-endurance-s4"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Brands Hatch GP", "Interlagos", "Laguna Seca", "Red Bull Ring", "Monza", "Mount Panorama", "Nürburgring GP", "Suzuka", "Spa-Francorchamps", "Circuit de la Sarthe"], // club calendar (all three series use the same track each round)
+  roundDates: ["21 Apr 2023", "28 Apr 2023", "5 May 2023", "12 May 2023", "19 May 2023", "26 May 2023", "2 Jun 2023", "9 Jun 2023", "16 Jun 2023", "25 Jun 2023"],
   standings: [
     ["1","DanZambe","2",["34p3","32","26","21","25p2","29p2","12","23p1","30p1","21p2"],232,-12,220,0],
     ["2","BigBruceTheShark","99",["25","31","28p3","20","18","27p3","18","19p3","26p3","–"],212,0,212,0],

@@ -27,6 +27,8 @@ window.SERIES["wrx-evo-gr4-s4"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Brands Hatch GP", "Interlagos", "Laguna Seca", "Red Bull Ring", "Monza", "Mount Panorama", "Nürburgring GP", "Suzuka", "Spa-Francorchamps", "Circuit de la Sarthe"], // club calendar (all three series use the same track each round)
+  roundDates: ["18 Apr 2023", "25 Apr 2023", "2 May 2023", "9 May 2023", "16 May 2023", "23 May 2023", "30 May 2023", "6 Jun 2023", "13 Jun 2023", "20 Jun 2023"],
   standings: [
     ["1","Colin_t24","85",["22p2","24","21p1","25p1","23p2","21p1","21p1","18p1","21p1","13p3"],209,-13,196,0],
     ["2","Tim_turtle_79","79",["14","27p2","16","21p3","20","13","19p2","16p2","15","10"],171,-10,161,0],
