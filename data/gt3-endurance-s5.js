@@ -25,6 +25,8 @@ window.SERIES["gt3-endurance-s5"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Alsace Village", "Tokyo South Counterclockwise", "Autopolis Long", "Watkins Glen Short Course", "Fuji Short Course", "Catalunya (Circuit de Barcelona)", "Grand Valley Highway 1", "Trial Mountain", "Red Bull Ring", "St Croix Layout C Reverse"], // club calendar (all three series use the same track each round)
+  roundDates: ["28 Jul 2023", "4 Aug 2023", "11 Aug 2023", "18 Aug 2023", "25 Aug 2023", "1 Sep 2023", "8 Sep 2023", "15 Sep 2023", "22 Sep 2023", "29 Sep 2023"],
   standings: [
     ["1","Rollscanhardly","270",["42p1","32","28p1","20p2","26p1","29p1","–","23p1","17p2","22p1"],239,0,239,0],
     ["2","S7R_Ando787","787",["40p2","33","26p2","16","24p2","–","23p1","19p3","15p3","20p2"],216,0,216,0],

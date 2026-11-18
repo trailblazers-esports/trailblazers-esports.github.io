@@ -25,6 +25,8 @@ window.SERIES["wrx-evo-gr4-s5"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Alsace Village", "Tokyo South Counterclockwise", "Autopolis Long", "Watkins Glen Short Course", "Fuji Short Course", "Catalunya (Circuit de Barcelona)", "Grand Valley Highway 1", "Trial Mountain", "Red Bull Ring", "St Croix Layout C Reverse"], // club calendar (all three series use the same track each round)
+  roundDates: ["25 Jul 2023", "1 Aug 2023", "8 Aug 2023", "15 Aug 2023", "22 Aug 2023", "29 Aug 2023", "5 Sep 2023", "12 Sep 2023", "19 Sep 2023", "26 Sep 2023"],
   standings: [
     ["1","Colin_t24","85",["22","26p1","12","24p1","25p1","23p1","22p1","20p1","19p1","10"],203,-12,191,0],
     ["2","MajorWatts","36",["28p1","22p3","14","15","23p2","21p2","20p2","–","15p3","17p1"],175,0,175,0],

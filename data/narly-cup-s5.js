@@ -23,6 +23,8 @@ window.SERIES["narly-cup-s5"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Alsace Village", "Tokyo South Counterclockwise", "Autopolis Long", "Watkins Glen Short Course", "Fuji Short Course", "Catalunya (Circuit de Barcelona)", "Grand Valley Highway 1", "Trial Mountain", "Red Bull Ring", "St Croix Layout C Reverse"], // club calendar (all three series use the same track each round)
+  roundDates: ["27 Jul 2023", "3 Aug 2023", "10 Aug 2023", "17 Aug 2023", "24 Aug 2023", "31 Aug 2023", "7 Sep 2023", "14 Sep 2023", "21 Sep 2023", "28 Sep 2023"],
   standings: [
     ["1","Colin_t24","85",["17p1","15p1","15p1","13p3","15p1","17p1","14p2","11","7","10p3"],117,-7,110,0],
     ["2","Rusty-Nutz-75","269",["5","11p3","11p3","15p2","–","15p2","12p3","9","14p1","12p2"],99,0,99,0],
