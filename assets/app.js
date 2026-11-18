@@ -1642,7 +1642,7 @@
   ];
   var trackOf = function (nm) { for (var i = 0; i < TRACK_RULES.length; i++) if (TRACK_RULES[i][0].test(nm)) return TRACK_RULES[i][1]; return nm; };
   // Track layout images (assets/tracks/<slug>.png) – add a slug here as each image arrives.
-  var TRACK_IMG = { "Le Mans": "le-mans" };
+  var TRACK_IMG = { "Le Mans": "le-mans", "Alsace": "alsace" };
   var trackArt = function (t, cls) {
     var k = TRACK_IMG[t];
     if (k) return '<div class="' + cls + '"><img src="assets/tracks/' + k + '.png" alt="' + esc(t) + ' track layout" loading="lazy"></div>';
