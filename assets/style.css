@@ -704,3 +704,11 @@ html.smopen { overflow: hidden; }
   .menubtn { width: 40px; height: 40px; }
 }
 @media (max-width: 760px) { .site-header .wrap { column-gap: 12px; } }
+.menubtn { width: auto; height: 42px; padding: 0 14px 0 12px; flex-direction: row; gap: 9px; }
+.menubtn .mbl { display: inline-flex; flex-direction: column; gap: 4px; }
+.menubtn .mbl span { display: block; width: 18px; height: 2px; border-radius: 2px; background: #fff; }
+.menubtn .mbt { font-family: var(--cond); font-weight: 700; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: #fff; }
+@media (max-width: 760px) { .menubtn { height: 40px; padding: 0 11px 0 10px; gap: 7px; } .menubtn .mbt { font-size: 13px; letter-spacing: .1em; } }
+.menubtn > .mbl, .menubtn > .mbt { width: auto; height: auto; background: none; border-radius: 0; }
+.menubtn > .mbl { display: inline-flex; }
+.menubtn > .mbt { display: inline-block; line-height: 1; }

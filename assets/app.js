@@ -1921,7 +1921,7 @@
     var item = function (r) { return '<a href="' + r[0] + '"' + (here === r[0] ? ' aria-current="page"' : "") + "><b>" + esc(r[1]) + "</b><span>" + esc(r[2]) + "</span></a>"; };
     var btn = document.createElement("button");
     btn.type = "button"; btn.className = "menubtn"; btn.setAttribute("aria-label", "Open menu"); btn.setAttribute("aria-expanded", "false"); btn.setAttribute("aria-controls", "sitemenu");
-    btn.innerHTML = '<span></span><span></span><span></span>';
+    btn.innerHTML = '<span class="mbl"><span></span><span></span><span></span></span><span class="mbt">Menu</span>';
     hw.insertBefore(btn, hw.firstChild);
     var panel = document.createElement("div");
     panel.id = "sitemenu"; panel.className = "sitemenu"; panel.hidden = true;
