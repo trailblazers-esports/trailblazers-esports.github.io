@@ -672,3 +672,5 @@ tr.sgrid td { vertical-align: top; }
 .trhero { aspect-ratio: auto; height: 260px; max-width: 460px; }
 .trhero img { height: 100%; width: auto; max-height: 224px; }
 @media (max-width: 600px) { .trart { height: 110px; padding: 10px; } .trart img { max-height: 90px; } .trhero { height: 200px; } .trhero img { max-height: 164px; } }
+.trflag { display: inline-block; width: 1.25em; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 2px; margin-right: .45em; vertical-align: -0.08em; box-shadow: 0 0 0 1px rgba(255,255,255,.15); }
+h1 .trflag { width: .9em; vertical-align: 0; }

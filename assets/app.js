@@ -1643,6 +1643,15 @@
   var trackOf = function (nm) { for (var i = 0; i < TRACK_RULES.length; i++) if (TRACK_RULES[i][0].test(nm)) return TRACK_RULES[i][1]; return nm; };
   // Track layout images (assets/tracks/<slug>.png) – add a slug here as each image arrives.
   var TRACK_IMG = { "Le Mans": "le-mans", "Alsace": "alsace" };
+  // Country of each track (fictional GT7 tracks use the country GT7 places them in). Flags: assets/flags (flag-icons, MIT).
+  var TRACK_CC = { "Monza": "it", "Sardegna": "it", "Lago Maggiore": "it", "Interlagos": "br", "Watkins Glen": "us", "Mount Panorama": "au",
+    "Trial Mountain": "us", "Spa-Francorchamps": "be", "Suzuka": "jp", "Kyoto Driving Park": "jp", "Brands Hatch": "gb", "Le Mans": "fr",
+    "Alsace": "fr", "Catalunya": "es", "Red Bull Ring": "at", "St Croix": "fr", "Dragon Trail": "hr", "Nürburgring": "de",
+    "Circuit Gilles-Villeneuve": "ca", "Yas Marina": "ae", "Blue Moon Bay": "us", "Sugo": "jp", "Road Atlanta": "us", "Autopolis": "jp",
+    "Autumn Ring": "jp", "Deep Forest": "ch", "Fuji": "jp", "Daytona": "us", "Laguna Seca": "us", "Goodwood": "gb", "High Speed Ring": "jp",
+    "Grand Valley": "us", "Willow Springs": "us", "Tokyo Expressway": "jp" };
+  var CC_NAME = { it: "Italy", br: "Brazil", us: "United States", au: "Australia", be: "Belgium", jp: "Japan", gb: "United Kingdom", fr: "France", es: "Spain", at: "Austria", hr: "Croatia", de: "Germany", ca: "Canada", ae: "United Arab Emirates", ch: "Switzerland" };
+  var trackFlag = function (t) { var c = TRACK_CC[t]; return c ? '<img class="trflag" src="assets/flags/' + c + '.svg" alt="' + CC_NAME[c] + '" title="' + CC_NAME[c] + '" width="24" height="18">' : ""; };
   var trackArt = function (t, cls) {
     var k = TRACK_IMG[t];
     if (k) return '<div class="' + cls + '"><img src="assets/tracks/' + k + '.png" alt="' + esc(t) + ' track layout" loading="lazy"></div>';
@@ -1710,7 +1719,7 @@
       $("tiles").innerHTML = '<div class="tile"><div class="label">Tracks raced</div><div class="tile-big">' + list.filter(function (o) { return o.run.length; }).length + '</div><div class="sub">GT7 Seasons ' + known.join(", ") + "</div></div>" +
         '<div class="tile"><div class="label">Most raced</div><div class="tile-big">' + esc(most.t) + '</div><div class="sub">' + rr(most.l, most.run.length) + "</div></div>";
       $("trk").innerHTML = '<div class="trgrid">' + list.map(function (o) {
-        return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '">' + trackArt(o.t, "trart") + '<div class="trbody"><div class="trn">' + esc(o.t) + "</div>" +
+        return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '">' + trackArt(o.t, "trart") + '<div class="trbody"><div class="trn">' + trackFlag(o.t) + esc(o.t) + "</div>" +
           '<div class="trm">' + (o.run.length ? rr(o.l, o.run.length) + '<div class="trlast">Last raced S' + o.run.reduce(function (m, e) { return Math.max(m, e.season); }, 0) + "</div>" : "Not raced yet") + "</div>" +
           (o.run.length ? '<div class="trw">Most wins</div>' + seriesRows(o.l, "tsrows") : "") +
           (o.next ? '<div class="trnext">Next up · Season ' + CAL.season + " Round " + o.next.no + "</div>" : "") + "</div></a>";
@@ -1719,7 +1728,7 @@
     }
     var T = trackOf(q), l = (groups[T] || []).slice().sort(function (a, b) { return b.season - a.season || b.round - a.round || ORDER.indexOf(a.gid) - ORDER.indexOf(b.gid); });
     document.title = T + " · Track History · TB Race Results";
-    $("h1title").textContent = T;
+    $("h1title").innerHTML = trackFlag(T) + esc(T);
     var run = l.filter(function (e) { return e.run; }), tl = tally(l), layouts = uniq(l.map(function (e) { return e.name; }));
     var nx = upcoming.filter(function (r) { return trackOf(r.track) === T; })[0];
     var fls = l.filter(function (e) { return e.fl; }).sort(function (a, b) { return secs(a.fl[1]) - secs(b.fl[1]); });
