@@ -24,6 +24,7 @@ window.SERIES["wrx-evo-gr4-s7"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Lago Maggiore Full Course", "Suzuka", "Laguna Seca", "Daytona Road Course", "Tokyo East Clockwise", "St Croix Layout B", "Kyoto Yamagiwa", "Dragon Trail Gardens Reverse", "Interlagos", "Road Atlanta"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["–","24p1","21p1","19p1","20p1","18p2","18p2","20p2","21p1","17p2"],178,0,178,0],
     ["2","S7R_Ando787","787",["19p1","16","–","17p2","18p2","20p1","20p1","22p1","–","19p1"],151,0,151,0],

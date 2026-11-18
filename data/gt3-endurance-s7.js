@@ -25,6 +25,7 @@ window.SERIES["gt3-endurance-s7"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Lago Maggiore Full Course", "Suzuka", "Laguna Seca", "Daytona Road Course", "Tokyo East Clockwise", "St Croix Layout B", "Kyoto Yamagiwa", "Dragon Trail Gardens Reverse", "Interlagos", "Road Atlanta"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","NWR_NICO71","177",["16","22p1","24p1","26p1","15","19p3","21p2","19","19p1","18p2"],199,-15,184,0],
     ["2","Zippy_Nathman","23",["19","19p3","22p2","20","23p2","21p2","–","24p1","17p2","15"],180,0,180,0],

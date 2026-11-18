@@ -25,6 +25,7 @@ window.SERIES["narly-cup-s7"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Lago Maggiore Full Course", "Suzuka", "Laguna Seca", "Daytona Road Course", "Tokyo East Clockwise", "St Croix Layout B", "Kyoto Yamagiwa", "Dragon Trail Gardens Reverse", "Interlagos", "Road Atlanta"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["–","22p1","21p1","22p1","20p2","14","18p2","19p1","17p2","17p2"],170,0,170,0],
     ["2","GLR_Scotty","37",["17","–","19p2","20p2","15","22p1","20p1","15p3","15p3","19p1"],162,0,162,0],
