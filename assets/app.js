@@ -1200,14 +1200,42 @@
     var o = all.filter(function (d) { return d.name === q; })[0] || all.filter(function (d) { return d.name.toLowerCase() === q.toLowerCase(); })[0];
     driverSearch($("profileTop"), searchList(DRD, teamRecordsData(true)), !o);
     if (!o && !q) {
-      // Driver profiles landing: search box above, then this season's drivers by team.
-      var RN = window.RACE_NUMBERS || {}, by = {}, cols = {};
-      ORDER.forEach(function (id) { var x = ALL[id]; (x.standings || []).forEach(function (r) { var t = x.teams[r[2]]; if (!t || r[9] <= 0) return; var tn = (window.TEAM_ALIASES || {})[t.name] || t.name; (by[tn] = by[tn] || {})[r[1]] = 1; cols[tn] = t.colour; }); });
-      var tnames = Object.keys(by).sort(function (a, b) { return (a === "Privateer") - (b === "Privateer") || Object.keys(by[b]).length - Object.keys(by[a]).length || a.localeCompare(b); });
-      $("profile").innerHTML = '<div class="eyebrow">Profiles</div><h1>Driver profiles</h1><p class="meta">Search above for any driver who has raced with the club since GT7 Season 1, or pick a Season 18 driver below.</p>' +
-        tnames.map(function (tn) { return '<h2 class="section-title">' + bar(cols[tn]) + (tn === "Privateer" ? esc(tn) : '<a class="plink" href="team.html?name=' + encodeURIComponent(tn) + '">' + esc(tn) + "</a>") + '</h2><div class="tpline">' +
-          Object.keys(by[tn]).sort(function (a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); }).map(function (n) { return '<a href="driver.html?name=' + encodeURIComponent(n) + '">' + (RN[n] != null ? '<b style="background:' + cols[tn] + '">' + esc(RN[n]) + "</b>" : "") + esc(n) + "</a>"; }).join("") + "</div>"; }).join("") +
-        '<p class="pfnote">Every driver on the site, past and present, is also listed on <a href="records-drivers.html">Driver Records</a>.</p>';
+      // Driver profiles landing: a tile per driver, A–Z (Season 18 drivers, or everyone).
+      var cur18 = {}; ORDER.forEach(function (id) { (ALL[id].standings || []).forEach(function (r) { if (r[9] > 0) cur18[r[1]] = 1; }); });
+      // Best race finish and how many times: podium markers on every sheet; other places from the 45-scale points (Season 11 on) and the Season 18 race results.
+      var place = {};
+      var addP = function (n, p) { if (!p || p < 1) return; var o2 = place[n] = place[n] || {}; o2[p] = (o2[p] || 0) + 1; };
+      Object.keys(ALL).map(function (k) { return ALL[k]; }).forEach(function (x) {
+        if (x.standingsFormat === "archive") {
+          (x.standings || []).forEach(function (r) { (r[3] || []).forEach(function (c) {
+            c = String(c); var m = /p([123])/.exec(c);
+            if (m) addP(r[1], +m[1]);
+            else if ((x.season || 0) >= 11) { var v = parseInt(c, 10); if (v > 0 && v <= 40) addP(r[1], 44 - v); }
+          }); });
+        } else if (x.rounds) {
+          x.rounds.forEach(function (rd) { var k = 0; rd.rows.forEach(function (r) { if (r[8] === "c" || r[8] === "l") { k++; addP(r[0], k); } }); });
+        }
+      });
+      var ord2 = function (n) { return n + (n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th"); };
+      var hexA = function (h, a) { h = h.replace("#", ""); return "rgba(" + parseInt(h.slice(0, 2), 16) + "," + parseInt(h.slice(2, 4), 16) + "," + parseInt(h.slice(4, 6), 16) + "," + a + ")"; };
+      var tile = function (d) {
+        var t = d.team || { name: "Privateer", colour: "#8C939D" }, pl = place[d.name] || {}, bp = Math.min.apply(null, Object.keys(pl).map(Number).concat([Infinity]));
+        return '<a class="dvtile" href="driver.html?name=' + encodeURIComponent(d.name) + '" style="background:linear-gradient(135deg,' + hexA(t.colour, .42) + " 0%," + hexA(t.colour, .12) + " 45%,rgba(255,255,255,.02) 100%)\">" +
+          '<div class="dvn">' + esc(d.name) + '</div><div class="dvt">' + esc(t.name) + "</div>" +
+          '<div class="dvs"><span>Race starts<b>' + d.starts + "</b></span><span>Best finish<b" + (bp === 1 ? ' class="gold"' : "") + ">" + (bp < Infinity ? ord2(bp) + ' <small>×' + pl[bp] + "</small>" : "–") + "</b></span></div></a>";
+      };
+      var sorted = all.slice().sort(function (a, b) { return a.name.toLowerCase().localeCompare(b.name.toLowerCase()); });
+      var draw = function (mode) {
+        var l = mode === "all" ? sorted : sorted.filter(function (d) { return cur18[d.name]; });
+        $("dvgrid").innerHTML = l.map(tile).join("");
+        $("dvcount").textContent = l.length + " drivers";
+        document.querySelectorAll(".dvtab").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-m") === mode ? "true" : "false"); });
+      };
+      $("profile").innerHTML = '<div class="eyebrow">Profiles</div><h1>Driver profiles</h1><p class="meta">Every driver, A–Z. Tap a driver to open their profile.</p>' +
+        '<div class="dvbar"><div class="scope"><button type="button" class="dvtab" data-m="s18">Season 18</button><button type="button" class="dvtab" data-m="all">All drivers</button></div><span class="meta" id="dvcount"></span></div><div class="dvgrid" id="dvgrid"></div>' +
+        '<p class="pfnote">Race starts are career starts across all three series. Best finish is the driver’s best race result and how many times they’ve achieved it (finishing places below 3rd are only on record from GT7 Season 11).</p>';
+      document.querySelectorAll(".dvtab").forEach(function (b) { b.addEventListener("click", function () { draw(b.getAttribute("data-m")); }); });
+      draw("s18");
       document.title = "Driver profiles · TB Race Results"; return;
     }
     if (!o) {
