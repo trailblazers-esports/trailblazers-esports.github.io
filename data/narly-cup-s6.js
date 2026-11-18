@@ -24,6 +24,8 @@ window.SERIES["narly-cup-s6"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD8], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 8,
+  roundNames: ["Brands Hatch", "Nürburgring GP", "Tokyo South Inner Loop", "Willow Springs Big Willow", "Red Bull Ring (wet)", "Dragon Trail Seaside", "Mount Panorama", "Spa-Francorchamps"], // club calendar (all three series use the same track each round)
+  roundDates: ["26 Oct 2023", "2 Nov 2023", "9 Nov 2023", "16 Nov 2023", "23 Nov 2023", "30 Nov 2023", "7 Dec 2023", "14 Dec 2023"],
   standings: [
     ["1","Colin_t24","85",["14p3","13","15p1","13p2","12p2","12p2","13p2","12p2"],104,-12,92,0],
     ["2","S7R_Ando787","787",["18p1","18p1","–","15p1","10p3","14p1","–","14p1"],89,0,89,0],

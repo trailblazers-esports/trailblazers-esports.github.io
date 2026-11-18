@@ -24,6 +24,8 @@ window.SERIES["wrx-evo-gr4-s6"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD8], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 8,
+  roundNames: ["Brands Hatch", "Nürburgring GP", "Tokyo South Inner Loop", "Willow Springs Big Willow", "Red Bull Ring (wet)", "Dragon Trail Seaside", "Mount Panorama", "Spa-Francorchamps"], // club calendar (all three series use the same track each round)
+  roundDates: ["24 Oct 2023", "31 Oct 2023", "7 Nov 2023", "14 Nov 2023", "21 Nov 2023", "28 Nov 2023", "5 Dec 2023", "12 Dec 2023"],
   standings: [
     ["1","Colin_t24","85",["29p1","22p1","22p1","19p1","20p1","16p2","16p1","14"],158,-16,142,0],
     ["2","MajorWatts","36",["27p2","17","16","17p2","15","14p3","10","19p1"],135,-10,125,0],

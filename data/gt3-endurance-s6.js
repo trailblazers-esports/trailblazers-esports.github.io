@@ -24,6 +24,8 @@ window.SERIES["gt3-endurance-s6"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD8], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 8,
+  roundNames: ["Brands Hatch", "Nürburgring GP", "Tokyo South Inner Loop", "Willow Springs Big Willow", "Red Bull Ring (wet)", "Dragon Trail Seaside", "Mount Panorama", "Spa-Francorchamps"], // club calendar (all three series use the same track each round)
+  roundDates: ["27 Oct 2023", "3 Nov 2023", "10 Nov 2023", "17 Nov 2023", "24 Nov 2023", "1 Dec 2023", "8 Dec 2023", "15 Dec 2023"],
   standings: [
     ["1","Rollscanhardly","270",["30p1","28p1","26p2","6","14","18","23p1","23p2"],168,-6,162,0],
     ["2","N-spud-P666","32",["28p2","24p3","28p1","23p2","22p1","21p2","21p2","–"],167,-21,146,0],
