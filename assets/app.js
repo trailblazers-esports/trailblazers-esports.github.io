@@ -1199,6 +1199,17 @@
     var DRD = driverRecordsData(true), all = DRD.all;
     var o = all.filter(function (d) { return d.name === q; })[0] || all.filter(function (d) { return d.name.toLowerCase() === q.toLowerCase(); })[0];
     driverSearch($("profileTop"), searchList(DRD, teamRecordsData(true)), !o);
+    if (!o && !q) {
+      // Driver profiles landing: search box above, then this season's drivers by team.
+      var RN = window.RACE_NUMBERS || {}, by = {}, cols = {};
+      ORDER.forEach(function (id) { var x = ALL[id]; (x.standings || []).forEach(function (r) { var t = x.teams[r[2]]; if (!t || r[9] <= 0) return; var tn = (window.TEAM_ALIASES || {})[t.name] || t.name; (by[tn] = by[tn] || {})[r[1]] = 1; cols[tn] = t.colour; }); });
+      var tnames = Object.keys(by).sort(function (a, b) { return (a === "Privateer") - (b === "Privateer") || Object.keys(by[b]).length - Object.keys(by[a]).length || a.localeCompare(b); });
+      $("profile").innerHTML = '<div class="eyebrow">Profiles</div><h1>Driver profiles</h1><p class="meta">Search above for any driver who has raced with the club since GT7 Season 1, or pick a Season 18 driver below.</p>' +
+        tnames.map(function (tn) { return '<h2 class="section-title">' + bar(cols[tn]) + (tn === "Privateer" ? esc(tn) : '<a class="plink" href="team.html?name=' + encodeURIComponent(tn) + '">' + esc(tn) + "</a>") + '</h2><div class="tpline">' +
+          Object.keys(by[tn]).sort(function (a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); }).map(function (n) { return '<a href="driver.html?name=' + encodeURIComponent(n) + '">' + (RN[n] != null ? '<b style="background:' + cols[tn] + '">' + esc(RN[n]) + "</b>" : "") + esc(n) + "</a>"; }).join("") + "</div>"; }).join("") +
+        '<p class="pfnote">Every driver on the site, past and present, is also listed on <a href="records-drivers.html">Driver Records</a>.</p>';
+      document.title = "Driver profiles · TB Race Results"; return;
+    }
     if (!o) {
       $("profile").innerHTML = '<h1>Driver not found</h1><p class="meta">' + (q ? "There’s no driver called “" + esc(q) + "” on the site. " : "") + 'Search for a driver above, or browse <a href="records-drivers.html">Driver Records</a>.</p>';
       document.title = "Driver profile · TB Race Results"; return;
@@ -1570,6 +1581,17 @@
     var TRD = teamRecordsData(true), all = TRD.all;
     var o = all.filter(function (t) { return t.name === nm; })[0] || all.filter(function (t) { return t.name.toLowerCase() === nm.toLowerCase(); })[0];
     driverSearch($("profileTop"), searchList(driverRecordsData(true), TRD), !o);
+    if (!o && !q) {
+      // Team profiles landing: a card per team.
+      var cur = {}; ORDER.forEach(function (id) { var x = ALL[id]; (x.standings || []).forEach(function (r) { var t = x.teams[r[2]]; if (t && r[9] > 0) { var tn = ALI[t.name] || t.name; (cur[tn] = cur[tn] || {})[r[1]] = 1; } }); });
+      $("profile").innerHTML = '<div class="eyebrow">Profiles</div><h1>Team profiles</h1><p class="meta">Every club team \u2013 titles, wins, line-ups and history.</p><div class="tmgrid">' +
+        all.slice().sort(function (a, b) { return b.wins - a.wins; }).map(function (t) {
+          var badge = TEAM_BADGE[t.name] || t.name.split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 3), n = Object.keys(cur[t.name] || {}).length, f = TRD.formerly[t.name];
+          return '<a class="tmcard" href="team.html?name=' + encodeURIComponent(t.name) + '" style="--tc:' + t.colour + '"><div class="pfno tpbadge" style="background:' + t.colour + '">' + esc(badge) + '</div><div><div class="tmn">' + esc(t.name) + '</div><div class="tms">' + t.wins + " race wins \u00b7 " + t.titles + " drivers\u2019 titles</div>" +
+            '<div class="tms">' + (n ? n + " drivers in Season 18" : "Not racing in Season 18") + (f && f.list ? " \u00b7 previously " + f.list.map(esc).join(" / ") : "") + "</div></div></a>";
+        }).join("") + "</div>";
+      document.title = "Team profiles · TB Race Results"; return;
+    }
     if (!o) {
       $("profile").innerHTML = '<h1>Team not found</h1><p class="meta">' + (q ? "There’s no team called “" + esc(q) + "” on the site. " : "") + 'Search above, or browse <a href="records-teams.html">Team Records</a>.</p>';
       document.title = "Team profile · TB Race Results"; return;
@@ -1927,6 +1949,7 @@
     panel.id = "sitemenu"; panel.className = "sitemenu"; panel.hidden = true;
     panel.innerHTML = '<div class="smshade" data-close></div><nav class="smpanel" aria-label="Site menu"><div class="smtop"><span>Menu</span><button type="button" class="smclose" aria-label="Close menu" data-close>&times;</button></div>' +
       '<div class="smsec">Records</div>' + REC.map(item).join("") +
+      '<div class="smsec">Profiles</div>' + item(["driver.html", "Driver Profiles", "Every driver, past and present"]) + item(["team.html", "Team Profiles", "Every team\u2019s history and line-up"]) +
       '<div class="smsec">Season ' + ((window.CALENDAR || {}).season || 18) + "</div>" + item(["season-calendar.html", "Calendar", "Every round, all three series"]) + "</nav>";
     document.body.appendChild(panel);
     var open = function (on) { panel.hidden = !on; btn.setAttribute("aria-expanded", on ? "true" : "false"); document.documentElement.classList.toggle("smopen", on); if (on) panel.querySelector(".smpanel a").focus(); else btn.focus(); };

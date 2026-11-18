@@ -712,3 +712,11 @@ html.smopen { overflow: hidden; }
 .menubtn > .mbl, .menubtn > .mbt { width: auto; height: auto; background: none; border-radius: 0; }
 .menubtn > .mbl { display: inline-flex; }
 .menubtn > .mbt { display: inline-block; line-height: 1; }
+/* Profile landing pages */
+#profile h2.section-title .bar { margin-right: 8px; }
+.tmgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin-top: 18px; }
+.tmcard { display: flex; align-items: center; gap: 16px; padding: 14px 16px; background: var(--tile); border: 1px solid var(--border); border-left: 4px solid var(--tc); border-radius: 10px; text-decoration: none; color: inherit; }
+.tmcard:hover { border-color: var(--tc); }
+.tmcard .pfno { width: 64px; height: 64px; font-size: 22px; flex: none; }
+.tmcard .tmn { font-family: var(--cond); font-weight: 700; font-size: 20px; letter-spacing: .05em; text-transform: uppercase; color: var(--bright); }
+.tmcard .tms { font-size: 13px; color: var(--muted); margin-top: 2px; }
