@@ -73,13 +73,13 @@
   /* ---------------- Navigation ---------------- */
   function renderNav() {
     if (page === "home") {
-      $("seriesNav").innerHTML = '<a href="index.html" aria-current="page">Home</a>' + ORDER.map(function (id) { return '<a href="' + ALL[id].pages.results + '">' + esc(ALL[id].navLabel) + "</a>"; }).join("") + '<a href="season-calendar.html">Calendar</a>';
+      $("seriesNav").innerHTML = '<a href="index.html" aria-current="page">Home</a>' + ORDER.map(function (id) { return '<a href="' + ALL[id].pages.results + '">' + esc(ALL[id].navLabel) + "</a>"; }).join("");
       return;
     }
     $("seriesNav").innerHTML = '<a href="index.html">Home</a>' + ORDER.map(function (id) {
       var x = ALL[id];
       return '<a href="' + x.pages.results + '"' + (!RECORD_PAGES.test(page) && id === groupOf(S) ? ' aria-current="page"' : "") + ">" + esc(x.navLabel) + "</a>";
-    }).join("") + '<a href="season-calendar.html"' + (page === "seasoncal" ? ' aria-current="page"' : "") + ">Calendar</a>";
+    }).join("");
     // An archived season without race results links back to the current season's results.
     // Two rows: results and standings first, then the records pages.
     if (RECORD_PAGES.test(page)) {
@@ -1910,6 +1910,30 @@
   if (page === "compare") comparePage();
   if (page === "team") teamPage();
   if (page === "tracks") tracksPage();
+
+  /* Site menu: button at the top left of the header opens a panel with the records pages and the calendar. */
+  (function () {
+    var hw = document.querySelector(".site-header .wrap"); if (!hw) return;
+    var REC = [["records-drivers.html", "Driver Records", "Wins, podiums and starts"], ["records-teams.html", "Team Records", "How each team stacks up"],
+      ["records-titles.html", "Drivers' Titles", "Every champion, season by season"], ["records-teamtitles.html", "Teams' Titles", "Team champions and team points"],
+      ["records-milestones.html", "Milestones", "Starts and points clubs"], ["tracks.html", "Track History", "Every winner at every track"]];
+    var here = location.pathname.split("/").pop() || "index.html";
+    var item = function (r) { return '<a href="' + r[0] + '"' + (here === r[0] ? ' aria-current="page"' : "") + "><b>" + esc(r[1]) + "</b><span>" + esc(r[2]) + "</span></a>"; };
+    var btn = document.createElement("button");
+    btn.type = "button"; btn.className = "menubtn"; btn.setAttribute("aria-label", "Open menu"); btn.setAttribute("aria-expanded", "false"); btn.setAttribute("aria-controls", "sitemenu");
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    hw.insertBefore(btn, hw.firstChild);
+    var panel = document.createElement("div");
+    panel.id = "sitemenu"; panel.className = "sitemenu"; panel.hidden = true;
+    panel.innerHTML = '<div class="smshade" data-close></div><nav class="smpanel" aria-label="Site menu"><div class="smtop"><span>Menu</span><button type="button" class="smclose" aria-label="Close menu" data-close>&times;</button></div>' +
+      '<div class="smsec">Records</div>' + REC.map(item).join("") +
+      '<div class="smsec">Season ' + ((window.CALENDAR || {}).season || 18) + "</div>" + item(["season-calendar.html", "Calendar", "Every round, all three series"]) + "</nav>";
+    document.body.appendChild(panel);
+    var open = function (on) { panel.hidden = !on; btn.setAttribute("aria-expanded", on ? "true" : "false"); document.documentElement.classList.toggle("smopen", on); if (on) panel.querySelector(".smpanel a").focus(); else btn.focus(); };
+    btn.addEventListener("click", function () { open(panel.hidden); });
+    panel.addEventListener("click", function (e) { if (e.target.hasAttribute("data-close")) open(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panel.hidden) open(false); });
+  })();
 
   /* Back-to-top button: appears once the visitor has scrolled down a long page. */
   (function () {
