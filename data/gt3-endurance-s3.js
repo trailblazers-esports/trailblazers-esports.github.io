@@ -26,6 +26,8 @@ window.SERIES["gt3-endurance-s3"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Road Atlanta", "Lago Maggiore West", "St Croix Layout B", "Sardegna Layout A", "Autopolis Long", "Daytona Infield", "Deep Forest Reverse", null, "Tokyo East Counterclockwise", "Dragon Trail Seaside"], // club calendar (all three series use the same track each round; Round 8 track not known yet)
+  roundDates: ["20 Jan 2023", "27 Jan 2023", "3 Feb 2023", "10 Feb 2023", "17 Feb 2023", "24 Feb 2023", "3 Mar 2023", "10 Mar 2023", "17 Mar 2023", "24 Mar 2023"],
   standings: [
     ["1","GLR_Scotty","37",["21p3","22p2","17","24","22","22","14","10","19","23p2"],194,0,194,0],
     ["2","N-spud-P666","32",["23p2","20p3","29p3","28p2","24","27p1","25p1","9","5","–"],190,0,190,0],

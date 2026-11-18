@@ -23,6 +23,8 @@ window.SERIES["narly-cup-s3"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Road Atlanta", "Lago Maggiore West", "St Croix Layout B", "Sardegna Layout A", "Autopolis Long", "Daytona Infield", "Deep Forest Reverse", null, "Tokyo East Counterclockwise", "Dragon Trail Seaside"], // club calendar (all three series use the same track each round; Round 8 track not known yet)
+  roundDates: ["19 Jan 2023", "26 Jan 2023", "2 Feb 2023", "9 Feb 2023", "16 Feb 2023", "23 Feb 2023", "2 Mar 2023", "9 Mar 2023", "16 Mar 2023", "23 Mar 2023"],
   standings: [
     ["1","S7R_Ando787","787",["22p1","23p1","–","22p1","5","–","20p1","15p1","18p1","18p1"],143,0,143,0],
     ["2","Tim_turtle_79","79",["8","18","20p2","12","20p2","14","13","11p3","12","13"],141,0,141,0],
