@@ -1720,8 +1720,6 @@
     var T = trackOf(q), l = (groups[T] || []).slice().sort(function (a, b) { return b.season - a.season || b.round - a.round || ORDER.indexOf(a.gid) - ORDER.indexOf(b.gid); });
     document.title = T + " · Track History · TB Race Results";
     $("h1title").textContent = T;
-    var hero = document.getElementById("trhero"); if (hero) hero.remove();
-    $("h1title").insertAdjacentHTML("afterend", trackArt(T, "trhero").replace('class="trhero', 'id="trhero" class="trhero'));
     var run = l.filter(function (e) { return e.run; }), tl = tally(l), layouts = uniq(l.map(function (e) { return e.name; }));
     var nx = upcoming.filter(function (r) { return trackOf(r.track) === T; })[0];
     var fls = l.filter(function (e) { return e.fl; }).sort(function (a, b) { return secs(a.fl[1]) - secs(b.fl[1]); });
