@@ -1692,7 +1692,7 @@
   ];
   var trackOf = function (nm) { for (var i = 0; i < TRACK_RULES.length; i++) if (TRACK_RULES[i][0].test(nm)) return TRACK_RULES[i][1]; return nm; };
   // Track layout images (assets/tracks/<slug>.png) – add a slug here as each image arrives.
-  var TRACK_IMG = { "Le Mans": "le-mans", "Alsace": "alsace", "Lago Maggiore": "lago-maggiore", "Interlagos": "interlagos", "Monza": "monza", "Autopolis": "autopolis" };
+  var TRACK_IMG = { "Le Mans": "le-mans", "Alsace": "alsace", "Lago Maggiore": "lago-maggiore", "Interlagos": "interlagos", "Monza": "monza", "Autopolis": "autopolis", "Blue Moon Bay": "blue-moon-bay" };
   // Country of each track (fictional GT7 tracks use the country GT7 places them in). Flags: assets/flags (flag-icons, MIT).
   var TRACK_CC = { "Monza": "it", "Sardegna": "it", "Lago Maggiore": "it", "Interlagos": "br", "Watkins Glen": "us", "Mount Panorama": "au",
     "Trial Mountain": "us", "Spa-Francorchamps": "be", "Suzuka": "jp", "Kyoto Driving Park": "jp", "Brands Hatch": "gb", "Le Mans": "fr",
