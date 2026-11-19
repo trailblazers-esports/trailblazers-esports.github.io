@@ -1692,7 +1692,7 @@
   ];
   var trackOf = function (nm) { for (var i = 0; i < TRACK_RULES.length; i++) if (TRACK_RULES[i][0].test(nm)) return TRACK_RULES[i][1]; return nm; };
   // Track layout images (assets/tracks/<slug>.png) – add a slug here as each image arrives.
-  var TRACK_IMG = { "Le Mans": "le-mans", "Alsace": "alsace", "Lago Maggiore": "lago-maggiore", "Interlagos": "interlagos", "Monza": "monza", "Autopolis": "autopolis", "Blue Moon Bay": "blue-moon-bay", "Brands Hatch": "brands-hatch", "Catalunya": "catalunya", "St Croix": "st-croix" };
+  var TRACK_IMG = { "Le Mans": "le-mans", "Alsace": "alsace", "Lago Maggiore": "lago-maggiore", "Interlagos": "interlagos", "Monza": "monza", "Autopolis": "autopolis", "Blue Moon Bay": "blue-moon-bay", "Brands Hatch": "brands-hatch", "Catalunya": "catalunya", "St Croix": "st-croix", "Spa-Francorchamps": "spa" };
   // Country of each track (fictional GT7 tracks use the country GT7 places them in). Flags: assets/flags (flag-icons, MIT).
   var TRACK_CC = { "Monza": "it", "Sardegna": "it", "Lago Maggiore": "it", "Interlagos": "br", "Watkins Glen": "us", "Mount Panorama": "au",
     "Trial Mountain": "us", "Spa-Francorchamps": "be", "Suzuka": "jp", "Kyoto Driving Park": "jp", "Brands Hatch": "gb", "Le Mans": "fr",
@@ -1768,7 +1768,7 @@
       document.title = "Track History · TB Race Results";
       $("tiles").innerHTML = ""; $("tiles").hidden = true;
       $("trk").innerHTML = '<div class="trgrid">' + list.map(function (o) {
-        return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '">' + trackArt(o.t, "trart") + '<div class="trbody"><div class="trn">' + trackFlag(o.t) + esc(o.t) + "</div>" +
+        return '<a class="trcard" href="tracks.html?t=' + encodeURIComponent(o.t) + '">' + trackArt(o.t, "trart") + '<div class="trbody"><div class="trn' + (o.t.length > 14 ? " long" : "") + '">' + trackFlag(o.t) + "<span>" + esc(o.t).replace(/-/g, "\u2011") + "</span></div>" +
           '<div class="trm">' + (o.run.length ? rr(o.l, o.run.length) + '<div class="trlast">Last raced S' + o.run.reduce(function (m, e) { return Math.max(m, e.season); }, 0) + "</div>" : "Not raced yet") + "</div>" +
           (o.run.length ? '<div class="trw">Most wins</div>' + seriesRows(o.l, "tsrows") : "") +
           (o.next ? '<div class="trnext">Next up \u00b7 Round ' + o.next.no + "</div>" : "") + "</div></a>";
