@@ -1371,6 +1371,10 @@
       var a = SA.ser[id] || { st: 0, w: 0, pd: 0, t: 0 }, b = SB.ser[id] || { st: 0, w: 0, pd: 0, t: 0 };
       return '<div class="cmps"><div class="cmpsv">' + c(a.st, b.st) + " · " + c(a.w, b.w) + " · " + c(a.pd, b.pd) + " · " + c(a.t, b.t) + '</div><div class="cmpsn">' + esc(ALL[id].navLabel) + '</div><div class="cmpsv r">' + c(b.st, a.st) + " · " + c(b.w, a.w) + " · " + c(b.pd, a.pd) + " · " + c(b.t, a.t) + "</div></div>";
     }).join("");
+    var hexOf = function (o) { var m = /#[0-9A-Fa-f]{6}/.exec(o.team && o.team.colour || ""); return m ? m[0] : "#8C939D"; };
+    var ca = hexOf(A), cb = hexOf(B);
+    if (ca.toLowerCase() === cb.toLowerCase()) cb = "#5B6270";
+    $("cmp").style.setProperty("--ca", ca); $("cmp").style.setProperty("--cb", cb);
     $("cmp").innerHTML =
       '<div class="cmpheads">' + head(A, "left") + '<div class="cmpvs">VS</div>' + head(B, "right") + "</div>" +
       '<div class="cmpbox"><h2 class="cmph2">Career</h2>' +

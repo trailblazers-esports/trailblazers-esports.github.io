@@ -456,8 +456,8 @@ a.plink:hover { color: var(--red-text); text-decoration: underline; text-underli
 .cmpv.r { text-align: right; }
 .cmpv.w, .cmps .w { color: #F2CC5B; }
 .cmpl { text-align: center; font: 700 12px var(--cond); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
-.cmpb { height: 10px; border-radius: 5px; overflow: hidden; background: #5B6270; }
-.cmpb span { display: block; height: 100%; background: var(--red); }
+.cmpb { height: 10px; border-radius: 5px; overflow: hidden; background: var(--cb, #5B6270); }
+.cmpb span { display: block; height: 100%; background: var(--ca, var(--red)); box-shadow: 2px 0 0 #101215; }
 .cmpb.big { height: 12px; margin-top: 12px; }
 .cmphh { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; }
 .cmphh b { font: 700 40px var(--cond); color: #fff; }
