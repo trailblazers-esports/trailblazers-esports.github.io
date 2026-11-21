@@ -763,3 +763,7 @@ html.smopen { overflow: hidden; }
 .dvbg { position: absolute; right: -4%; top: 50%; transform: translateY(-50%); width: 78%; height: 120%; object-fit: contain; object-position: right center; opacity: .14; z-index: -1; pointer-events: none; }
 .dvbg[src*="/mc.png"] { opacity: .07; }
 .tmcard { position: relative; overflow: hidden; isolation: isolate; }
+.tile { position: relative; overflow: hidden; isolation: isolate; }
+.tmark { height: 18px; width: 26px; object-fit: contain; vertical-align: -4px; margin-right: 6px; }
+.tmark.big { height: 30px; width: 40px; margin: 0; flex: none; }
+.tile .dvbg { width: 60%; height: 130%; }

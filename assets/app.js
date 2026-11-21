@@ -38,6 +38,10 @@
   var car = function (k) { return S.cars[k] || ""; };
   var LOBBY = { Blue: "#4C8DFF", Red: "#F0524A" };
   var bar = function (c) { return '<span class="bar" style="background:' + c + '"></span>'; };
+  // Team logos: small mark beside team names (colour bar when a team has no logo) and faint tile backgrounds.
+  var logoOf = function (t) { if (!t) return ""; var n = (window.TEAM_ALIASES || {})[t.name || t] || t.name || t; return (TEAM_LOGO || {})[n] || ""; };
+  var tmark = function (t) { var l = logoOf(t); return l ? '<img class="tmark" src="assets/teams/' + l + '.png" alt="">' : bar(t.colour); };
+  var tbg = function (t) { var l = logoOf(t); return l ? '<img class="dvbg" src="assets/teams/' + l + '.png" alt="" aria-hidden="true">' : ""; };
   var dot = function (c) { return '<span class="dot" style="background:' + c + '"></span>'; };
   // Lap times are compared as numbers (seconds), never as text.
   var secs = function (t) {
@@ -200,9 +204,9 @@
         ? '<div class="tile-big">' + R.starters + " of " + R.entries + ' started</div><div class="sub">' + (R.leadLap != null ? R.leadLap + " on the lead lap" : finishers + " classified") + "</div>"
         : '<div class="tile-big">' + finishers + " of " + R.starters + ' finished</div><div class="sub">' + (R.leadLap != null ? R.leadLap + " on the lead lap" : R.starters + " starters") + "</div>";
       $("tiles").innerHTML =
-        '<div class="tile"><div class="label">Winner</div><div class="tile-big">' + esc(winner.driver) + '</div>' +
-        '<div class="sub">' + bar(wt.colour) + esc(wt.name) + ' · <span class="t" style="font-size:13px;color:var(--soft)">' + esc(winner.time) + "</span></div></div>" +
-        (flRow ? '<div class="tile"><div class="label">Fastest lap</div><div class="tile-big">' + esc(flRow.driver) + '</div>' +
+        '<div class="tile">' + tbg(wt) + '<div class="label">Winner</div><div class="tile-big">' + esc(winner.driver) + '</div>' +
+        '<div class="sub">' + tmark(wt) + esc(wt.name) + ' · <span class="t" style="font-size:13px;color:var(--soft)">' + esc(winner.time) + "</span></div></div>" +
+        (flRow ? '<div class="tile">' + tbg(ft) + '<div class="label">Fastest lap</div><div class="tile-big">' + esc(flRow.driver) + '</div>' +
           '<div class="sub"><span class="fl" style="font-size:13px">' + esc(flRow.best) + "</span>" + esc(ft.name) + "</div></div>" : "") +
         '<div class="tile"><div class="label">Field</div>' + field + "</div>";
 
@@ -229,7 +233,7 @@
         var isFL = secs(r.best) === fastest;
         html += '<tr class="' + (podium ? "podium" : out ? "out" : "") + '">' +
           '<td><span class="chip' + (podium ? " p" + r.pos : out ? " nc" : "") + '">' + r.pos + "</span></td>" +
-          '<td><div class="driver">' + plink(r.driver) + '</div><div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div></td>" +
+          '<td><div class="driver">' + plink(r.driver) + '</div><div class="sub nowrap">' + tmark(t) + esc(t.name) + "</div></td>" +
           (S.hasLobbies ? '<td><div class="sub nowrap">' + bar(LOBBY[r.lobby] || "#8C939D") + esc(r.lobby) + "</div></td>" : "") +
           '<td class="car">' + (esc(r.car) || "—") + "</td>" +
           '<td class="t r" style="color:' + (r.status === "c" ? "var(--soft)" : "var(--dim)") + '">' + esc(r.time) + "</td>" +
@@ -342,7 +346,7 @@
       return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
         '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
         '<td><div class="driver">' + plink(x[1]) + "</div>" +
-          (function (t) { return t ? '<div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div>" : ""; })(showTeams ? clubTeam(x[1], S.season) : null) + "</td>" +
+          (function (t) { return t ? '<div class="sub nowrap">' + tmark(t) + esc(t.name) + "</div>" : ""; })(showTeams ? clubTeam(x[1], S.season) : null) + "</td>" +
         '<td class="t r" style="color:var(--dim)">' + esc(x[2]) + "</td>" +
         (hasCar ? '<td class="car">' + (esc(carOf(x[1])) || "—") + "</td>" : "") +
         x[3].map(function (v) { return '<td class="c">' + cell(v) + "</td>"; }).join("") +
@@ -374,7 +378,7 @@
     $("tiles").innerHTML = [champ, second, third].filter(Boolean).map(function (x, i) {
       var t = showTeamsT ? clubTeam(x[1], S.season) : null;
       var w = x[3].filter(function (v) { return /^\d+p1d?$/.test(v); }).length;
-      return '<div class="tile" style="border-top:3px solid ' + MEDAL[i] + '"><div class="label">' + LBL[i] + '</div><div class="tile-big' + (i ? "" : " champion") + '" style="display:flex;align-items:center;gap:8px">' + (t ? '<span class="bar" style="background:' + t.colour + ';height:22px"></span>' : "") + esc(x[1]) + '</div><div class="sub">' + (t ? esc(t.name) + " · " : "") + x[6] + " pts · " + w + (w === 1 ? " win" : " wins") + "</div></div>";
+      return '<div class="tile" style="border-top:3px solid ' + MEDAL[i] + '">' + tbg(t) + '<div class="label">' + LBL[i] + '</div><div class="tile-big' + (i ? "" : " champion") + '" style="display:flex;align-items:center;gap:8px">' + (t ? (logoOf(t) ? '<img class="tmark big" src="assets/teams/' + logoOf(t) + '.png" alt="">' : '<span class="bar" style="background:' + t.colour + ';height:22px"></span>') : "") + esc(x[1]) + '</div><div class="sub">' + (t ? esc(t.name) + " · " : "") + x[6] + " pts · " + w + (w === 1 ? " win" : " wins") + "</div></div>";
     }).join("");
     $("tiles").classList.add("tiles3");
 
@@ -393,7 +397,7 @@
       return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
         '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
         '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + plink(x[1]) + (p === 1 ? ' <span class="crown">Champion</span>' : "") + "</div>" +
-          (function (t) { return t ? '<div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div>" : ""; })(showTeams ? clubTeam(x[1], S.season) : null) + "</td>" +
+          (function (t) { return t ? '<div class="sub nowrap">' + tmark(t) + esc(t.name) + "</div>" : ""; })(showTeams ? clubTeam(x[1], S.season) : null) + "</td>" +
         '<td class="t r" style="color:var(--dim)">' + esc(x[2]) + "</td>" +
         (hasCar ? '<td class="car">' + (esc(carOf(x[1])) || "—") + "</td>" : "") +
         x[3].map(function (v) { return '<td class="c">' + roundCell(v) + "</td>"; }).join("") +
@@ -612,7 +616,7 @@
     var cl = function (nm) { return '<span style="color:' + dcol(nm) + '">' + plink(nm) + "</span>"; };
     var tile = function (label, t, unit) {
       var n = Number(t.v).toLocaleString("en-AU") + " " + unit + (t.v === 1 ? "" : "s");
-      if (t.who.length === 1) return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big" style="color:' + dcol(t.who[0]) + '">' + plink(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
+      if (t.who.length === 1) return '<div class="tile">' + tbg((all.filter(function (d) { return d.name === t.who[0]; })[0] || {}).team) + '<div class="label">' + label + '</div><div class="tile-big" style="color:' + dcol(t.who[0]) + '">' + plink(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
       return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + n + ' each</div><div class="sub" style="white-space:normal">' +
         "<span>" + t.who.slice(0, 3).map(cl).join(", ") + (t.who.length > 3 ? " and " + (t.who.length - 3) + " more" : "") + "</span></div></div>";
     };
@@ -802,7 +806,7 @@
   var teamTile = function (label, t, unit) {
     var n = Number(t.v).toLocaleString("en-AU") + " " + unit + (t.v === 1 ? "" : "s");
     var link = function (nm) { return '<a class="plink" style="color:' + teamColour(nm) + '" href="team.html?name=' + encodeURIComponent(nm) + '">' + esc(nm) + "</a>"; };
-    if (t.who.length === 1) return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big" style="color:' + teamColour(t.who[0]) + '">' + link(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
+    if (t.who.length === 1) return '<div class="tile">' + tbg(t.who[0]) + '<div class="label">' + label + '</div><div class="tile-big" style="color:' + teamColour(t.who[0]) + '">' + link(t.who[0]) + '</div><div class="sub">' + n + "</div></div>";
     return '<div class="tile"><div class="label">' + label + '</div><div class="tile-big">' + n + ' each</div><div class="sub" style="white-space:normal">' + "<span>" + t.who.map(link).join(", ") + "</span></div></div>";
   };
   var tbar = function (n) { return '<span class="bar" style="background:' + teamColour(n) + ';margin-right:8px"></span>'; };
@@ -966,7 +970,7 @@
     var MEDAL = ["var(--gold)", "var(--silver)", "var(--bronze)"], LBL = [live ? "Leaders" : (manu ? "Manufacturers' champion" : "Team champions"), "2nd", "3rd"];
     $("tiles").innerHTML = tab.slice(0, 3).map(function (t, i) {
       var w = t.pts.filter(function (v, r) { return notRun.indexOf(r + 1) < 0 && rank[r][tab.indexOf(t)] === 1; }).length;
-      return '<div class="tile" style="border-top:3px solid ' + MEDAL[i] + '"><div class="label">' + LBL[i] + '</div><div class="tile-big' + (i ? "" : " champion") + '" style="display:flex;align-items:center;gap:8px"><span class="bar" style="background:' + teamColour(t.name) + ';height:22px"></span>' + esc(t.name) + '</div><div class="sub">' + t.total + " pts · " + w + " round win" + (w === 1 ? "" : "s") + "</div></div>";
+      return '<div class="tile" style="border-top:3px solid ' + MEDAL[i] + '">' + tbg(t) + '<div class="label">' + LBL[i] + '</div><div class="tile-big' + (i ? "" : " champion") + '" style="display:flex;align-items:center;gap:8px">' + (logoOf(t) ? '<img class="tmark big" src="assets/teams/' + logoOf(t) + '.png" alt="">' : '<span class="bar" style="background:' + teamColour(t.name) + ';height:22px"></span>') + esc(t.name) + '</div><div class="sub">' + t.total + " pts · " + w + " round win" + (w === 1 ? "" : "s") + "</div></div>";
     }).join("");
     $("tiles").classList.add("tiles3");
     $("head").parentNode.classList.add("compact");
@@ -1015,7 +1019,7 @@
       '<th scope="col" class="r">Points</th></tr>';
 
     $("tiles").innerHTML =
-      '<div class="tile"><div class="label">Leader</div>' +
+      '<div class="tile">' + tbg(S.teams[leader[2]]) + '<div class="label">Leader</div>' +
       '<div class="tile-row" style="align-items:baseline"><span class="tile-big champion">' + esc(leader[1]) + '</span><span class="tile-big">' + leader[8] + ' <span style="font-size:15px;color:var(--muted)">pts</span></span></div>' +
       (tiedWith.length ? '<div class="sub">Level on ' + leader[8] + " with " + tiedWith.map(esc).join(" and ") + ", ahead on countback</div>" : "") +
       "</div>" +
@@ -1038,7 +1042,7 @@
         var t = team(x[2]);
         return '<tr class="' + (p <= 3 ? "podium" : "") + '">' +
           '<td><span class="chip' + (p <= 3 ? " p" + p : "") + '">' + esc(x[0]) + "</span></td>" +
-          '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + plink(x[1]) + '</div><div class="sub nowrap">' + bar(t.colour) + esc(t.name) + "</div></td>" +
+          '<td><div class="driver' + (p === 1 ? " champion" : "") + '">' + plink(x[1]) + '</div><div class="sub nowrap">' + tmark(t) + esc(t.name) + "</div></td>" +
           '<td class="car">' + (esc(car(x[3])) || "—") + "</td>" +
           x[4].map(function (v) { return '<td class="c">' + cell(v) + "</td>"; }).join("") +
           '<td class="t r" style="color:var(--muted)">' + x[5] + "</td>" +
