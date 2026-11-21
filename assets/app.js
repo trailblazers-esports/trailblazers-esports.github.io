@@ -1220,7 +1220,7 @@
       var hexA = function (h, a) { h = h.replace("#", ""); return "rgba(" + parseInt(h.slice(0, 2), 16) + "," + parseInt(h.slice(2, 4), 16) + "," + parseInt(h.slice(4, 6), 16) + "," + a + ")"; };
       var tile = function (d) {
         var t = d.team || { name: "Privateer", colour: "#8C939D" }, pl = place[d.name] || {}, bp = Math.min.apply(null, Object.keys(pl).map(Number).concat([Infinity]));
-        return '<a class="dvtile" href="driver.html?name=' + encodeURIComponent(d.name) + '" style="background:linear-gradient(135deg,' + hexA(t.colour, .42) + " 0%," + hexA(t.colour, .12) + " 45%,rgba(255,255,255,.02) 100%)\">" +
+        return '<a class="dvtile" href="driver.html?name=' + encodeURIComponent(d.name) + '" style="background:linear-gradient(135deg,' + hexA(t.colour, .42) + " 0%," + hexA(t.colour, .12) + " 45%,rgba(255,255,255,.02) 100%)\">" + (function () { var tn = (window.TEAM_ALIASES || {})[t.name] || t.name; return TEAM_LOGO[tn] ? '<img class="dvbg" src="assets/teams/' + TEAM_LOGO[tn] + '.png" alt="" aria-hidden="true">' : ""; })() +
           '<div class="dvn">' + esc(d.name) + '</div><div class="dvt">' + esc(t.name) + "</div>" +
           '<div class="dvs"><span>Race starts<b>' + d.starts + "</b></span><span>Best finish<b" + (bp === 1 ? ' class="gold"' : "") + ">" + (bp < Infinity ? ord2(bp) + ' <small>×' + pl[bp] + "</small>" : "–") + "</b></span></div></a>";
       };
