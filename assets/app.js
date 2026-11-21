@@ -1607,6 +1607,7 @@
 
   /* ---------------- Team profile (team.html?name=…) ---------------- */
   var TEAM_BADGE = { "Roadsick Racing": "RR", "Mad Turtle Racing": "MT", "MC Motorsport": "MC", "Triple R Motorsport": "RRR", "Gerbil Racing Team": "GRT" };
+  var TEAM_LOGO = { "Mad Turtle Racing": "mad-turtle" };
   function teamPage() {
     var q = new URLSearchParams(location.search).get("name") || "";
     var ALI = window.TEAM_ALIASES || {}, nm = ALI[q] || q;
@@ -1619,7 +1620,7 @@
       $("profile").innerHTML = '<div class="eyebrow">Profiles</div><h1>Team profiles</h1><p class="meta">Every club team \u2013 titles, wins, line-ups and history.</p><div class="tmgrid">' +
         all.slice().sort(function (a, b) { return b.wins - a.wins; }).map(function (t) {
           var badge = TEAM_BADGE[t.name] || t.name.split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 3), n = Object.keys(cur[t.name] || {}).length, f = TRD.formerly[t.name];
-          return '<a class="tmcard" href="team.html?name=' + encodeURIComponent(t.name) + '" style="--tc:' + t.colour + '"><div class="pfno tpbadge" style="background:' + t.colour + '">' + esc(badge) + '</div><div><div class="tmn">' + esc(t.name) + '</div><div class="tms">' + t.wins + " race wins \u00b7 " + t.titles + " drivers\u2019 titles</div>" +
+          return '<a class="tmcard" href="team.html?name=' + encodeURIComponent(t.name) + '" style="--tc:' + t.colour + '">' + (TEAM_LOGO[t.name] ? '<img class="tplogo sm" src="assets/teams/' + TEAM_LOGO[t.name] + '.png" alt="">' : '<div class="pfno tpbadge" style="background:' + t.colour + '">' + esc(badge) + '</div>') + '<div><div class="tmn">' + esc(t.name) + '</div><div class="tms">' + t.wins + " race wins \u00b7 " + t.titles + " drivers\u2019 titles</div>" +
             '<div class="tms">' + (n ? n + " drivers in Season 18" : "Not racing in Season 18") + (f && f.list ? " \u00b7 previously " + f.list.map(esc).join(" / ") : "") + "</div></div></a>";
         }).join("") + "</div>";
       document.title = "Team profiles · TB Race Results"; return;
@@ -1667,7 +1668,7 @@
     var badge = TEAM_BADGE[T] || T.split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 3);
     $("profile").innerHTML =
       '<div class="eyebrow">Team profile</div>' +
-      '<div class="pfhead"><div class="pfno tpbadge" style="background:' + o.colour + '">' + esc(badge) + '</div><div><h1>' + esc(T) + '</h1><div class="pfteam">Racing since Season ' + first + " · " + o.drivers.length + " drivers" + (lineup.length ? " · " + lineup.length + " in Season 18" : "") + "</div>" +
+      '<div class="pfhead">' + (TEAM_LOGO[T] ? '<img class="tplogo" src="assets/teams/' + TEAM_LOGO[T] + '.png" alt="' + esc(T) + ' logo">' : '<div class="pfno tpbadge" style="background:' + o.colour + '">' + esc(badge) + '</div>') + '<div><h1>' + esc(T) + '</h1><div class="pfteam">Racing since Season ' + first + " · " + o.drivers.length + " drivers" + (lineup.length ? " · " + lineup.length + " in Season 18" : "") + "</div>" +
         (form && form.list ? '<div class="pfteam" style="margin-top:2px">Previously ' + form.list.map(esc).join(" and ") + "</div>" : "") + "</div></div>" +
       '<div class="pftiles"><div><b class="gold">' + titles + "</b><span>Team titles</span></div><div><b>" + o.titles + "</b><span>Drivers' titles</span></div><div><b>" + o.wins + "</b><span>Race wins</span></div><div><b>" + o.podiums + "</b><span>Podiums</span></div><div><b>" + o.starts + "</b><span>Starts</span></div><div><b>" + o.seasons.length + "</b><span>Seasons</span></div></div>" +
       (lineup.length ? '<h2 class="section-title">Season 18 line-up</h2><div class="tpline">' + lineup.map(function (n) { return '<a href="driver.html?name=' + encodeURIComponent(n) + '">' + (RN[n] != null ? '<b style="background:' + o.colour + '">' + esc(RN[n]) + "</b>" : "") + esc(n) + "</a>"; }).join("") + "</div>" : "") +

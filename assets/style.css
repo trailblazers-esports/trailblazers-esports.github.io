@@ -749,3 +749,8 @@ html.smopen { overflow: hidden; }
 .trcard .trn.long { font-size: 16px; }
 @media (max-width: 600px) { .trcard .trn.long { font-size: 11.5px; letter-spacing: .02em; } }
 @media (max-width: 380px) { .trcard .trn > span { overflow-wrap: anywhere; } .trcard .trn { font-size: 13px; } .trcard .trn.long { font-size: 10.5px; } }
+
+/* Team logos */
+.tplogo { width: 112px; height: 112px; object-fit: contain; flex: none; filter: drop-shadow(0 2px 8px rgba(0,0,0,.5)); }
+.tplogo.sm { width: 64px; height: 64px; }
+@media (max-width: 600px) { .tplogo { width: 84px; height: 84px; } .tplogo.sm { width: 52px; height: 52px; } }
