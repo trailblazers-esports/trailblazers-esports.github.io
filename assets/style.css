@@ -755,3 +755,5 @@ html.smopen { overflow: hidden; }
 .tmslot { width: 130px; height: 70px; flex: none; display: flex; align-items: center; justify-content: center; }
 .tplogo.sm { width: 100%; height: 100%; max-width: none; }
 @media (max-width: 600px) { .tplogo { height: 84px; max-width: 200px; } .tmslot { width: 96px; height: 56px; } .tplogo.sm { height: 100%; max-width: none; } }
+.pflogo { margin-left: auto; align-self: flex-start; flex: none; }
+@media (max-width: 600px) { .pfhead:has(.pflogo) { position: relative; padding-top: 34px; } .pflogo { position: absolute; top: -6px; right: 0; } .pfhead .pflogo .tplogo { height: 40px; max-width: 110px; } }
