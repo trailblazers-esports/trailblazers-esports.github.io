@@ -1607,7 +1607,7 @@
 
   /* ---------------- Team profile (team.html?name=…) ---------------- */
   var TEAM_BADGE = { "Roadsick Racing": "RR", "Mad Turtle Racing": "MT", "MC Motorsport": "MC", "Triple R Motorsport": "RRR", "Gerbil Racing Team": "GRT" };
-  var TEAM_LOGO = { "Mad Turtle Racing": "mad-turtle", "Roadsick Racing": "roadsick" };
+  var TEAM_LOGO = { "Mad Turtle Racing": "mad-turtle", "Roadsick Racing": "roadsick", "Triple R Motorsport": "triple-r" };
   function teamPage() {
     var q = new URLSearchParams(location.search).get("name") || "";
     var ALI = window.TEAM_ALIASES || {}, nm = ALI[q] || q;
@@ -1620,7 +1620,7 @@
       $("profile").innerHTML = '<div class="eyebrow">Profiles</div><h1>Team profiles</h1><p class="meta">Every club team \u2013 titles, wins, line-ups and history.</p><div class="tmgrid">' +
         all.slice().sort(function (a, b) { return b.wins - a.wins; }).map(function (t) {
           var badge = TEAM_BADGE[t.name] || t.name.split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 3), n = Object.keys(cur[t.name] || {}).length, f = TRD.formerly[t.name];
-          return '<a class="tmcard" href="team.html?name=' + encodeURIComponent(t.name) + '" style="--tc:' + t.colour + '">' + (TEAM_LOGO[t.name] ? '<img class="tplogo sm" src="assets/teams/' + TEAM_LOGO[t.name] + '.png" alt="">' : '<div class="pfno tpbadge" style="background:' + t.colour + '">' + esc(badge) + '</div>') + '<div><div class="tmn">' + esc(t.name) + '</div><div class="tms">' + t.wins + " race wins \u00b7 " + t.titles + " drivers\u2019 titles</div>" +
+          return '<a class="tmcard" href="team.html?name=' + encodeURIComponent(t.name) + '" style="--tc:' + t.colour + '"><div class="tmslot">' + (TEAM_LOGO[t.name] ? '<img class="tplogo sm" src="assets/teams/' + TEAM_LOGO[t.name] + '.png" alt="">' : '<div class="pfno tpbadge" style="background:' + t.colour + '">' + esc(badge) + '</div>') + '</div><div><div class="tmn">' + esc(t.name) + '</div><div class="tms">' + t.wins + " race wins \u00b7 " + t.titles + " drivers\u2019 titles</div>" +
             '<div class="tms">' + (n ? n + " drivers in Season 18" : "Not racing in Season 18") + (f && f.list ? " \u00b7 previously " + f.list.map(esc).join(" / ") : "") + "</div></div></a>";
         }).join("") + "</div>";
       document.title = "Team profiles · TB Race Results"; return;
