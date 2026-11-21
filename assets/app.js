@@ -1607,7 +1607,7 @@
 
   /* ---------------- Team profile (team.html?name=…) ---------------- */
   var TEAM_BADGE = { "Roadsick Racing": "RR", "Mad Turtle Racing": "MT", "MC Motorsport": "MC", "Triple R Motorsport": "RRR", "Gerbil Racing Team": "GRT" };
-  var TEAM_LOGO = { "Mad Turtle Racing": "mad-turtle" };
+  var TEAM_LOGO = { "Mad Turtle Racing": "mad-turtle", "Roadsick Racing": "roadsick" };
   function teamPage() {
     var q = new URLSearchParams(location.search).get("name") || "";
     var ALI = window.TEAM_ALIASES || {}, nm = ALI[q] || q;
