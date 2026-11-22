@@ -766,5 +766,5 @@ html.smopen { overflow: hidden; }
 .memorial > div { position: relative; z-index: 1; }
 .memorial .mtbg { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); height: 118%; width: auto; max-width: 48%; object-fit: contain; object-position: right center; opacity: .13; pointer-events: none; z-index: 0; }
 @media (max-width: 600px) { .memorial .mtbg { height: 120%; max-width: 75%; opacity: .1; } }
-.memorial .mtbg.tr { height: 62%; max-width: 40%; opacity: .07; }
-@media (max-width: 600px) { .memorial .mtbg.tr { height: auto; width: 80%; max-width: 80%; opacity: .05; } }
+.memorial .mtbg.tr { --w: 104px; width: var(--w); height: auto; max-width: none; right: auto; left: calc(16px + 26px - var(--w) / 6.16); top: calc(78px + var(--w)); transform: rotate(-90deg); transform-origin: top left; object-position: center; opacity: .13; }
+@media (max-width: 600px) { .memorial .mtbg.tr { --w: 230px; width: var(--w); max-width: none; left: calc(18px + 23px - var(--w) / 6.16); top: calc(72px + var(--w)); opacity: .1; } }
