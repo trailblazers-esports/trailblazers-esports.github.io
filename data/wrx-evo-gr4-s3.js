@@ -23,7 +23,7 @@ window.SERIES["wrx-evo-gr4-s3"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
-  roundNames: ["Road Atlanta", "Lago Maggiore West", "St Croix Layout B", "Sardegna Layout A", "Autopolis Long", "Daytona Infield", "Deep Forest Reverse", null, "Tokyo East Counterclockwise", "Dragon Trail Seaside"], // club calendar (all three series use the same track each round; Round 8 track not known yet)
+  roundNames: ["Road Atlanta", "Lago Maggiore West", "St Croix Layout B", "Sardegna Layout A", "Autopolis Long", "Daytona Infield", "Deep Forest Reverse", "Grand Valley Highway", "Tokyo East Counterclockwise", "Dragon Trail Seaside"], // club calendar (all three series use the same track each round; Round 8 track not known yet)
   roundDates: ["17 Jan 2023", "24 Jan 2023", "31 Jan 2023", "7 Feb 2023", "14 Feb 2023", "21 Feb 2023", "28 Feb 2023", "7 Mar 2023", "14 Mar 2023", "21 Mar 2023"],
   standings: [
     ["1","Spannshouse","19",["19p2","24p1","23p2","18","18","14","8","16p1","16p1","12p2"],168,0,168,0],

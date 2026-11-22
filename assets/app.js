@@ -1765,7 +1765,7 @@
     // A round = one visit to the track (all three series race it); races = the series races actually run.
     var roundsOf = function (l) { return uniq(l.map(function (e) { return e.season + "-" + e.round; })).length; };
     var rr = function (l, run) { var n = roundsOf(l); return n + " round" + (n === 1 ? "" : "s") + " \u00b7 " + run + " race" + (run === 1 ? "" : "s"); };
-    var note = '<p class="pfnote">Every track raced from GT7 Season 2 to Season 18, from the club’s calendars. All three series race the same track each round. Season 18 counts rounds raced so far. Season 3 Round 8’s track isn’t known.</p>';
+    var note = '<p class="pfnote">Every track raced from GT7 Season 2 to Season 18, from the club’s calendars. All three series race the same track each round. Season 18 counts rounds raced so far.</p>';
     if (!q) {
       var list = Object.keys(groups).map(function (t) { var l = groups[t], run = l.filter(function (e) { return e.run; }); return { t: t, l: l, run: run, top: tally(l)[0], last: l.reduce(function (m, e) { return Math.max(m, e.season); }, 0), next: upcoming.filter(function (r) { return trackOf(r.track) === t; })[0] }; })
         .sort(function (a, b) { return roundsOf(b.l) - roundsOf(a.l) || b.run.length - a.run.length || b.last - a.last || a.t.localeCompare(b.t); });
