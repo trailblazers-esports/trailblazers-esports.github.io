@@ -27,6 +27,7 @@ window.SERIES["gt3-endurance-s9"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Watkins Glen Long Course", "Grand Valley South", "Willow Springs Big Willow", "Laguna Seca", "Blue Moon Bay Infield A", "High Speed Ring", "Fuji Full Short Course", "Autopolis Shortcut Course", "Suzuka", "Tokyo South Clockwise"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Rollscanhardly","270",["28","32p1","5","27p1","26p1","13","28p1","24p1","24p1","22p1"],229,-5,224,0],
     ["2","allaussie","87",["27","24","5","20","22p3","26p2","24p3","15","17","20p2"],200,-5,195,0],

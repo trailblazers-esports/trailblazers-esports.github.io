@@ -25,6 +25,7 @@ window.SERIES["narly-cup-s9"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Watkins Glen Long Course", "Grand Valley South", "Willow Springs Big Willow", "Laguna Seca", "Blue Moon Bay Infield A", "High Speed Ring", "Fuji Full Short Course", "Autopolis Shortcut Course", "Suzuka", "Tokyo South Clockwise"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Colin_t24","85",["25p1","23p1","23p2","19p3","21p2","13","19p1","20p3","21p2","19p1"],203,-13,190,0],
     ["2","S7R_Ando787","787",["–","21p2","25p1","23p1","23p1","22p1","–","22p2","23p1","15p3"],174,0,174,0],

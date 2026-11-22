@@ -24,6 +24,7 @@ window.SERIES["wrx-evo-gr4-s9"] = {
   // Archive format: [pos, driver, raceNo, [RD1..RD10], subtotal, drop, total, penalty]
   standingsFormat: "archive",
   roundCount: 10,
+  roundNames: ["Watkins Glen Long Course", "Grand Valley South", "Willow Springs Big Willow", "Laguna Seca", "Blue Moon Bay Infield A", "High Speed Ring", "Fuji Full Short Course", "Autopolis Shortcut Course", "Suzuka", "Tokyo South Clockwise"], // club calendar (all three series use the same track each round)
   standings: [
     ["1","Rollscanhardly","270",["17p1","9","6","18p1","18p1","12p3","18p1","15p1","18p1","18p1"],149,-6,143,0],
     ["2","Colin_t24","85",["10","15p2","16p2","13","16p2","16p1","14p3","8","16p2","10"],134,-8,126,0],
