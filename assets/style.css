@@ -766,3 +766,5 @@ html.smopen { overflow: hidden; }
 .memorial > div { position: relative; z-index: 1; }
 .memorial .mtbg { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); height: 118%; width: auto; max-width: 48%; object-fit: contain; object-position: right center; opacity: .13; pointer-events: none; z-index: 0; }
 @media (max-width: 600px) { .memorial .mtbg { height: 120%; max-width: 75%; opacity: .1; } }
+.memorial .mtbg.tr { height: 62%; max-width: 40%; opacity: .07; }
+@media (max-width: 600px) { .memorial .mtbg.tr { height: auto; width: 80%; max-width: 80%; opacity: .05; } }
