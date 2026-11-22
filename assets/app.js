@@ -1982,7 +1982,7 @@
     panel.id = "sitemenu"; panel.className = "sitemenu"; panel.hidden = true;
     panel.innerHTML = '<div class="smshade" data-close></div><nav class="smpanel" aria-label="Site menu"><div class="smtop"><span>Menu</span><button type="button" class="smclose" aria-label="Close menu" data-close>&times;</button></div>' +
       '<div class="smsec">Records</div>' + REC.map(item).join("") +
-      '<div class="smsec">Profiles</div>' + item(["driver.html", "Driver Profiles", "Every driver, past and present"]) + item(["team.html", "Team Profiles", "Every team\u2019s history and line-up"]) +
+      '<div class="smsec">Profiles</div>' + item(["driver.html", "Driver Profiles", "Every driver, past and present"]) + item(["team.html", "Team Profiles", "Every team\u2019s history and line-up"]) + item(["compare.html", "Head to Head", "Compare any two drivers"]) +
       '<div class="smsec">Season ' + ((window.CALENDAR || {}).season || 18) + "</div>" + item(["season-calendar.html", "Calendar", "Every round, all three series"]) + "</nav>";
     document.body.appendChild(panel);
     var open = function (on) { panel.hidden = !on; btn.setAttribute("aria-expanded", on ? "true" : "false"); document.documentElement.classList.toggle("smopen", on); if (on) panel.querySelector(".smpanel a").focus(); else btn.focus(); };
