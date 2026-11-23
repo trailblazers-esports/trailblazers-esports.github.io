@@ -1959,6 +1959,19 @@
   if (page === "teamrecords") teamRecordsPage();
   if (page === "champions") championsPage();
   if (page === "teamtitles") teamTitlesPage();
+  /* "Last updated" line – set UPDATED on every publish. */
+  var UPDATED = { when: "2026-11-23T14:00:00+10:00", what: "Narly Cup and WJF Trophy Round 7 results made official" };
+  (function () {
+    var m = document.querySelector("main"); if (!m || !UPDATED.when) return;
+    var d = new Date(UPDATED.when), now = new Date();
+    var day = function (x) { return new Date(x.toLocaleString("en-US", { timeZone: "Australia/Brisbane" })).toDateString(); };
+    var diff = Math.round((new Date(day(now)) - new Date(day(d))) / 864e5);
+    var rel = diff === 0 ? "Today" : diff === 1 ? "Yesterday" : d.toLocaleDateString("en-AU", { weekday: "short", day: "numeric", month: "short", timeZone: "Australia/Brisbane" });
+    var time = d.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit", timeZone: "Australia/Brisbane" }).replace(" ", "").toLowerCase();
+    var el = document.createElement("div"); el.className = "updline";
+    el.innerHTML = '<span class="upddot"></span><b>Last updated</b> ' + esc(rel) + ", " + esc(time) + (UPDATED.what ? ' <span class="updwhat">\u00b7 ' + esc(UPDATED.what) + "</span>" : "");
+    m.insertBefore(el, m.firstChild);
+  })();
   if (page === "milestones") milestonesPage();
   if (page === "seasoncal") seasonCalPage();
   if (page === "driver") driverPage();

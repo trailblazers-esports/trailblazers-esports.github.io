@@ -768,3 +768,7 @@ html.smopen { overflow: hidden; }
 @media (max-width: 600px) { .memorial .mtbg { height: 120%; max-width: 75%; opacity: .1; } }
 .memorial .mtbg.tr { --w: 104px; width: var(--w); height: auto; max-width: none; right: auto; left: calc(16px + 26px - var(--w) / 5.63); top: calc(78px + var(--w)); transform: rotate(-90deg); transform-origin: top left; object-position: center; opacity: .13; }
 @media (max-width: 600px) { .memorial .mtbg.tr { --w: 230px; width: var(--w); max-width: none; left: calc(18px + 23px - var(--w) / 5.63); top: calc(72px + var(--w)); opacity: .1; } }
+.updline { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 14px 0 -4px; font: 500 13px var(--body); color: var(--muted); }
+.updline b { font: 600 12px var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
+.upddot { width: 7px; height: 7px; border-radius: 50%; background: #34C46E; box-shadow: 0 0 0 3px rgba(52,196,110,.18); margin-right: 2px; }
+.updwhat { color: var(--muted); }
