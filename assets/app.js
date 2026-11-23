@@ -1697,7 +1697,7 @@
   ];
   var trackOf = function (nm) { for (var i = 0; i < TRACK_RULES.length; i++) if (TRACK_RULES[i][0].test(nm)) return TRACK_RULES[i][1]; return nm; };
   // Track layout images (assets/tracks/<slug>.png) – add a slug here as each image arrives.
-  var TRACK_IMG = { "Le Mans": "le-mans", "Watkins Glen": "watkins-glen", "Suzuka": "suzuka", "Dragon Trail": "dragon-trail", "Deep Forest": "deep-forest", "Alsace": "alsace", "Lago Maggiore": "lago-maggiore", "Interlagos": "interlagos", "Monza": "monza", "Autopolis": "autopolis", "Blue Moon Bay": "blue-moon-bay", "Brands Hatch": "brands-hatch", "Catalunya": "catalunya", "St Croix": "st-croix", "Spa-Francorchamps": "spa", "Tokyo Expressway": "tokyo", "Trial Mountain": "trial-mountain", "Red Bull Ring": "red-bull-ring", "Nürburgring": "nurburgring" };
+  var TRACK_IMG = { "Le Mans": "le-mans", "Mount Panorama": "mount-panorama", "Watkins Glen": "watkins-glen", "Suzuka": "suzuka", "Dragon Trail": "dragon-trail", "Deep Forest": "deep-forest", "Alsace": "alsace", "Lago Maggiore": "lago-maggiore", "Interlagos": "interlagos", "Monza": "monza", "Autopolis": "autopolis", "Blue Moon Bay": "blue-moon-bay", "Brands Hatch": "brands-hatch", "Catalunya": "catalunya", "St Croix": "st-croix", "Spa-Francorchamps": "spa", "Tokyo Expressway": "tokyo", "Trial Mountain": "trial-mountain", "Red Bull Ring": "red-bull-ring", "Nürburgring": "nurburgring" };
   // Country of each track (fictional GT7 tracks use the country GT7 places them in). Flags: assets/flags (flag-icons, MIT).
   var TRACK_CC = { "Monza": "it", "Sardegna": "it", "Lago Maggiore": "it", "Interlagos": "br", "Watkins Glen": "us", "Mount Panorama": "au",
     "Trial Mountain": "us", "Spa-Francorchamps": "be", "Suzuka": "jp", "Kyoto Driving Park": "jp", "Brands Hatch": "gb", "Le Mans": "fr",
@@ -1963,7 +1963,7 @@
   // Each series keeps its own last-updated time (its results/standings pages); the home page shows "home".
   // Race results: update that series AND home (with a note). Other site changes: update home only (no note).
   var UPDATES = {
-    "home": { when: "2026-11-23T22:47:00+10:00", what: "" },
+    "home": { when: "2026-11-23T22:52:00+10:00", what: "" },
     "wrx-evo-gr4": { when: "2026-11-20T01:20:00+10:00", what: "Tuesday Series Round 7 results made official" },
     "narly-cup": { when: "2026-11-23T14:00:00+10:00", what: "Narly Cup Round 7 results made official" },
     "gt3-endurance": { when: "2026-11-23T14:00:00+10:00", what: "WJF Trophy Round 7 results made official" }
