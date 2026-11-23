@@ -1275,7 +1275,7 @@
       var nt = rs.filter(function (r) { return r.champ; }).length;
       var best = nt ? "Champion" + (nt > 1 ? " ×" + nt : "") : fins.length ? ord(Math.min.apply(null, fins)) : "–";
       var sum = function (k) { return rs.reduce(function (a, r) { return a + r[k]; }, 0); };
-      return '<div class="pfser"><h3>' + esc(ALL[id].navLabel) + "</h3><p>Seasons<b>" + rs.length + "</b></p><p>Starts<b>" + sum("st") + "</b></p><p>Wins · Podiums<b>" + sum("w") + " · " + sum("pd") + "</b></p><p>Best finish<b" + (nt ? ' class="gold"' : "") + ">" + best + "</b></p></div>";
+      return '<div class="pfser"><h3>' + esc(ALL[id].navLabel) + "</h3><p>Seasons<b>" + rs.length + "</b></p><p>Starts<b>" + sum("st") + "</b></p><p>Wins · Podiums<b>" + sum("w") + " · " + sum("pd") + "</b></p><p>Best season<b" + (nt ? ' class="gold"' : "") + ">" + best + "</b></p></div>";
     }).join("");
     var trs = rows.map(function (r) {
       var b = baseOf(r.x), href = b.pages.championship + seasonQuery(r.x);
