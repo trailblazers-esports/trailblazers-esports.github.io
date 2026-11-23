@@ -768,3 +768,11 @@ html.smopen { overflow: hidden; }
 @media (max-width: 600px) { .memorial .mtbg { height: 120%; max-width: 75%; opacity: .1; } }
 .memorial .mtbg.tr { --w: 104px; width: var(--w); height: auto; max-width: none; right: auto; left: calc(16px + 26px - var(--w) / 5.63); top: calc(78px + var(--w)); transform: rotate(-90deg); transform-origin: top left; object-position: center; opacity: .13; }
 @media (max-width: 600px) { .memorial .mtbg.tr { --w: 230px; width: var(--w); max-width: none; left: calc(18px + 23px - var(--w) / 5.63); top: calc(72px + var(--w)); opacity: .1; } }
+.flc { color: #B07CFF; font-weight: 600; }
+.flbig { font: 700 22px var(--cond); color: #B07CFF; }
+.fltags { display: flex; flex-wrap: wrap; gap: 5px; }
+.fltag { font: 600 12px var(--cond); letter-spacing: .04em; text-transform: uppercase; color: #C9A8FF; border: 1px solid rgba(176,124,255,.45); background: rgba(176,124,255,.10); border-radius: 4px; padding: 2px 6px; text-decoration: none; white-space: nowrap; }
+.flrounds { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+@media (max-width: 600px) { .hide-sm { display: none; } }
+.tile-row .bar { margin-right: 8px; }
+.rbrh .flc { color: #B07CFF; }

@@ -7,8 +7,8 @@
   });
   var page = document.body.getAttribute("data-page");
   // Records pages are club-wide (records-*.html): ?series=<id> shows one series, otherwise All Time.
-  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles|milestones|seasoncal|tracks|driver|compare|team)$/;
-  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html", teamtitles: "records-teamtitles.html", milestones: "records-milestones.html", seasoncal: "season-calendar.html", tracks: "tracks.html" };
+  var RECORD_PAGES = /^(records|teamrecords|champions|teamtitles|milestones|fastlaps|seasoncal|tracks|driver|compare|team)$/;
+  var REC = { records: "records-drivers.html", teamrecords: "records-teams.html", champions: "records-titles.html", teamtitles: "records-teamtitles.html", milestones: "records-milestones.html", fastlaps: "records-fastlaps.html", seasoncal: "season-calendar.html", tracks: "tracks.html" };
   var wantSeries = RECORD_PAGES.test(page) ? new URLSearchParams(location.search).get("series") : null;
   var BASE = (wantSeries && ALL[wantSeries] && !ALL[wantSeries].group ? ALL[wantSeries] : null) || ALL[document.body.getAttribute("data-series")] || ALL[ORDER[0]];
   var groupOf = function (x) { return x.group || x.id; };
@@ -84,7 +84,7 @@
     // Two rows: results and standings first, then the records pages.
     if (RECORD_PAGES.test(page)) {
       // Records section: its own tabs; Teams' Titles is shown once team championship data exists.
-      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"], ["milestones", "Milestones"], ["tracks", "Tracks"]].map(function (t) {
+      $("pageNav").innerHTML = [["records", "Driver Records"], ["teamrecords", "Team Records"], ["champions", "Drivers' Titles"], ["teamtitles", "Teams' Titles"], ["milestones", "Milestones"], ["fastlaps", "Fastest Laps"], ["tracks", "Tracks"]].map(function (t) {
         return '<a href="' + REC[t[0]] + (t[0] === "seasoncal" || t[0] === "tracks" ? "" : recQuery) + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
       }).join("");
       if (page === "seasoncal") $("pageNav").hidden = true; // the combined calendar is in the top menu now
@@ -1021,7 +1021,14 @@
       "</div>" +
       '<div class="tile"><div class="label">Round winners</div>' +
       winners.map(function (w) { return '<div class="tile-row"><span>R' + w.no + " · " + esc(w.short) + "</span><span>" + esc(w.driver) + "</span></div>"; }).join("") +
-      "</div>";
+      "</div>" + (function () {
+        if (S.final || !S.rounds) return "";
+        var t = fastLapTally(fastLaps([groupOf(S)])); if (!t.length) return "";
+        return '<div class="tile"><div class="label">Fastest laps</div>' + t.slice(0, 4).map(function (o) {
+          var tm = S.teams[o.team] || { colour: "#8C939D" };
+          return '<div class="tile-row"><span>' + bar(tm.colour) + plink(o.name) + '</span><span class="flc">\u00d7' + o.n + "</span></div>";
+        }).join("") + (t.length > 4 ? '<div class="sub">+' + (t.length - 4) + " more drivers \u00b7 <a href=\"records-fastlaps.html?series=" + groupOf(S) + '">Fastest laps</a></div>' : "") + "</div>";
+      })();
 
     var cell = roundCell;
 
@@ -1159,6 +1166,25 @@
   }
 
   /* ---------------- Driver profile (driver.html?name=…) ---------------- */
+  /* Fastest laps (current season): fastest best lap of each round, all lobbies together; ties all count. */
+  function fastLaps(ids) {
+    var out = [];
+    (ids || ORDER).forEach(function (id) {
+      var x = ALL[id]; if (!x || x.final || !x.rounds) return;
+      x.rounds.forEach(function (rd) {
+        var f = Infinity; rd.rows.forEach(function (r) { var v = secs(r[7]); if (r[7] && v < f) f = v; });
+        if (f === Infinity) return;
+        rd.rows.forEach(function (r) { if (r[7] && secs(r[7]) === f) out.push({ id: id, no: rd.no, short: rd.short, track: rd.track, name: r[0], team: r[1], lap: r[7], x: x }); });
+      });
+    });
+    return out;
+  }
+  function fastLapTally(list) {
+    var by = {};
+    list.forEach(function (f) { var o = by[f.name] = by[f.name] || { name: f.name, team: f.team, x: f.x, n: 0, per: {}, list: [] }; o.n++; o.per[f.id] = (o.per[f.id] || 0) + 1; o.list.push(f); });
+    return Object.keys(by).map(function (k) { return by[k]; }).sort(function (a, b) { return b.n - a.n || a.name.localeCompare(b.name); });
+  }
+
   /* Season 18 round by round on driver profiles. */
   function roundByRound(N) {
     var cal = window.CALENDAR || window.SEASON_CALENDAR || null;
@@ -1189,7 +1215,8 @@
         return '<tr><td class="nowrap rbrrd"><a href="' + href + '">R' + rd.no + '</a></td><td><a class="rbrno" href="' + href + '">R' + rd.no + "</a>" + esc(rd.short) + '</td><td class="c">' + pos + '</td><td><div class="rbrres">' + res + "</div></td>" + (x.hasLobbies ? "<td>" + (lob || '<span class="none">\u2013</span>') + "</td>" : "") + '<td class="r rbrbl">' + (best || '<span class="none">\u2013</span>') + '</td><td class="c rbrpts">' + roundCell(cellv) + "</td></tr>";
       }).join("");
       var left = (x.roundCount || 10) - x.rounds.length;
-      return '<div class="rbr"><div class="rbrh"><b>' + esc(x.navLabel) + '</b><span>P' + st[0] + " \u00b7 " + st[8] + " pts" + (left > 0 ? " \u00b7 " + left + " rounds to go" : "") + '</span></div><div class="scroll"><table class="pftable rbrt"><thead><tr><th scope="col" class="rbrrd">Rd</th><th scope="col">Track</th><th scope="col" class="c">Pos</th><th scope="col">Result</th>' + (x.hasLobbies ? '<th scope="col">Lobby</th>' : "") + '<th scope="col" class="r rbrbl">Best<span class="rbrlg"> lap</span></th><th scope="col" class="c rbrpts">Points</th></tr></thead><tbody>' + rows + "</tbody></table></div></div>";
+      var nfl = fastLaps([id]).filter(function (f) { return f.name === N; }).length;
+      return '<div class="rbr"><div class="rbrh"><b>' + esc(x.navLabel) + '</b><span>P' + st[0] + " \u00b7 " + st[8] + " pts" + (nfl ? ' \u00b7 <span class="flc">' + nfl + " fastest lap" + (nfl > 1 ? "s" : "") + "</span>" : "") + (left > 0 ? " \u00b7 " + left + " rounds to go" : "") + '</span></div><div class="scroll"><table class="pftable rbrt"><thead><tr><th scope="col" class="rbrrd">Rd</th><th scope="col">Track</th><th scope="col" class="c">Pos</th><th scope="col">Result</th>' + (x.hasLobbies ? '<th scope="col">Lobby</th>' : "") + '<th scope="col" class="r rbrbl">Best<span class="rbrlg"> lap</span></th><th scope="col" class="c rbrpts">Points</th></tr></thead><tbody>' + rows + "</tbody></table></div></div>";
     }).join("");
     return blocks ? '<h2 class="section-title">Season 18 round by round</h2><div class="rbrs">' + blocks + '</div><p class="pfnote">Pos = finishing position in the round (all lobbies together). Purple best lap = fastest lap of the round. Struck-out points = dropped round (points are shown on larger screens).</p>' : "";
   }
@@ -1807,6 +1834,38 @@
   }
 
   /* ---------------- Milestones (starts clubs every 100, points clubs every 1,000) ---------------- */
+  function fastLapsPage() {
+    var ids = SCOPE_ALL ? ORDER : [groupOf(BASE)];
+    var list = fastLaps(ids), t = fastLapTally(list);
+    var rounds = 0; ids.forEach(function (id) { if (ALL[id] && ALL[id].rounds && !ALL[id].final) rounds += ALL[id].rounds.length; });
+    var SH = { "wrx-evo-gr4": "Tue", "narly-cup": "Narly", "gt3-endurance": "WJF" };
+    $("eyebrow").textContent = "Records · " + LABEL + " · GT7 Season 18";
+    $("meta").textContent = "Fastest lap of every round" + (SCOPE_ALL ? " across all three series" : " in the " + BASE.navLabel) + " · " + rounds + " races so far · updated after every round";
+    document.title = "Fastest Laps · " + LABEL + " · TB Race Results";
+    var tc = function (o) { var x = o.x, tm = (x.teams || {})[o.team]; return tm || { colour: "#8C939D", name: "" }; };
+    var top = t.filter(function (o) { return o.n === (t[0] || {}).n; });
+    $("tiles").innerHTML = t.length ? '<div class="tile">' + '<div class="label">Most fastest laps</div><div class="tile-big" style="color:' + tc(top[0]).colour + '">' + top.map(function (o) { return esc(o.name); }).join(" · ") + '</div><div class="sub">' + top[0].n + " fastest laps</div></div>" +
+      '<div class="tile"><div class="label">Races</div><div class="tile-big">' + rounds + '</div><div class="sub">fastest laps awarded</div></div>' +
+      '<div class="tile"><div class="label">Different drivers</div><div class="tile-big">' + t.length + '</div><div class="sub">have set a fastest lap</div></div>' : "";
+    var head = '<tr><th scope="col" class="c">#</th><th scope="col">Driver</th><th scope="col" class="r">Fastest laps</th>' + (SCOPE_ALL ? ORDER.map(function (id) { return '<th scope="col" class="r hide-sm">' + SH[id] + "</th>"; }).join("") : "") + '<th scope="col">Rounds</th></tr>';
+    var pos = 0, prev = null;
+    $("fltable").innerHTML = '<thead>' + head + "</thead><tbody>" + t.map(function (o, i) {
+      if (o.n !== prev) { pos = i + 1; prev = o.n; }
+      var tm = tc(o);
+      return "<tr><td class=\"c\"><span class=\"chip" + (pos <= 3 ? " p" + pos : "") + "\">" + pos + '</span></td><td><div class="driver">' + plink(o.name) + '</div><div class="sub nowrap">' + bar(tm.colour) + esc(tm.name || "") + '</div></td><td class="r"><span class="flbig">' + o.n + "</span></td>" +
+        (SCOPE_ALL ? ORDER.map(function (id) { return '<td class="r hide-sm">' + (o.per[id] || '<span class="none">\u2013</span>') + "</td>"; }).join("") : "") +
+        '<td><div class="fltags">' + o.list.map(function (f) { return '<a class="fltag" href="' + ALL[f.id].pages.results + "#round=" + f.no + '" title="' + esc(f.track) + " \u00b7 " + esc(f.lap) + '">' + (SCOPE_ALL ? SH[f.id] + " " : "") + "R" + f.no + " " + esc(f.short) + "</a>"; }).join("") + "</div></td></tr>";
+    }).join("") + "</tbody>";
+    $("flrounds").innerHTML = ids.map(function (id) {
+      var x = ALL[id]; if (!x || !x.rounds || x.final) return "";
+      return '<div class="rbr"><div class="rbrh"><b>' + esc(x.navLabel) + '</b></div><table class="pftable"><tbody>' + x.rounds.map(function (rd) {
+        var f = list.filter(function (q) { return q.id === id && q.no === rd.no; });
+        return '<tr><td class="nowrap"><a href="' + x.pages.results + "#round=" + rd.no + '">R' + rd.no + "</a></td><td>" + esc(rd.short) + "</td><td>" + f.map(function (q) { return plink(q.name); }).join(", ") + '</td><td class="r"><span class="fl">' + (f[0] ? esc(f[0].lap) : "") + "</span></td></tr>";
+      }).join("") + "</tbody></table></div>";
+    }).join("");
+    $("rules").innerHTML = "<p>The fastest lap of each round is the quickest best lap of the night, with all lobbies counted together. Lap times are only on record from GT7 Season 18, so earlier seasons aren\u2019t included.</p>";
+  }
+
   function milestonesPage() {
     var DRD = driverRecordsData(), all = DRD.all, seasons = DRD.seasons;
     var active = {};
@@ -1960,6 +2019,7 @@
   if (page === "champions") championsPage();
   if (page === "teamtitles") teamTitlesPage();
   if (page === "milestones") milestonesPage();
+  if (page === "fastlaps") fastLapsPage();
   if (page === "seasoncal") seasonCalPage();
   if (page === "driver") driverPage();
   if (page === "compare") comparePage();
@@ -1971,7 +2031,7 @@
     var hw = document.querySelector(".site-header .wrap"); if (!hw) return;
     var REC = [["records-drivers.html", "Driver Records", "Wins, podiums and starts"], ["records-teams.html", "Team Records", "How each team stacks up"],
       ["records-titles.html", "Drivers' Titles", "Every champion, season by season"], ["records-teamtitles.html", "Teams' Titles", "Team champions and team points"],
-      ["records-milestones.html", "Milestones", "Starts and points clubs"], ["tracks.html", "Track History", "Every winner at every track"]];
+      ["records-milestones.html", "Milestones", "Starts and points clubs"], ["records-fastlaps.html", "Fastest Laps", "Season 18 fastest laps"], ["tracks.html", "Track History", "Every winner at every track"]];
     var here = location.pathname.split("/").pop() || "index.html";
     var item = function (r) { return '<a href="' + r[0] + '"' + (here === r[0] ? ' aria-current="page"' : "") + "><b>" + esc(r[1]) + "</b><span>" + esc(r[2]) + "</span></a>"; };
     var btn = document.createElement("button");
