@@ -1960,7 +1960,7 @@
   if (page === "champions") championsPage();
   if (page === "teamtitles") teamTitlesPage();
   /* "Last updated" line – set UPDATED on every publish. */
-  var UPDATED = { when: "2026-11-23T22:42:00+10:00", what: "" };
+  var UPDATED = { when: "2026-11-23T22:44:00+10:00", what: "" };
   (function () {
     var m = document.querySelector("main"); if (!m || !UPDATED.when) return;
     var d = new Date(UPDATED.when), now = new Date();
@@ -1980,11 +1980,7 @@
       };
       tag(); new MutationObserver(tag).observe(eb, { childList: true });
       if (UPDATED.what) { var w = document.createElement("div"); w.className = "updnote"; w.textContent = UPDATED.what; eb.parentNode.insertBefore(w, eb.nextSibling); }
-      return;
     }
-    var el = document.createElement("div"); el.className = "updline";
-    el.innerHTML = '<span class="upddot"></span><b>Last updated</b> ' + esc(rel) + ", " + esc(time) + (UPDATED.what ? ' <span class="updwhat">\u00b7 ' + esc(UPDATED.what) + "</span>" : "");
-    m.insertBefore(el, m.firstChild);
   })();
   if (page === "milestones") milestonesPage();
   if (page === "seasoncal") seasonCalPage();
