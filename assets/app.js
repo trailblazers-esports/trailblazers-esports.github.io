@@ -1960,7 +1960,7 @@
   if (page === "champions") championsPage();
   if (page === "teamtitles") teamTitlesPage();
   /* "Last updated" line – set UPDATED on every publish. */
-  var UPDATED = { when: "2026-11-23T14:00:00+10:00", what: "Narly Cup and WJF Trophy Round 7 results made official" };
+  var UPDATED = { when: "2026-11-23T22:32:00+10:00", what: "\u201cLast updated\u201d line added · Narly Cup and WJF Trophy Round 7 official" };
   (function () {
     var m = document.querySelector("main"); if (!m || !UPDATED.when) return;
     var d = new Date(UPDATED.when), now = new Date();
