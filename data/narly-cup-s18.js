@@ -15,7 +15,6 @@ window.SERIES["narly-cup"] = {
   seriesLine: "Trailblazers S18 Narlycup GT500",
   pages: { results: "narly-cup.html", championship: "narly-cup-championship.html", calendar: "narly-cup-calendar.html", records: "records-drivers.html?series=narly-cup", teamrecords: "records-teams.html?series=narly-cup", champions: "records-titles.html?series=narly-cup" },
   hasLobbies: false,
-  provisional: { rounds: [7], text: "Results pending Round 7 stewards’ reviews" },
   // Provisional until the club confirms stewards' reviews are done (remove when told).
   resultNotes: ["DNS = did not start", "DNF = did not finish (no points)", "DQ = disqualified", "DC and RGQ shown as listed in the results"],
   source: "Results transcribed from the club's Round 1–6 result sheets.",

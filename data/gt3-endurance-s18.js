@@ -15,7 +15,6 @@ window.SERIES["gt3-endurance"] = {
   seriesLine: "Trailblazers S18 WJF Trophy",
   pages: { results: "wjf-trophy.html", championship: "championship.html", calendar: "wjf-calendar.html", records: "records-drivers.html?series=gt3-endurance", teamrecords: "records-teams.html?series=gt3-endurance", champions: "records-titles.html?series=gt3-endurance" },
   hasLobbies: true,
-  provisional: { rounds: [7], text: "Results pending Round 7 stewards\u2019 reviews" },
   // Provisional until the club confirms stewards' reviews are done (remove when told).
   resultNotes: ["DNS = did not start", "DC and RGQ shown as listed in the results", "Lapped drivers (Round 5): laps down to the leader, with the gap to the car ahead as in the club\u2019s results"],
   source: "Results transcribed from the club's Round 1–7 result sheets.",
