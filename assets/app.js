@@ -1968,6 +1968,20 @@
     var diff = Math.round((new Date(day(now)) - new Date(day(d))) / 864e5);
     var rel = diff === 0 ? "Today" : diff === 1 ? "Yesterday" : d.toLocaleDateString("en-AU", { weekday: "short", day: "numeric", month: "short", timeZone: "Australia/Brisbane" });
     var time = d.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit", timeZone: "Australia/Brisbane" }).replace(" ", "").toLowerCase();
+    var eb = $("eyebrow");
+    if (eb && /^(home|results|championship)$/.test(page)) {
+      // Joined to the red heading line: "GT7 SEASON 18 · AFTER ROUND 7 · ● UPDATED TODAY, 2:00PM"
+      var tag = function () {
+        if (eb.querySelector(".updeb")) return;
+        var sp = document.createElement("span"); sp.className = "updeb";
+        sp.innerHTML = '<span class="upddot"></span>Updated ' + esc(rel) + ", " + esc(time);
+        if (UPDATED.what) sp.title = UPDATED.what;
+        eb.appendChild(sp);
+      };
+      tag(); new MutationObserver(tag).observe(eb, { childList: true });
+      if (UPDATED.what) { var w = document.createElement("div"); w.className = "updnote"; w.textContent = UPDATED.what; eb.parentNode.insertBefore(w, eb.nextSibling); }
+      return;
+    }
     var el = document.createElement("div"); el.className = "updline";
     el.innerHTML = '<span class="upddot"></span><b>Last updated</b> ' + esc(rel) + ", " + esc(time) + (UPDATED.what ? ' <span class="updwhat">\u00b7 ' + esc(UPDATED.what) + "</span>" : "");
     m.insertBefore(el, m.firstChild);
