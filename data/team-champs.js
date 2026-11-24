@@ -256,9 +256,9 @@ window.TEAM_CHAMPS = {
   "wrx-evo-gr4": {
     scale: 9,
     teams: {
-      "Roadsick Racing": [14, 24, 16, 24, 24, 24, 22],
-      "Triple R Motorsport": [19, 15, 15, 12, 11, 11, 7],
-      "Mad Turtle Racing": [12, 6, 14, 8, 9, 7, 13]
+      "Roadsick Racing": [14, 24, 16, 24, 24, 24, 22, 16],
+      "Triple R Motorsport": [19, 15, 15, 12, 11, 11, 7, 17],
+      "Mad Turtle Racing": [12, 6, 14, 8, 9, 7, 13, 9]
     }
   },
   "narly-cup": {

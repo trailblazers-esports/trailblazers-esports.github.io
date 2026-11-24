@@ -1,5 +1,5 @@
 // WRX V Evo GR4 Trailblazers, Season 18 (Tuesday series).
-// Transcribed from the club's Round 1-7 result images and the standings image (after Round 4); standings after Round 5 worked out from the results.
+// Transcribed from the club's Round 1-8 result images and the standings image (after Round 4); standings after Round 5 worked out from the results.
 // Driver names use the WJF Trophy standings spelling where the driver also races there.
 
 window.SERIES = window.SERIES || {};
@@ -15,10 +15,11 @@ window.SERIES["wrx-evo-gr4"] = {
   seriesLine: "Tuesday Night Series",
   pages: { results: "wrx-evo-gr4.html", championship: "wrx-evo-gr4-championship.html", calendar: "wrx-evo-gr4-calendar.html", records: "records-drivers.html?series=wrx-evo-gr4", teamrecords: "records-teams.html?series=wrx-evo-gr4", champions: "records-titles.html?series=wrx-evo-gr4" },
   hasLobbies: false,
+  provisional: { rounds: [8], text: "Results pending Round 8 stewards\u2019 reviews" },
   resultNotes: ["DNS = did not start", "DC = disconnected", "RGQ = scores 0, not a drop round"],
   source: "Results transcribed from the club's Round 1–7 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DNS scores 0. DC = points for classified position. RGQ scores 0 and is not a drop round (next-lowest score is dropped instead). Ties split on countback: most wins, then 2nds, 3rds and so on.",
-  standingsSource: "Standings after Round 7 worked out from the round results with the club\u2019s points and drop rules (Rounds 1–4 as published by the club). Starts, wins and podiums counted from the round results.",
+  standingsSource: "Standings after Round 8 worked out from the round results with the club\u2019s points and drop rules (Rounds 1–4 as published by the club). Starts, wins and podiums counted from the round results.",
 
   teams: {
     RR: { name: "Roadsick Racing", colour: "#FACC15" },
@@ -161,27 +162,41 @@ window.SERIES["wrx-evo-gr4"] = {
         ["Kezaudio", "RR", "", "EVO", "56:25.623", "+35.516", "+3.076", "1:42.491", "c"],
         ["S7R_Ando787", "RR", "", "NA", "DNS", "DNS", "", "", "o"]
       ]
+    },
+    {
+      no: 8, track: "St Croix Layout B", short: "St Croix",
+      entries: 8, starters: 8, finishers: 8,
+      rows: [
+        ["b-man228", "R3", "", "EVO", "49:48.113", "Winner", "", "2:26.598", "c"],
+        ["Trickybrewer", "R3", "", "EVO", "49:53.081", "+4.968", "+4.968", "2:26.468", "c"],
+        ["Pjmack75", "RR", "", "WRX", "49:53.234", "+5.121", "+0.153", "2:26.438", "c"],
+        ["Tim_turtle_79", "MT", "", "WRX", "49:53.292", "+5.179", "+0.058", "2:26.609", "c"],
+        ["MasoMarvel87", "RR", "", "WRX", "49:53.777", "+5.664", "+0.485", "2:26.367", "c"],
+        ["Kezaudio", "RR", "", "EVO", "49:54.368", "+6.255", "+0.591", "2:27.030", "c"],
+        ["iphonedoc", "RR", "", "EVO", "51:09.616", "+1:21.503", "+1:15.248", "2:27.041", "c"],
+        ["MAD_MITCH_76", "MT", "", "WRX", "51:10.356", "+1:22.243", "+0.740", "2:27.342", "c"]
+      ]
     }
   ],
   // Standings after Round 6, worked out from the round results with the club's rules (no club standings image).
   // [pos, driver, team, car, [R1..R6], total, drop, gap, points, starts, wins, podiums]
   // Round cell codes: "43p2" = 43 pts, 2nd in that round; "33d" = dropped; "*" suffix = DC; "DNS"; "RGQ"; "–" = did not enter
-  standingsAfter: 7,
+  standingsAfter: 8,
   standings: [
-    ["1", "iphonedoc", "RR", "EVO", ["34", "41p3", "32d", "41p3", "33*", "43p2", "41p3"], 265, -32, "Leader", 233, 7, 0, 4],
-    ["2", "b-man228", "R3", "EVO", ["41p3", "39", "40", "34d", "40", "38", "35"], 267, -34, "0", 233, 7, 0, 1],
-    ["3", "MasoMarvel87", "RR", "WRX", ["33d*", "43p2", "37", "38", "41p3", "36", "37"], 265, -33, "-1", 232, 7, 0, 2],
-    ["4", "Pjmack75", "RR", "WRX", ["38", "37", "38", "36d", "37", "39", "39"], 264, -36, "-5", 228, 7, 0, 0],
-    ["5", "MAD_MITCH_76", "MT", "WRX", ["40", "35", "36", "39", "39", "33d", "38"], 260, -33, "-6", 227, 7, 0, 0],
-    ["6", "Trickybrewer", "R3", "EVO", ["45p1", "36", "33d", "37", "35", "37", "36"], 259, -33, "-7", 226, 7, 1, 1],
-    ["7", "Tim_turtle_79", "MT", "WRX", ["35", "34d", "39", "35", "38", "34", "43p2"], 258, -34, "-9", 224, 7, 0, 1],
-    ["8", "S7R_Ando787", "RR", "WRX", ["–", "45p1", "45p1", "43p2", "43p2", "45p1", "DNS"], 221, 0, "-12", 221, 5, 3, 5],
-    ["9", "Colin_t24", "RR", "WRX", ["–", "32", "DNS", "45p1", "45p1", "40", "45p1"], 207, 0, "-26", 207, 5, 3, 3],
-    ["10", "Tankneo-1", "R3", "WRX", ["36", "38", "43p2", "40", "36", "RGQ", "–"], 193, 0, "-40", 193, 6, 0, 1],
-    ["11", "Kezaudio", "RR", "EVO", ["43p2", "40", "34", "–", "–", "41p3", "34"], 192, 0, "-41", 192, 5, 0, 2],
-    ["12", "MalevolentOne666", "MT", "WRX", ["37", "33", "35", "DNS", "34*", "DNS", "–"], 139, 0, "-94", 139, 4, 0, 0],
-    ["13", "Bluebloss", "PV", "WRX", ["39", "–", "–", "–", "–", "35", "40"], 114, 0, "-119", 114, 3, 0, 0],
-    ["14", "BigBruceTheShark", "MT", "WRX", ["–", "DNS", "41p3", "–", "–", "–", "–"], 41, 0, "-192", 41, 1, 0, 1],
-    ["15", "ricreene", "R3", "EVO", ["–", "–", "31", "–", "–", "–", "–"], 31, 0, "-202", 31, 1, 0, 0]
+    ["1", "b-man228", "R3", "EVO", ["41p3", "39", "40", "34d", "40", "38", "35", "45p1"], 312, -34, "Leader", 278, 8, 1, 2],
+    ["2", "MasoMarvel87", "RR", "WRX", ["33d*", "43p2", "37", "38", "41p3", "36", "37", "39"], 304, -33, "-7", 271, 8, 0, 2],
+    ["3", "iphonedoc", "RR", "EVO", ["34", "41p3", "32d", "41p3", "33*", "43p2", "41p3", "37"], 302, -32, "-8", 270, 8, 0, 4],
+    ["4", "Trickybrewer", "R3", "EVO", ["45p1", "36", "33d", "37", "35", "37", "36", "43p2"], 302, -33, "-9", 269, 8, 1, 2],
+    ["5", "Pjmack75", "RR", "WRX", ["38", "37", "38", "36d", "37", "39", "39", "41p3"], 305, -36, "-9", 269, 8, 0, 1],
+    ["6", "Tim_turtle_79", "MT", "WRX", ["35", "34d", "39", "35", "38", "34", "43p2", "40"], 298, -34, "-14", 264, 8, 0, 1],
+    ["7", "MAD_MITCH_76", "MT", "WRX", ["40", "35", "36", "39", "39", "33d", "38", "36"], 296, -33, "-15", 263, 8, 0, 0],
+    ["8", "Kezaudio", "RR", "EVO", ["43p2", "40", "34", "–", "–", "41p3", "34", "38"], 230, 0, "-48", 230, 6, 0, 2],
+    ["9", "S7R_Ando787", "RR", "WRX", ["–", "45p1", "45p1", "43p2", "43p2", "45p1", "DNS", "–"], 221, 0, "-57", 221, 5, 3, 5],
+    ["10", "Colin_t24", "RR", "WRX", ["–", "32", "DNS", "45p1", "45p1", "40", "45p1", "–"], 207, 0, "-71", 207, 5, 3, 3],
+    ["11", "Tankneo-1", "R3", "WRX", ["36", "38", "43p2", "40", "36", "RGQ", "–", "–"], 193, 0, "-85", 193, 6, 0, 1],
+    ["12", "MalevolentOne666", "MT", "WRX", ["37", "33", "35", "DNS", "34*", "DNS", "–", "–"], 139, 0, "-139", 139, 4, 0, 0],
+    ["13", "Bluebloss", "PV", "WRX", ["39", "–", "–", "–", "–", "35", "40", "–"], 114, 0, "-164", 114, 3, 0, 0],
+    ["14", "BigBruceTheShark", "MT", "WRX", ["–", "DNS", "41p3", "–", "–", "–", "–", "–"], 41, 0, "-237", 41, 1, 0, 1],
+    ["15", "ricreene", "R3", "EVO", ["–", "–", "31", "–", "–", "–", "–", "–"], 31, 0, "-247", 31, 1, 0, 0]
   ]
 };
