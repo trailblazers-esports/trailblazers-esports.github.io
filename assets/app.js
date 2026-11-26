@@ -1963,7 +1963,7 @@
   // Each series keeps its own last-updated time (its results/standings pages); the home page shows "home".
   // Race results: update that series AND home (with a note). Other site changes: update home only (no note).
   var UPDATES = {
-    "home": { when: "2026-11-27T00:36:00+10:00", what: "Narly Cup Round 8 results added (provisional)" },
+    "home": { when: "2026-11-27T00:38:00+10:00", what: "" },
     "wrx-evo-gr4": { when: "2026-11-26T22:20:00+10:00", what: "Tuesday Series Round 8 results made official" },
     "narly-cup": { when: "2026-11-27T00:36:00+10:00", what: "Narly Cup Round 8 results added (provisional)" },
     "gt3-endurance": { when: "2026-11-23T14:00:00+10:00", what: "WJF Trophy Round 7 results made official" }
@@ -2037,7 +2037,7 @@
 
   /* ---------------- Discord buttons (home page + bottom of every page) ---------------- */
   // Set DISCORD_URL to the server's invite link (never-expiring) to switch the buttons on; until then they show "Coming soon".
-  var DISCORD_URL = "";
+  var DISCORD_URL = "https://discord.gg/Q8rEMF6YvH";
   (function discord() {
     var main = document.querySelector("main"); if (!main) return;
     var icon = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4.5 3.5V17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm4 6.2a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6zm4 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6zm4 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z"/></svg>';
