@@ -27,8 +27,7 @@ window.SERIES["narly-cup"] = {
     RR: { name: "Roadsick Racing", colour: "#FACC15" },
     MT: { name: "Mad Turtle Racing", colour: "#34C46E" },
     R3: { name: "Triple R Motorsport", colour: "#F0524A" },
-    GB: { name: "Gerbil Racing Team", colour: "#F08A2C" },
-    PV: { name: "Privateer", colour: "#8C939D" }
+    GB: { name: "Gerbil Racing Team", colour: "#F08A2C" }
   },
 
   cars: {
@@ -176,7 +175,7 @@ window.SERIES["narly-cup"] = {
       no: 8, track: "St Croix Layout B", short: "St Croix",
       entries: 11, starters: 11, leadLap: 9,
       rows: [
-        ["Rollscanhardly","PV","","SUP","50:35.658","Winner","","2:08.836","c"],
+        ["Rollscanhardly","MT","","SUP","50:35.658","Winner","","2:08.836","c"],
         ["iphonedoc","RR","","GTR","50:49.459","+13.801","+13.801","2:09.479","c"],
         ["MasoMarvel87","RR","","GTR","50:57.917","+22.259","+8.458","2:10.110","c"],
         ["Trickybrewer","R3","","SUP","51:01.463","+25.805","+3.546","2:10.231","c"],
@@ -212,7 +211,7 @@ window.SERIES["narly-cup"] = {
     ["15","S7R_Ando787","RR","SUP",["–","45p1","–","–","45p1","–","–","–"],90,0,"-183",90,2,2,2],
     ["16","Tim_turtle_79","MT","GTR",["37","39","RGQ","–","–","–","–","–"],76,0,"-197",76,3,0,0],
     ["17","RiotheSpeedster","R3","GTR",["31","31","–","–","–","–","–","–"],62,0,"-211",62,2,0,0],
-    ["18","Rollscanhardly","PV","SUP",["–","–","–","–","–","–","–","45p1"],45,0,"-228",45,1,1,1],
+    ["18","Rollscanhardly","MT","SUP",["–","–","–","–","–","–","–","45p1"],45,0,"-228",45,1,1,1],
     ["19","Pjmack75","RR","SUP",["39","DNS","–","–","–","–","–","–"],39,0,"-234",39,1,0,0],
     ["20","ricreene","R3","SUP",["–","–","35","–","–","–","–","–"],35,0,"-238",35,1,0,0],
     ["21","MalevolentOne666","MT","NA",["–","–","DNS","–","–","–","–","–"],0,0,"-273",0,0,0,0]
