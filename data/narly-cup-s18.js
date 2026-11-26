@@ -1,5 +1,5 @@
 // Trailblazers Narly Cup GT500, Season 18 (Thursday series).
-// Transcribed from the club's Round 1-7 result images and the standings image (after Round 5); standings after Round 6 worked out from the results.
+// Transcribed from the club's Round 1-8 result images and the standings image (after Round 5); standings after Round 6 worked out from the results.
 // Driver names use the WJF Trophy standings spelling where the driver also races there.
 
 window.SERIES = window.SERIES || {};
@@ -15,18 +15,20 @@ window.SERIES["narly-cup"] = {
   seriesLine: "Trailblazers S18 Narlycup GT500",
   pages: { results: "narly-cup.html", championship: "narly-cup-championship.html", calendar: "narly-cup-calendar.html", records: "records-drivers.html?series=narly-cup", teamrecords: "records-teams.html?series=narly-cup", champions: "records-titles.html?series=narly-cup" },
   hasLobbies: false,
+  provisional: { rounds: [8], text: "Results pending Round 8 stewards\u2019 reviews" },
   // Provisional until the club confirms stewards' reviews are done (remove when told).
   resultNotes: ["DNS = did not start", "DNF = did not finish (no points)", "DQ = disqualified", "DC and RGQ shown as listed in the results"],
   source: "Results transcribed from the club's Round 1–6 result sheets.",
   standingsRules: "Points: 1st 45, 2nd 43, 3rd 41, 4th 40, then 1 point less per position. TOTAL = all rounds before the drop. DROP = points removed by the one drop round per season (0 if a round was missed). DC scores its finishing position. DNS scores 0 and counts as the drop. RGQ and DQ (disqualification) score 0 and are not a drop round (next-lowest score is dropped instead). Ties split on countback: most wins, then 2nds, 3rds and so on.",
   standingsKey: ["swatches", "dropped", "* = DC, scored on finishing position", "DNF = did not finish (0 pts)", "DQ = disqualified", "– = did not enter"],
-  standingsSource: "Standings after Round 7 worked out from the round results with the club’s rules (Rounds 1–5 as published by the club) (includes the Round 2 disqualification). Starts, wins and podiums counted from the round results.",
+  standingsSource: "Standings after Round 8 worked out from the round results with the club’s rules (Rounds 1–5 as published by the club) (includes the Round 2 disqualification). Starts, wins and podiums counted from the round results.",
 
   teams: {
     RR: { name: "Roadsick Racing", colour: "#FACC15" },
     MT: { name: "Mad Turtle Racing", colour: "#34C46E" },
     R3: { name: "Triple R Motorsport", colour: "#F0524A" },
-    GB: { name: "Gerbil Racing Team", colour: "#F08A2C" }
+    GB: { name: "Gerbil Racing Team", colour: "#F08A2C" },
+    PV: { name: "Privateer", colour: "#8C939D" }
   },
 
   cars: {
@@ -169,32 +171,50 @@ window.SERIES["narly-cup"] = {
         ["Fatalreaper666","MT","","GTR","53:28.034","+57.826","+0.072","1:33.827","c"],
         ["Colin_t24","RR","","NA","DNS","DNS","","","o"]
       ]
+    },
+    {
+      no: 8, track: "St Croix Layout B", short: "St Croix",
+      entries: 11, starters: 11, leadLap: 9,
+      rows: [
+        ["Rollscanhardly","PV","","SUP","50:35.658","Winner","","2:08.836","c"],
+        ["iphonedoc","RR","","GTR","50:49.459","+13.801","+13.801","2:09.479","c"],
+        ["MasoMarvel87","RR","","GTR","50:57.917","+22.259","+8.458","2:10.110","c"],
+        ["Trickybrewer","R3","","SUP","51:01.463","+25.805","+3.546","2:10.231","c"],
+        ["Kezaudio","RR","","SUP","51:02.185","+26.527","+0.722","2:10.199","c"],
+        ["MAD_MITCH_76","MT","","SUP","51:17.679","+42.021","+15.494","2:09.520","c"],
+        ["GLR_Scotty","MT","","SUP","51:18.253","+42.595","+0.574","2:09.872","c"],
+        ["capella13b","GB","","SUP","51:42.854","+1:07.196","+24.601","2:11.154","c"],
+        ["Hamitothebone","MT","","SUP","51:43.599","+1:07.941","+0.745","2:10.678","c"],
+        ["GGCAS_39","R3","","SUP","1 Lap","+1 Lap","","2:11.306","l"],
+        ["Fatalreaper666","MT","","GTR","DNF","DNF","","2:10.278","o"]
+      ]
     }
   ],
   // Standings after Round 7, worked out from the round results with the club's rules (no club standings image yet).
-  // [pos, driver, team, car, [R1..R7], total, drop, gap, points, starts, wins, podiums]
+  // [pos, driver, team, car, [R1..R8], total, drop, gap, points, starts, wins, podiums]
   // Round cell codes: "43p2" = 43 pts, 2nd in that round; "33d" = dropped; "41p3d" = dropped podium; "*" suffix = DC; "DNS"; "DNF"; "RGQ"; "DQ"; "–" = did not enter
-  standingsAfter: 7,
+  standingsAfter: 8,
   standings: [
-    ["1","MAD_MITCH_76","MT","SUP",["34d","37","38","43p2","38","38","41p3"],269,-34,"Leader",235,7,0,2],
-    ["2","iphonedoc","RR","GTR",["38","30","43p2","38","41p3","DNS","40"],230,0,"-5",230,6,0,2],
-    ["3","Trickybrewer","R3","SUP",["40","38","37","DNS","33","36","43p2"],227,0,"-8",227,6,0,1],
-    ["4","GLR_Scotty","MT","SUP",["36","40","34","39","–","39","39"],227,0,"-8",227,6,0,0],
-    ["5","Colin_t24","RR","SUP",["45p1","DQ","45p1","41p3","43p2","45p1","DNS"],219,0,"-16",219,6,3,5],
-    ["6","capella13b","GB","SUP",["32d","34","32","36","34","37","38"],243,-32,"-24",211,7,0,0],
-    ["7","MasoMarvel87","RR","GTR",["–","43p2","–","40","39","43p2","45p1"],210,0,"-25",210,5,1,3],
-    ["8","Fatalreaper666","MT","GTR",["35","36","36","RGQ","35d","35","35"],212,-35,"-58",177,7,0,0],
-    ["9","brettubrettu26","MT","SUP",["–","–","40","45p1","36","40","–"],161,0,"-74",161,4,1,1],
-    ["10","WallFinder","MT","GTR",["43p2","33d","41p3","37","40","–","–"],194,-33,"-74",161,5,0,2],
-    ["11","Kezaudio","RR","SUP",["41p3","41p3","–","–","–","41p3","37"],160,0,"-75",160,4,0,3],
-    ["12","Tankneo-1","R3","GTR",["30*","29","39","RGQ","37","RGQ","–"],135,0,"-100",135,6,0,0],
-    ["13","Hamitothebone","MT","SUP",["33","35","–","–","–","–","36"],104,0,"-131",104,3,0,0],
-    ["14","GGCAS_39","R3","SUP",["–","32","33","35","DNF","–","–"],100,0,"-135",100,4,0,0],
-    ["15","S7R_Ando787","RR","SUP",["–","45p1","–","–","45p1","–","–"],90,0,"-145",90,2,2,2],
-    ["16","Tim_turtle_79","MT","GTR",["37","39","RGQ","–","–","–","–"],76,0,"-159",76,3,0,0],
-    ["17","RiotheSpeedster","R3","GTR",["31","31","–","–","–","–","–"],62,0,"-173",62,2,0,0],
-    ["18","Pjmack75","RR","SUP",["39","DNS","–","–","–","–","–"],39,0,"-196",39,1,0,0],
-    ["19","ricreene","R3","SUP",["–","–","35","–","–","–","–"],35,0,"-200",35,1,0,0],
-    ["20","MalevolentOne666","MT","NA",["–","–","DNS","–","–","–","–"],0,0,"-235",0,0,0,0]
+    ["1","iphonedoc","RR","GTR",["38","30","43p2","38","41p3","DNS","40","43p2"],273,0,"Leader",273,7,0,3],
+    ["2","MAD_MITCH_76","MT","SUP",["34d","37","38","43p2","38","38","41p3","38"],307,-34,"0",273,8,0,2],
+    ["3","Trickybrewer","R3","SUP",["40","38","37","DNS","33","36","43p2","40"],267,0,"-6",267,7,0,1],
+    ["4","GLR_Scotty","MT","SUP",["36","40","34","39","–","39","39","37"],264,0,"-9",264,7,0,0],
+    ["5","MasoMarvel87","RR","GTR",["–","43p2","–","40","39","43p2","45p1","41p3"],251,0,"-22",251,6,1,4],
+    ["6","capella13b","GB","SUP",["32d","34","32","36","34","37","38","36"],279,-32,"-26",247,8,0,0],
+    ["7","Colin_t24","RR","SUP",["45p1","DQ","45p1","41p3","43p2","45p1","DNS","–"],219,0,"-54",219,6,3,5],
+    ["8","Kezaudio","RR","SUP",["41p3","41p3","–","–","–","41p3","37","39"],199,0,"-74",199,5,0,3],
+    ["9","Fatalreaper666","MT","GTR",["35","36","36","RGQ","35d","35","35","DNF"],212,-35,"-96",177,8,0,0],
+    ["10","brettubrettu26","MT","SUP",["–","–","40","45p1","36","40","–","–"],161,0,"-112",161,4,1,1],
+    ["11","WallFinder","MT","GTR",["43p2","33d","41p3","37","40","–","–","–"],194,-33,"-112",161,5,0,2],
+    ["12","Hamitothebone","MT","SUP",["33","35","–","–","–","–","36","35"],139,0,"-134",139,4,0,0],
+    ["13","Tankneo-1","R3","GTR",["30*","29","39","RGQ","37","RGQ","–","–"],135,0,"-138",135,6,0,0],
+    ["14","GGCAS_39","R3","SUP",["–","32","33","35","DNF","–","–","34"],134,0,"-139",134,5,0,0],
+    ["15","S7R_Ando787","RR","SUP",["–","45p1","–","–","45p1","–","–","–"],90,0,"-183",90,2,2,2],
+    ["16","Tim_turtle_79","MT","GTR",["37","39","RGQ","–","–","–","–","–"],76,0,"-197",76,3,0,0],
+    ["17","RiotheSpeedster","R3","GTR",["31","31","–","–","–","–","–","–"],62,0,"-211",62,2,0,0],
+    ["18","Rollscanhardly","PV","SUP",["–","–","–","–","–","–","–","45p1"],45,0,"-228",45,1,1,1],
+    ["19","Pjmack75","RR","SUP",["39","DNS","–","–","–","–","–","–"],39,0,"-234",39,1,0,0],
+    ["20","ricreene","R3","SUP",["–","–","35","–","–","–","–","–"],35,0,"-238",35,1,0,0],
+    ["21","MalevolentOne666","MT","NA",["–","–","DNS","–","–","–","–","–"],0,0,"-273",0,0,0,0]
   ]
 };

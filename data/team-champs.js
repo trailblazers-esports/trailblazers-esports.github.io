@@ -264,10 +264,10 @@ window.TEAM_CHAMPS = {
   "narly-cup": {
     scale: 12,
     teams: {
-      "Roadsick Racing": [30, 33, 23, 26, 33, 33, 27],
-      "Mad Turtle Racing": [24, 23, 26, 31, 23, 24, 23],
-      "Triple R Motorsport": [13, 14, 19, 5, 11, 5, 11],
-      "Gerbil Racing Team": [5, 5, 4, 6, 5, 6, 7]
+      "Roadsick Racing": [30, 33, 23, 26, 33, 33, 27, 32],
+      "Mad Turtle Racing": [24, 23, 26, 31, 23, 24, 23, 20],
+      "Triple R Motorsport": [13, 14, 19, 5, 11, 5, 11, 14],
+      "Gerbil Racing Team": [5, 5, 4, 6, 5, 6, 7, 6]
     }
   },
   "gt3-endurance": {
