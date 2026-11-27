@@ -273,11 +273,11 @@ window.TEAM_CHAMPS = {
   "gt3-endurance": {
     scale: 15,
     teams: {
-      "Mad Turtle Racing": [36, 33, 31, 39, 29, 35, 33],
-      "Triple R Motorsport": [27, 31, 36, 17, 26, 12, 22],
-      "MC Motorsport": [14, 29, 15, 15, 25, 37, 23],
-      "Gerbil Racing Team": [16, 12, 0, 23, 13, 21, 23],
-      "Roadsick Racing": [21, 9, 10, 11, 24, 0, 9]
+      "Mad Turtle Racing": [36, 33, 31, 39, 29, 35, 33, 38],
+      "Triple R Motorsport": [27, 31, 36, 17, 26, 12, 22, 16],
+      "MC Motorsport": [14, 29, 15, 15, 25, 37, 23, 27],
+      "Gerbil Racing Team": [16, 12, 0, 23, 13, 21, 23, 20],
+      "Roadsick Racing": [21, 9, 10, 11, 24, 0, 9, 9]
     }
   },
   // GT7 Season 11 – club's "Trailblazers Season 11 Team Championship Standings" sheet (checked 3 Nov 2026; kept as the sheet – club decision).
