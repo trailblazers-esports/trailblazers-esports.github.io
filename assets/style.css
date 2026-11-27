@@ -854,3 +854,7 @@ html.smopen { overflow: hidden; }
 .hwcwr.top { font-weight: 600; }
 .hwcwr.top .pc { font-size: 20px; }
 .hwcwf { margin-top: 4px; font-size: 12px; color: var(--soft); text-align: right; }
+.trtab { color: #E9B935 !important; }
+.trtab .tab-short { display: none; }
+@media (max-width: 640px) { .trtab .tab-long { display: none; } .trtab .tab-short { display: inline; } }
+.card .btns .trbtn { border-color: rgba(233,185,53,.55); color: #E9B935; }

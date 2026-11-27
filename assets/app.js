@@ -93,7 +93,9 @@
     var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", '<span class="tab-long">Championship </span>Standings'], ["calendar", "Calendar"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
     if (!RECORD_PAGES.test(page)) $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
       var href = S.pages[t[0]] ? S.pages[t[0]] + (t[0] === "calendar" ? "" : seasonQuery(S)) : BASE.pages[t[0]];
-      return '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
+      return '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>" +
+        // Title race tab next to Standings while the current season is running
+        (t[0] === "championship" && S === BASE && !S.final && (S.roundCount || 10) > (S.standingsAfter || 0) ? '<a class="trtab" href="' + (S.pages.championship || BASE.pages.championship) + '#wcw"><span class="tab-long">Who can still win?</span><span class="tab-short">Title race</span></a>' : "");
     }).join("") : "";
     if (!RECORD_PAGES.test(page) && tabs.length < 2) $("pageNav").hidden = true;
 
@@ -1248,7 +1250,7 @@
               return '<div class="hwcwr' + (i ? "" : " top") + '"><span class="nm"><i style="background:' + tm(o.team).colour + '"></i>' + esc(o.name) + '</span><span class="hbar"><b style="width:' + Math.max(2, Math.round(o.chance * 100)) + '%"></b></span><span class="pc">' + pc(o.chance) + "</span></div>";
             }).join("") + '<div class="hwcwf">Who can still win? \u2192</div></a>';
         })() +
-        '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a></div></article>';
+        '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a>' + (!x.final && (x.roundCount || 10) > (x.standingsAfter || 0) ? '<a class="trbtn" href="' + x.pages.championship + '#wcw">Title race</a>' : "") + "</div></article>";
     }).join("");
   }
 
