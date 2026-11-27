@@ -985,6 +985,39 @@
   }
 
   /* "Who can still win?" – current season driver standings only. */
+  /* Each driver's record at a track, all series and seasons: races, average finishing position, wins,
+     and a "form" score = how much better (or worse) they finish there than they do everywhere else. */
+  function trackForm(track) {
+    var all = {}, at = {};
+    var add = function (name, pos, field, here) {
+      if (field < 2) return; var pct = 1 - (pos - 1) / (field - 1);
+      var a = all[name] = all[name] || { n: 0, s: 0 }; a.n++; a.s += pct;
+      if (here) { var t = at[name] = at[name] || { n: 0, s: 0, pos: 0, wins: 0, best: 99 }; t.n++; t.s += pct; t.pos += pos; if (pos === 1) t.wins++; if (pos < t.best) t.best = pos; }
+    };
+    Object.keys(ALL).forEach(function (k) {
+      var x = ALL[k];
+      if (x.standingsFormat === "archive" && x.roundNames) {
+        x.roundNames.forEach(function (nm, i) {
+          if (!nm) return; var here = trackOf(nm) === track;
+          var sc = (x.standings || []).map(function (r) { var c = String((r[3] || [])[i] || ""); return [r[1], /^\d/.test(c) ? parseInt(c, 10) : null]; }).filter(function (z) { return z[1] !== null && z[1] > 0; });
+          sc.sort(function (a, b) { return b[1] - a[1]; });
+          sc.forEach(function (z, j) { var pos = 1 + sc.filter(function (y) { return y[1] > z[1]; }).length; add(z[0], pos, sc.length, here); });
+        });
+      } else if (x.rounds && !x.final) {
+        x.rounds.forEach(function (rd) {
+          var here = trackOf(rd.track || rd.short) === track, fin = rd.rows.filter(function (r) { return r[8] !== "o"; });
+          fin.forEach(function (r, j) { add(r[0], j + 1, fin.length, here); });
+        });
+      }
+    });
+    var out = {};
+    Object.keys(at).forEach(function (n) {
+      var t = at[n], a = all[n], diff = t.s / t.n - a.s / a.n;
+      out[n] = { n: t.n, avg: t.pos / t.n, wins: t.wins, best: t.best, form: diff * t.n / (t.n + 3) };
+    });
+    return out;
+  }
+
   function wcwBox() {
     var box = $("wcw");
     if (!box) { box = document.createElement("section"); box.id = "wcw"; box.className = "wcw"; $("tiles").parentNode.insertBefore(box, $("tiles").nextSibling); }
@@ -1002,6 +1035,11 @@
     var lead = rows[0];
     rows.forEach(function (o) { o.gap = lead.pts - o.pts; o.out = o.max < lead.pts; o.fight = !o.out && o.gap <= 45; });
     var fight = rows.filter(function (o) { return o.fight; }), poss = rows.filter(function (o) { return !o.out && !o.fight; }), out = rows.filter(function (o) { return o.out; });
+    // remaining tracks (TBC rounds get no track adjustment)
+    var CAL = window.CALENDAR, nextRd = [];
+    for (var rr = done + 1; rr <= total; rr++) { var cr = CAL && CAL.rounds.filter(function (q) { return q.no === rr; })[0]; nextRd.push(cr && !cr.tbc ? trackOf(cr.track) : null); }
+    var forms = nextRd.map(function (t) { return t ? trackForm(t) : null; });
+    var nextTrack = nextRd[0], nextForm = forms[0];
     /* Win chance: simulate the remaining rounds 20,000 times.
        Strength = Bradley-Terry fit of this season's head-to-heads (who scored more in rounds both raced),
        attendance = share of rounds entered so far, points 45/43/41/40… by finishing order, drop rules applied. */
@@ -1037,8 +1075,8 @@
       for (var sim = 0; sim < SIMS; sim++) {
         extra = rows.map(function (o, i2) { return sc[i2].slice(); });
         for (r = 0; r < left; r++) {
-          idx = []; var badN = [];
-          for (i = 0; i < n; i++) if (rnd() < att[i]) { if (rnd() < inc[i]) badN.push(i); else { idx.push(i); perf[i] = lp[i] - Math.log(-Math.log(rnd() || 1e-12)); } }
+          idx = []; var badN = [], fm = forms[r];
+          for (i = 0; i < n; i++) if (rnd() < att[i]) { if (rnd() < inc[i]) badN.push(i); else { idx.push(i); perf[i] = lp[i] + (fm && fm[rows[i].name] ? 2.5 * fm[rows[i].name].form : 0) - Math.log(-Math.log(rnd() || 1e-12)); } }
           idx.sort(function (x, y) { return perf[y] - perf[x]; });
           var got = {}; idx.forEach(function (d2, pos) { got[d2] = PTS(pos); }); badN.forEach(function (d2) { got[d2] = -1; });
           for (i = 0; i < n; i++) extra[i].push(got[i] !== undefined ? got[i] : null);
@@ -1059,14 +1097,18 @@
       }
       rows.forEach(function (o, i2) { o.chance = wins[i2] / SIMS; });
     })();
+    fight.sort(function (a, b) { return b.chance - a.chance || a.gap - b.gap; });
+    var topC = fight[0];
     var pct = function (c) { return c <= 0 ? "0%" : c < 0.01 ? "<1%" : c > 0.99 && c < 1 ? ">99%" : Math.round(c * 100) + "%"; };
     var bar = ""; for (var i = 1; i <= total; i++) bar += '<span class="' + (i <= done ? "on" : "") + '"></span>';
     var card = function (o) {
       var t = team(o.team);
-      return '<div class="wcwc' + (o === lead ? " lead" : "") + '" style="--tc:' + t.colour + '"><div class="wcwn">' + plink(o.name) + '</div><div class="wcwt">' + esc(t.name) + '</div>' +
+      var tf = nextForm && nextForm[o.name], ord = function (k2) { return k2 + (k2 % 10 === 1 && k2 !== 11 ? "st" : k2 % 10 === 2 && k2 !== 12 ? "nd" : k2 % 10 === 3 && k2 !== 13 ? "rd" : "th"); };
+      var tline = !nextTrack ? "" : tf ? '<div class="wcwtf"><span>' + esc(nextTrack) + '</span> ' + tf.n + " race" + (tf.n > 1 ? "s" : "") + " \u00b7 avg " + ord(Math.round(tf.avg)) + (tf.wins ? " \u00b7 <b>" + tf.wins + " win" + (tf.wins > 1 ? "s" : "") + "</b>" : " \u00b7 best " + ord(tf.best)) + "</div>" : '<div class="wcwtf"><span>' + esc(nextTrack) + "</span> no races here yet</div>";
+      return '<div class="wcwc' + (o === lead ? " lead" : "") + (o === topC ? " top" : "") + '" style="--tc:' + t.colour + '"><div class="wcwn">' + plink(o.name) + '</div><div class="wcwt">' + esc(t.name) + '</div>' +
         '<div class="wcws"><span><b>' + o.pts + "</b> pts</span><span>" + (o === lead ? '<b class="ld">Leader</b>' : o.gap === 0 ? '<b class="ld">Level</b>' : "<b>\u2212" + o.gap + "</b>") + "</span><span>max <b>" + o.max + "</b></span></div>" +
         '<div class="wcwp"><div class="wcwpt"><span>Win chance</span><b>' + pct(o.chance) + '</b></div><div class="wcwpb"><i style="width:' + Math.max(1, Math.round(o.chance * 100)) + '%"></i></div>' +
-        '<div class="wcwh2h">' + (o === lead ? "Leader" : "H2H vs<span class=\"hide-sm\"> drivers</span> ahead <b>" + o.h2hW + "\u2013" + o.h2hL + "</b>") + "</div></div></div>";
+        "</div>" + tline + "</div>";
     };
     box.innerHTML = '<div class="wcwh"><div><div class="label">Title race</div><h2>Who can still win?</h2>' +
       '<div class="sub">' + left + " round" + (left > 1 ? "s" : "") + " left \u00b7 up to " + left * 45 + " more points each \u00b7 a win is worth 45</div></div>" +
@@ -1074,7 +1116,7 @@
       '<div class="wcwg"><div class="label">In the fight <span>within one win of the lead</span></div><div class="wcwcards">' + fight.map(card).join("") + "</div></div>" +
       (poss.length ? '<div class="wcwg"><div class="label">Still mathematically possible <span>need the leaders to slip</span></div><div class="wcwchips">' + poss.map(function (o) { return '<span class="wcwchip" style="--tc:' + team(o.team).colour + '">' + plink(o.name) + " <i>\u2212" + o.gap + " \u00b7 max " + o.max + " \u00b7 <em>" + pct(o.chance) + "</em></i></span>"; }).join("") + "</div></div>" : "") +
       (out.length ? '<details class="wcwg wcwout"><summary class="label">Out of contention <span>' + out.length + " drivers \u00b7 can\u2019t reach " + lead.pts + " pts</span></summary><div class=\"wcwx\">" + out.map(function (o) { return "<s>" + esc(o.name) + "</s>"; }).join(" ") + "</div></details>" : "") +
-      '<p class="wcwnote">Max = points if they win every remaining round, with their drop applied (a driver only gets a drop if they enter every round). Anyone whose max is below the leader\u2019s current total can\u2019t win the title. Win chance comes from 20,000 simulations of the remaining rounds, based on this season\u2019s results: how often each driver has beaten the others head to head, how often they\u2019ve started a race, how often they\u2019ve had a bad night (RGQ, DNF, DQ), the points gap and the drop and countback rules. It\u2019s a guide for fun, not a prediction.</p>';
+      '<p class="wcwnote">Max = points if they win every remaining round, with their drop applied (a driver only gets a drop if they enter every round). Anyone whose max is below the leader\u2019s current total can\u2019t win the title. Win chance comes from 20,000 simulations of the remaining rounds, based on this season\u2019s head-to-head results, how often each driver starts and has a bad night (RGQ, DNF, DQ), and their record at the next track across every season and series on the site (how much better or worse they finish there than everywhere else), plus the points gap, drop and countback rules. TBC tracks get no track adjustment. It\u2019s a guide for fun, not a prediction.</p>';
   }
 
   function championshipPage() {
