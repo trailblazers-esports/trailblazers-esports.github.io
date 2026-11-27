@@ -1242,15 +1242,8 @@
         })() +
         '<div class="facts">' + (lr ? "Last winner: <b>" + esc(lr.rows[0][0]) + "</b> · " + esc(lr.short) + "<br>" : "") +
         (past ? "Season " + past.season + " champion: <b>" + esc(past.standings[0][1]) + "</b>" : "") + "</div>" +
-        (function () {
-          var w = wcwBox(x, true); if (!w || !w.fight.length) return "";
-          var pc = function (c) { return c < 0.01 ? "<1%" : c > 0.99 ? ">99%" : Math.round(c * 100) + "%"; };
-          return '<a class="hwcw" href="' + x.pages.championship + '#wcw"><div class="hwcwh"><span>Title race</span><em>' + w.left + " round" + (w.left > 1 ? "s" : "") + " left</em></div>" +
-            w.fight.slice(0, 2).map(function (o, i) {
-              return '<div class="hwcwr' + (i ? "" : " top") + '"><span class="nm"><i style="background:' + tm(o.team).colour + '"></i>' + esc(o.name) + '</span><span class="hbar"><b style="width:' + Math.max(2, Math.round(o.chance * 100)) + '%"></b></span><span class="pc">' + pc(o.chance) + "</span></div>";
-            }).join("") + '<div class="hwcwf">Who can still win? \u2192</div></a>';
-        })() +
-        '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a>' + (!x.final && (x.roundCount || 10) > (x.standingsAfter || 0) ? '<a class="trbtn" href="' + x.pages.championship + '#wcw">Title race</a>' : "") + "</div></article>";
+
+        '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a>' + "</div></article>";
     }).join("");
   }
 
@@ -2163,7 +2156,13 @@
     panel.innerHTML = '<div class="smshade" data-close></div><nav class="smpanel" aria-label="Site menu"><div class="smtop"><span>Menu</span><button type="button" class="smclose" aria-label="Close menu" data-close>&times;</button></div>' +
       '<div class="smsec">Records</div>' + REC.map(item).join("") +
       '<div class="smsec">Profiles</div>' + item(["driver.html", "Driver Profiles", "Every driver, past and present"]) + item(["team.html", "Team Profiles", "Every team\u2019s history and line-up"]) + item(["compare.html", "Head to Head", "Compare any two drivers"]) +
-      '<div class="smsec">Season ' + ((window.CALENDAR || {}).season || 18) + "</div>" + item(["season-calendar.html", "Calendar", "Every round, all three series"]) + "</nav>";
+      '<div class="smsec">Season ' + ((window.CALENDAR || {}).season || 18) + "</div>" + item(["season-calendar.html", "Calendar", "Every round, all three series"]) +
+      (function () {
+        var live = ["wrx-evo-gr4", "narly-cup", "gt3-endurance"].map(function (id) { return ALL[id]; }).filter(function (x) { return x && !x.final && (x.roundCount || 10) > (x.standingsAfter || 0); });
+        if (!live.length) return "";
+        var SHN = { "wrx-evo-gr4": "Tuesday", "narly-cup": "Narly Cup", "gt3-endurance": "WJF Trophy" };
+        return '<div class="smtr"><b>Title Race</b><span>Who can still win?</span><div class="smtrl">' + live.map(function (x) { return '<a href="' + x.pages.championship + '#wcw">' + SHN[x.id] + "</a>"; }).join("") + "</div></div>";
+      })() + "</nav>";
     document.body.appendChild(panel);
     var open = function (on) { panel.hidden = !on; btn.setAttribute("aria-expanded", on ? "true" : "false"); document.documentElement.classList.toggle("smopen", on); if (on) panel.querySelector(".smpanel a").focus(); else btn.focus(); };
     btn.addEventListener("click", function () { open(panel.hidden); });

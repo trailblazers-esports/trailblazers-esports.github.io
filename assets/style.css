@@ -839,22 +839,11 @@ html.smopen { overflow: hidden; }
   .wcwc:not(.top) .wcwtf { grid-area: f; margin-top: 3px; }
   .wcwc:not(.top) .wcwp .wcwtf { display: none; }
 }
-/* Home cards: title race teaser */
-.hwcw { display: block; margin: 12px 0 14px; padding: 10px 12px; border: 1px solid rgba(233,185,53,.4); border-radius: 10px; background: linear-gradient(135deg, rgba(233,185,53,.10), rgba(0,0,0,.15)); text-decoration: none; color: inherit; }
-.hwcw:hover { border-color: #E9B935; }
-.hwcwh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
-.hwcwh span { font: 600 12px var(--cond); letter-spacing: .14em; text-transform: uppercase; color: #E9B935; }
-.hwcwh em { font-style: normal; font-size: 12px; color: var(--muted); }
-.hwcwr { display: grid; grid-template-columns: minmax(0, 1fr) 70px 44px; align-items: center; gap: 8px; font-size: 14px; padding: 3px 0; }
-.hwcwr .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.hwcwr .nm i { display: inline-block; width: 4px; height: 13px; border-radius: 2px; margin-right: 7px; vertical-align: -2px; }
-.hwcwr .hbar { height: 5px; border-radius: 3px; background: rgba(255,255,255,.1); overflow: hidden; }
-.hwcwr .hbar b { display: block; height: 100%; background: linear-gradient(90deg, #E9B935, #FFE27A); }
-.hwcwr .pc { text-align: right; font: 700 17px var(--cond); color: #E9B935; }
-.hwcwr.top { font-weight: 600; }
-.hwcwr.top .pc { font-size: 20px; }
-.hwcwf { margin-top: 4px; font-size: 12px; color: var(--soft); text-align: right; }
 .trtab { color: #E9B935 !important; }
 .trtab .tab-short { display: none; }
 @media (max-width: 640px) { .trtab .tab-long { display: none; } .trtab .tab-short { display: inline; } }
-.card .btns .trbtn { border-color: rgba(233,185,53,.55); color: #E9B935; }
+.smtr { padding: 10px 12px; }
+.smtr > b { display: block; font-family: var(--cond); font-size: 18px; letter-spacing: .06em; text-transform: uppercase; color: #E9B935; }
+.smtr > span { display: block; font-size: 13px; color: var(--dim); margin-top: 1px; }
+.smtrl { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.smpanel .smtrl a { flex: 1; text-align: center; padding: 7px 6px; font-family: var(--cond); font-weight: 600; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid rgba(233,185,53,.45); color: #E9B935; white-space: nowrap; }
