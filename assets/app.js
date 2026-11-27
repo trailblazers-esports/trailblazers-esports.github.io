@@ -1002,19 +1002,68 @@
     var lead = rows[0];
     rows.forEach(function (o) { o.gap = lead.pts - o.pts; o.out = o.max < lead.pts; o.fight = !o.out && o.gap <= 45; });
     var fight = rows.filter(function (o) { return o.fight; }), poss = rows.filter(function (o) { return !o.out && !o.fight; }), out = rows.filter(function (o) { return o.out; });
+    /* Win chance: simulate the remaining rounds 20,000 times.
+       Strength = Bradley-Terry fit of this season's head-to-heads (who scored more in rounds both raced),
+       attendance = share of rounds entered so far, points 45/43/41/40… by finishing order, drop rules applied. */
+    (function () {
+      var n = rows.length, k = done, i, j, r;
+      var sc = rows.map(function (o) { return o.r[4].map(function (c) { return /^\d/.test(c) ? parseInt(c, 10) : (c === "RGQ" || c === "DNF" || c === "DQ" ? -1 : null); }); });
+      var W = new Array(n).fill(0), N = [];
+      for (i = 0; i < n; i++) { N.push(new Array(n).fill(0)); }
+      rows.forEach(function (o) { o.h2hW = 0; o.h2hL = 0; });
+      for (r = 0; r < k; r++) for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {
+        var a = sc[i][r], b = sc[j][r]; if (a === null || b === null || a === b) continue;
+        N[i][j]++; N[j][i]++; if (a > b) W[i]++; else W[j]++;
+        if (j < i) continue;
+        // head-to-head of each driver against the drivers ahead of them in the standings
+        if (a > b) { rows[j].h2hL++; } else { rows[j].h2hW++; }
+      }
+      var p = new Array(n).fill(1), A = 3;
+      for (var it = 0; it < 200; it++) {
+        var q = p.slice();
+        for (i = 0; i < n; i++) { var d = 2 * A / (p[i] + 1); for (j = 0; j < n; j++) if (N[i][j]) d += N[i][j] / (p[i] + p[j]); q[i] = (W[i] + A) / d; }
+        p = q;
+      }
+      var att = rows.map(function (o) { if (o.name === "WallFinder") return 0; var e = o.r[4].filter(function (c) { return c !== "\u2013" && c !== "-"; }).length; return e / k; });
+      var seed = 12345 + done * 7919; var rnd = function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+      var lp = p.map(function (x) { return Math.log(x); }), PTS = function (pos) { return pos === 0 ? 45 : pos === 1 ? 43 : pos === 2 ? 41 : 44 - (pos + 1); };
+      var wins = new Array(n).fill(0), SIMS = 20000, idx = [], perf = new Array(n), extra = [], tot = new Array(n);
+      for (var sim = 0; sim < SIMS; sim++) {
+        extra = rows.map(function (o, i2) { return sc[i2].slice(); });
+        for (r = 0; r < left; r++) {
+          idx = []; for (i = 0; i < n; i++) if (rnd() < att[i]) { idx.push(i); perf[i] = lp[i] - Math.log(-Math.log(rnd() || 1e-12)); }
+          idx.sort(function (x, y) { return perf[y] - perf[x]; });
+          var got = {}; idx.forEach(function (d2, pos) { got[d2] = PTS(pos); });
+          for (i = 0; i < n; i++) extra[i].push(got[i] !== undefined ? got[i] : null);
+        }
+        var best = -1, bi = [];
+        for (i = 0; i < n; i++) {
+          var cells = extra[i], sum = 0, low = Infinity, ok = true, dnsd = rows[i].r[4].indexOf("DNS") >= 0;
+          for (r = 0; r < total; r++) { var v = cells[r]; if (v > 0) sum += v; if (r < total - 1) { if (v === null || v === undefined) ok = false; else if (v > 0 && v < low) low = v; } }
+          if (rows[i].name === "WallFinder") { ok = true; }
+          tot[i] = sum - (ok && !dnsd && low < Infinity ? low : 0);
+          if (tot[i] > best) { best = tot[i]; bi = [i]; } else if (tot[i] === best) bi.push(i);
+        }
+        wins[bi[Math.floor(rnd() * bi.length)]]++;
+      }
+      rows.forEach(function (o, i2) { o.chance = wins[i2] / SIMS; });
+    })();
+    var pct = function (c) { return c <= 0 ? "0%" : c < 0.01 ? "<1%" : c > 0.99 && c < 1 ? ">99%" : Math.round(c * 100) + "%"; };
     var bar = ""; for (var i = 1; i <= total; i++) bar += '<span class="' + (i <= done ? "on" : "") + '"></span>';
     var card = function (o) {
       var t = team(o.team);
       return '<div class="wcwc' + (o === lead ? " lead" : "") + '" style="--tc:' + t.colour + '"><div class="wcwn">' + plink(o.name) + '</div><div class="wcwt">' + esc(t.name) + '</div>' +
-        '<div class="wcws"><span><b>' + o.pts + "</b> pts</span><span>" + (o === lead ? '<b class="ld">Leader</b>' : o.gap === 0 ? '<b class="ld">Level</b>' : "<b>\u2212" + o.gap + "</b>") + "</span><span>max <b>" + o.max + "</b></span></div></div>";
+        '<div class="wcws"><span><b>' + o.pts + "</b> pts</span><span>" + (o === lead ? '<b class="ld">Leader</b>' : o.gap === 0 ? '<b class="ld">Level</b>' : "<b>\u2212" + o.gap + "</b>") + "</span><span>max <b>" + o.max + "</b></span></div>" +
+        '<div class="wcwp"><div class="wcwpt"><span>Win chance</span><b>' + pct(o.chance) + '</b></div><div class="wcwpb"><i style="width:' + Math.max(1, Math.round(o.chance * 100)) + '%"></i></div>' +
+        '<div class="wcwh2h">' + (o === lead ? "Leader" : "H2H vs<span class=\"hide-sm\"> drivers</span> ahead <b>" + o.h2hW + "\u2013" + o.h2hL + "</b>") + "</div></div></div>";
     };
     box.innerHTML = '<div class="wcwh"><div><div class="label">Title race</div><h2>Who can still win?</h2>' +
       '<div class="sub">' + left + " round" + (left > 1 ? "s" : "") + " left \u00b7 up to " + left * 45 + " more points each \u00b7 a win is worth 45</div></div>" +
       '<div class="wcwbar" title="Round ' + done + " of " + total + '">' + bar + "</div></div>" +
       '<div class="wcwg"><div class="label">In the fight <span>within one win of the lead</span></div><div class="wcwcards">' + fight.map(card).join("") + "</div></div>" +
-      (poss.length ? '<div class="wcwg"><div class="label">Still mathematically possible <span>need the leaders to slip</span></div><div class="wcwchips">' + poss.map(function (o) { return '<span class="wcwchip" style="--tc:' + team(o.team).colour + '">' + plink(o.name) + " <i>\u2212" + o.gap + " \u00b7 max " + o.max + "</i></span>"; }).join("") + "</div></div>" : "") +
+      (poss.length ? '<div class="wcwg"><div class="label">Still mathematically possible <span>need the leaders to slip</span></div><div class="wcwchips">' + poss.map(function (o) { return '<span class="wcwchip" style="--tc:' + team(o.team).colour + '">' + plink(o.name) + " <i>\u2212" + o.gap + " \u00b7 max " + o.max + " \u00b7 <em>" + pct(o.chance) + "</em></i></span>"; }).join("") + "</div></div>" : "") +
       (out.length ? '<details class="wcwg wcwout"><summary class="label">Out of contention <span>' + out.length + " drivers \u00b7 can\u2019t reach " + lead.pts + " pts</span></summary><div class=\"wcwx\">" + out.map(function (o) { return "<s>" + esc(o.name) + "</s>"; }).join(" ") + "</div></details>" : "") +
-      '<p class="wcwnote">Max = points if they win every remaining round, with their drop applied (a driver only gets a drop if they enter every round). Anyone whose max is below the leader\u2019s current total can\u2019t win the title.</p>';
+      '<p class="wcwnote">Max = points if they win every remaining round, with their drop applied (a driver only gets a drop if they enter every round). Anyone whose max is below the leader\u2019s current total can\u2019t win the title. Win chance comes from 20,000 simulations of the remaining rounds, based on this season\u2019s results: how often each driver has beaten the others head to head, how often they\u2019ve turned up, and the points gap. It\u2019s a guide for fun, not a prediction.</p>';
   }
 
   function championshipPage() {
