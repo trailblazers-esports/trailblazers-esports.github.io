@@ -839,11 +839,10 @@ html.smopen { overflow: hidden; }
   .wcwc:not(.top) .wcwtf { grid-area: f; margin-top: 3px; }
   .wcwc:not(.top) .wcwp .wcwtf { display: none; }
 }
-.trtab { color: #E9B935 !important; }
-.trtab .tab-short { display: none; }
-@media (max-width: 640px) { .trtab .tab-long { display: none; } .trtab .tab-short { display: inline; } }
 .smtr { padding: 10px 12px; }
-.smtr > b { display: block; font-family: var(--cond); font-size: 18px; letter-spacing: .06em; text-transform: uppercase; color: #E9B935; }
+.smtr > b { display: block; font-family: var(--cond); font-size: 18px; letter-spacing: .06em; text-transform: uppercase; }
 .smtr > span { display: block; font-size: 13px; color: var(--dim); margin-top: 1px; }
 .smtrl { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-.smpanel .smtrl a { flex: 1; text-align: center; padding: 7px 6px; font-family: var(--cond); font-weight: 600; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid rgba(233,185,53,.45); color: #E9B935; white-space: nowrap; }
+.smpanel .smtrl a { flex: 1; text-align: center; padding: 7px 6px; font-family: var(--cond); font-weight: 600; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--border); color: var(--soft); white-space: nowrap; }
+.wcw#wcw { margin-top: 14px; }
+.wcw#wcw .wcwh > div > .label { display: none; }

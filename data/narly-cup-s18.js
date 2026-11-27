@@ -13,7 +13,7 @@ window.SERIES["narly-cup"] = {
   title: "Season 18 Narly Cup",
   eyebrow: "Trailblazers Narly Cup GT500 · Season 18 · Thursday series",
   seriesLine: "Trailblazers S18 Narlycup GT500",
-  pages: { results: "narly-cup.html", championship: "narly-cup-championship.html", calendar: "narly-cup-calendar.html", records: "records-drivers.html?series=narly-cup", teamrecords: "records-teams.html?series=narly-cup", champions: "records-titles.html?series=narly-cup" },
+  pages: { results: "narly-cup.html", championship: "narly-cup-championship.html", titlerace: "narly-cup-titlerace.html", calendar: "narly-cup-calendar.html", records: "records-drivers.html?series=narly-cup", teamrecords: "records-teams.html?series=narly-cup", champions: "records-titles.html?series=narly-cup" },
   hasLobbies: false,
   provisional: { rounds: [8], text: "Results pending Round 8 stewards\u2019 reviews" },
   // Provisional until the club confirms stewards' reviews are done (remove when told).

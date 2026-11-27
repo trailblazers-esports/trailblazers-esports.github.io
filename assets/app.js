@@ -90,12 +90,10 @@
       if (page === "seasoncal") $("pageNav").hidden = true; // the combined calendar is in the top menu now
     }
     // Series pages: current-season race results and championship standings only.
-    var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", '<span class="tab-long">Championship </span>Standings'], ["calendar", "Calendar"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
+    var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", '<span class="tab-long">Championship </span>Standings'], ["titlerace", "Title Race"], ["calendar", "Calendar"]].filter(function (t) { return t[0] === "titlerace" ? BASE.pages.titlerace && !BASE.final && (BASE.roundCount || 10) > (BASE.standingsAfter || 0) : S.pages[t[0]] || BASE.pages[t[0]]; });
     if (!RECORD_PAGES.test(page)) $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
-      var href = S.pages[t[0]] ? S.pages[t[0]] + (t[0] === "calendar" ? "" : seasonQuery(S)) : BASE.pages[t[0]];
-      return '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>" +
-        // Title race tab next to Standings while the current season is running
-        (t[0] === "championship" && S === BASE && !S.final && (S.roundCount || 10) > (S.standingsAfter || 0) ? '<a class="trtab" href="' + (S.pages.championship || BASE.pages.championship) + '#wcw"><span class="tab-long">Who can still win?</span><span class="tab-short">Title race</span></a>' : "");
+      var href = t[0] === "titlerace" ? BASE.pages.titlerace : S.pages[t[0]] ? S.pages[t[0]] + (t[0] === "calendar" ? "" : seasonQuery(S)) : BASE.pages[t[0]];
+      return '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
     }).join("") : "";
     if (!RECORD_PAGES.test(page) && tabs.length < 2) $("pageNav").hidden = true;
 
@@ -1102,7 +1100,6 @@
     fight.sort(function (a, b) { return b.chance - a.chance || a.gap - b.gap; });
     var topC = fight[0];
     if (calcOnly) return { fight: fight, left: left };
-    if (/wcw/.test(location.hash)) setTimeout(function () { box.scrollIntoView({ block: "start" }); }, 50);
     var pct = function (c) { return c <= 0 ? "0%" : c < 0.01 ? "<1%" : c > 0.99 && c < 1 ? ">99%" : Math.round(c * 100) + "%"; };
     var bar = ""; for (var i = 1; i <= total; i++) bar += '<span class="' + (i <= done ? "on" : "") + '"></span>';
     var card = function (o) {
@@ -1123,9 +1120,18 @@
       '<p class="wcwnote">Max = points if they win every remaining round, with their drop applied (a driver only gets a drop if they enter every round). Anyone whose max is below the leader\u2019s current total can\u2019t win the title. Win chance comes from 20,000 simulations of the remaining rounds, based on this season\u2019s head-to-head results, how often each driver starts and has a bad night (RGQ, DNF, DQ), and their record at the next track across every season and series on the site (how much better or worse they finish there than everywhere else), plus the points gap, drop and countback rules. TBC tracks get no track adjustment. It\u2019s a guide for fun, not a prediction.</p>';
   }
 
+  function titleRacePage() {
+    S = BASE;
+    $("eyebrow").textContent = S.eyebrow + " \u00b7 After Round " + S.standingsAfter;
+    $("meta").textContent = "Who can still win the championship, and each driver\u2019s chance of doing it";
+    document.title = "Title Race \u00b7 " + S.navLabel + " \u00b7 TB Race Results";
+    provNote(!!S.provisional);
+    var r = wcwBox(S);
+    if (r === null) $("wcw").innerHTML = '<p class="pfnote">The ' + esc(S.navLabel) + " championship has been decided \u2013 see the final standings.</p>";
+  }
+
   function championshipPage() {
     teamClick = null;
-    if ($("wcw")) $("wcw").hidden = true;
     if ($("tiles")) $("tiles").classList.remove("tiles3");
     if ($("h1title")) $("h1title").textContent = "Driver Standings";
     if (viewSwitch() === "teams") return teamStandingsPage();
@@ -1162,7 +1168,6 @@
       '<div class="tile"><div class="label">Round winners</div>' +
       winners.map(function (w) { return '<div class="tile-row"><span>R' + w.no + " · " + esc(w.short) + "</span><span>" + esc(w.driver) + "</span></div>"; }).join("") +
       "</div>";
-    wcwBox(S);
 
     var cell = roundCell;
 
@@ -2097,6 +2102,7 @@
   if (page === "home") homePage();
   if (page === "results") resultsPage();
   if (page === "championship") championshipPage();
+  if (page === "titlerace") titleRacePage();
   if (page === "records") recordsPage();
   if (page === "teamrecords") teamRecordsPage();
   if (page === "champions") championsPage();
@@ -2105,7 +2111,7 @@
   // Each series keeps its own last-updated time (its results/standings pages); the home page shows "home".
   // Race results: update that series AND home (with a note). Other site changes: update home only (no note).
   var UPDATES = {
-    "home": { when: "2026-11-28T00:15:00+10:00", what: "" },
+    "home": { when: "2026-11-28T00:25:00+10:00", what: "" },
     "wrx-evo-gr4": { when: "2026-11-26T22:20:00+10:00", what: "Tuesday Series Round 8 results made official" },
     "narly-cup": { when: "2026-11-27T00:48:00+10:00", what: "Narly Cup Round 8 results added (provisional)" },
     "gt3-endurance": { when: "2026-11-27T22:40:00+10:00", what: "WJF Trophy Round 8 results added (provisional)" }
@@ -2119,7 +2125,7 @@
     var rel = diff === 0 ? "Today" : diff === 1 ? "Yesterday" : d.toLocaleDateString("en-AU", { weekday: "short", day: "numeric", month: "short", timeZone: "Australia/Brisbane" });
     var time = d.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit", timeZone: "Australia/Brisbane" }).replace(" ", "").toLowerCase();
     var eb = $("eyebrow");
-    if (eb && /^(home|results|championship)$/.test(page)) {
+    if (eb && /^(home|results|championship|titlerace)$/.test(page)) {
       // Joined to the red heading line: "GT7 SEASON 18 · AFTER ROUND 7 · ● UPDATED TODAY, 2:00PM"
       var tag = function () {
         if (eb.querySelector(".updeb")) return;
@@ -2158,10 +2164,10 @@
       '<div class="smsec">Profiles</div>' + item(["driver.html", "Driver Profiles", "Every driver, past and present"]) + item(["team.html", "Team Profiles", "Every team\u2019s history and line-up"]) + item(["compare.html", "Head to Head", "Compare any two drivers"]) +
       '<div class="smsec">Season ' + ((window.CALENDAR || {}).season || 18) + "</div>" + item(["season-calendar.html", "Calendar", "Every round, all three series"]) +
       (function () {
-        var live = ["wrx-evo-gr4", "narly-cup", "gt3-endurance"].map(function (id) { return ALL[id]; }).filter(function (x) { return x && !x.final && (x.roundCount || 10) > (x.standingsAfter || 0); });
+        var live = ["wrx-evo-gr4", "narly-cup", "gt3-endurance"].map(function (id) { return ALL[id]; }).filter(function (x) { return x && x.pages.titlerace && !x.final && (x.roundCount || 10) > (x.standingsAfter || 0); });
         if (!live.length) return "";
         var SHN = { "wrx-evo-gr4": "Tuesday", "narly-cup": "Narly Cup", "gt3-endurance": "WJF Trophy" };
-        return '<div class="smtr"><b>Title Race</b><span>Who can still win?</span><div class="smtrl">' + live.map(function (x) { return '<a href="' + x.pages.championship + '#wcw">' + SHN[x.id] + "</a>"; }).join("") + "</div></div>";
+        return '<div class="smtr"><b>Title Race</b><span>Who can still win?</span><div class="smtrl">' + live.map(function (x) { return '<a href="' + x.pages.titlerace + '">' + SHN[x.id] + "</a>"; }).join("") + "</div></div>";
       })() + "</nav>";
     document.body.appendChild(panel);
     var open = function (on) { panel.hidden = !on; btn.setAttribute("aria-expanded", on ? "true" : "false"); document.documentElement.classList.toggle("smopen", on); if (on) panel.querySelector(".smpanel a").focus(); else btn.focus(); };
