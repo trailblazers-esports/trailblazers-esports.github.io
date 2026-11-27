@@ -1018,12 +1018,12 @@
     return out;
   }
 
-  function wcwBox() {
-    var box = $("wcw");
-    if (!box) { box = document.createElement("section"); box.id = "wcw"; box.className = "wcw"; $("tiles").parentNode.insertBefore(box, $("tiles").nextSibling); }
+  function wcwBox(S, calcOnly) {
+    var box = calcOnly ? null : $("wcw");
+    if (!calcOnly && !box) { box = document.createElement("section"); box.id = "wcw"; box.className = "wcw"; $("tiles").parentNode.insertBefore(box, $("tiles").nextSibling); }
     var total = S.roundCount || 10, done = S.standingsAfter || S.rounds.length, left = total - done;
-    if (S.final || left <= 0) { box.hidden = true; return; }
-    box.hidden = false;
+    if (S.final || left <= 0) { if (box) box.hidden = true; return null; }
+    if (box) box.hidden = false;
     var num = function (c) { return /^\d/.test(c) ? parseInt(c, 10) : null; };
     var rows = S.standings.map(function (r) {
       var cells = r[4], sum = 0, low = Infinity, missed = false, dns = false;
@@ -1099,6 +1099,8 @@
     })();
     fight.sort(function (a, b) { return b.chance - a.chance || a.gap - b.gap; });
     var topC = fight[0];
+    if (calcOnly) return { fight: fight, left: left };
+    if (/wcw/.test(location.hash)) setTimeout(function () { box.scrollIntoView({ block: "start" }); }, 50);
     var pct = function (c) { return c <= 0 ? "0%" : c < 0.01 ? "<1%" : c > 0.99 && c < 1 ? ">99%" : Math.round(c * 100) + "%"; };
     var bar = ""; for (var i = 1; i <= total; i++) bar += '<span class="' + (i <= done ? "on" : "") + '"></span>';
     var card = function (o) {
@@ -1158,7 +1160,7 @@
       '<div class="tile"><div class="label">Round winners</div>' +
       winners.map(function (w) { return '<div class="tile-row"><span>R' + w.no + " · " + esc(w.short) + "</span><span>" + esc(w.driver) + "</span></div>"; }).join("") +
       "</div>";
-    wcwBox();
+    wcwBox(S);
 
     var cell = roundCell;
 
@@ -1238,6 +1240,14 @@
         })() +
         '<div class="facts">' + (lr ? "Last winner: <b>" + esc(lr.rows[0][0]) + "</b> · " + esc(lr.short) + "<br>" : "") +
         (past ? "Season " + past.season + " champion: <b>" + esc(past.standings[0][1]) + "</b>" : "") + "</div>" +
+        (function () {
+          var w = wcwBox(x, true); if (!w || !w.fight.length) return "";
+          var pc = function (c) { return c < 0.01 ? "<1%" : c > 0.99 ? ">99%" : Math.round(c * 100) + "%"; };
+          return '<a class="hwcw" href="' + x.pages.championship + '#wcw"><div class="hwcwh"><span>Title race</span><em>' + w.left + " round" + (w.left > 1 ? "s" : "") + " left</em></div>" +
+            w.fight.slice(0, 2).map(function (o, i) {
+              return '<div class="hwcwr' + (i ? "" : " top") + '"><span class="nm"><i style="background:' + tm(o.team).colour + '"></i>' + esc(o.name) + '</span><span class="hbar"><b style="width:' + Math.max(2, Math.round(o.chance * 100)) + '%"></b></span><span class="pc">' + pc(o.chance) + "</span></div>";
+            }).join("") + '<div class="hwcwf">Who can still win? \u2192</div></a>';
+        })() +
         '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a></div></article>';
     }).join("");
   }
