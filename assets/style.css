@@ -777,3 +777,32 @@ html.smopen { overflow: hidden; }
 .updeb .upddot { display: inline-block; width: 6px; height: 6px; margin: 0 6px 1px 0; vertical-align: middle; box-shadow: 0 0 0 2px rgba(52,196,110,.18); }
 .updnote { margin: 4px 0 -2px; font: 500 13px var(--body); color: var(--muted); }
 @media (max-width: 600px) { .updeb { display: block; margin-top: 5px; } .updeb::before { display: none; } }
+
+/* Who can still win? */
+.wcw { margin: 18px 0 6px; border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; background: linear-gradient(135deg, rgba(215,38,30,.10), rgba(255,255,255,.02) 60%); }
+.wcwh { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.wcwh h2 { margin: 2px 0 4px; font: 700 28px var(--cond); text-transform: uppercase; letter-spacing: .02em; }
+.wcwbar { display: flex; gap: 4px; }
+.wcwbar span { width: 22px; height: 8px; border-radius: 3px; background: rgba(255,255,255,.12); }
+.wcwbar span.on { background: var(--red); }
+.wcwg { margin-top: 16px; }
+.wcwg .label span { color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 500; margin-left: 6px; }
+.wcwcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin-top: 8px; }
+.wcwc { position: relative; border: 1px solid rgba(233,185,53,.45); border-radius: 10px; padding: 10px 12px 10px 16px; background: rgba(0,0,0,.25); }
+.wcwc::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 4px; border-radius: 2px; background: var(--tc); }
+.wcwc.lead { border-color: #E9B935; box-shadow: 0 0 0 1px rgba(233,185,53,.35) inset; }
+.wcwn { font: 700 19px var(--cond); }
+.wcwn a { color: inherit; text-decoration: none; }
+.wcwt { font-size: 12px; color: var(--muted); }
+.wcws { display: flex; justify-content: space-between; gap: 6px; margin-top: 6px; font-size: 13px; color: var(--soft); }
+.wcws b { color: #fff; font-family: var(--mono, monospace); }
+.wcws b.ld { color: #E9B935; font-family: inherit; }
+.wcwchips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.wcwchip { border: 1px solid var(--line); border-left: 4px solid var(--tc); border-radius: 8px; padding: 5px 10px; font-size: 14px; }
+.wcwchip a { color: inherit; text-decoration: none; font-weight: 600; }
+.wcwchip i { font-style: normal; color: var(--muted); font-size: 12px; margin-left: 4px; }
+.wcwout summary { cursor: pointer; }
+.wcwx { margin-top: 8px; font-size: 13px; color: var(--muted); line-height: 1.8; }
+.wcwx s { margin-right: 10px; white-space: nowrap; }
+.wcwnote { margin: 14px 0 0; font-size: 12px; color: var(--muted); }
+@media (max-width: 600px) { .wcwcards { grid-template-columns: 1fr 1fr; gap: 8px; } .wcwc { padding: 8px 8px 8px 13px; } .wcwn { font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .wcws { flex-wrap: wrap; font-size: 12px; gap: 2px 8px; } .wcwh h2 { font-size: 24px; } .wcwbar span { width: 16px; } }

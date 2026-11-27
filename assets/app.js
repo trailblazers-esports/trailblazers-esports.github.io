@@ -984,8 +984,42 @@
     }).join("");
   }
 
+  /* "Who can still win?" – current season driver standings only. */
+  function wcwBox() {
+    var box = $("wcw");
+    if (!box) { box = document.createElement("section"); box.id = "wcw"; box.className = "wcw"; $("tiles").parentNode.insertBefore(box, $("tiles").nextSibling); }
+    var total = S.roundCount || 10, done = S.standingsAfter || S.rounds.length, left = total - done;
+    if (S.final || left <= 0) { box.hidden = true; return; }
+    box.hidden = false;
+    var num = function (c) { return /^\d/.test(c) ? parseInt(c, 10) : null; };
+    var rows = S.standings.map(function (r) {
+      var cells = r[4], sum = 0, low = Infinity, missed = false, dns = false;
+      cells.forEach(function (c) { var n = num(c); if (n !== null) { sum += n; if (n < low) low = n; } if (c === "\u2013" || c === "-") missed = true; if (c === "DNS") dns = true; });
+      var drop = missed || dns || low === Infinity ? 0 : Math.min(low, 45);
+      var gone = r[1] === "WallFinder"; // removed from the league – no more rounds
+      return { r: r, name: r[1], team: r[2], pts: r[8], max: gone ? r[8] : sum + left * 45 - drop };
+    });
+    var lead = rows[0];
+    rows.forEach(function (o) { o.gap = lead.pts - o.pts; o.out = o.max < lead.pts; o.fight = !o.out && o.gap <= 45; });
+    var fight = rows.filter(function (o) { return o.fight; }), poss = rows.filter(function (o) { return !o.out && !o.fight; }), out = rows.filter(function (o) { return o.out; });
+    var bar = ""; for (var i = 1; i <= total; i++) bar += '<span class="' + (i <= done ? "on" : "") + '"></span>';
+    var card = function (o) {
+      var t = team(o.team);
+      return '<div class="wcwc' + (o === lead ? " lead" : "") + '" style="--tc:' + t.colour + '"><div class="wcwn">' + plink(o.name) + '</div><div class="wcwt">' + esc(t.name) + '</div>' +
+        '<div class="wcws"><span><b>' + o.pts + "</b> pts</span><span>" + (o === lead ? '<b class="ld">Leader</b>' : o.gap === 0 ? '<b class="ld">Level</b>' : "<b>\u2212" + o.gap + "</b>") + "</span><span>max <b>" + o.max + "</b></span></div></div>";
+    };
+    box.innerHTML = '<div class="wcwh"><div><div class="label">Title race</div><h2>Who can still win?</h2>' +
+      '<div class="sub">' + left + " round" + (left > 1 ? "s" : "") + " left \u00b7 up to " + left * 45 + " more points each \u00b7 a win is worth 45</div></div>" +
+      '<div class="wcwbar" title="Round ' + done + " of " + total + '">' + bar + "</div></div>" +
+      '<div class="wcwg"><div class="label">In the fight <span>within one win of the lead</span></div><div class="wcwcards">' + fight.map(card).join("") + "</div></div>" +
+      (poss.length ? '<div class="wcwg"><div class="label">Still mathematically possible <span>need the leaders to slip</span></div><div class="wcwchips">' + poss.map(function (o) { return '<span class="wcwchip" style="--tc:' + team(o.team).colour + '">' + plink(o.name) + " <i>\u2212" + o.gap + " \u00b7 max " + o.max + "</i></span>"; }).join("") + "</div></div>" : "") +
+      (out.length ? '<details class="wcwg wcwout"><summary class="label">Out of contention <span>' + out.length + " drivers \u00b7 can\u2019t reach " + lead.pts + " pts</span></summary><div class=\"wcwx\">" + out.map(function (o) { return "<s>" + esc(o.name) + "</s>"; }).join(" ") + "</div></details>" : "") +
+      '<p class="wcwnote">Max = points if they win every remaining round, with their drop applied (a driver only gets a drop if they enter every round). Anyone whose max is below the leader\u2019s current total can\u2019t win the title.</p>';
+  }
+
   function championshipPage() {
     teamClick = null;
+    if ($("wcw")) $("wcw").hidden = true;
     if ($("tiles")) $("tiles").classList.remove("tiles3");
     if ($("h1title")) $("h1title").textContent = "Driver Standings";
     if (viewSwitch() === "teams") return teamStandingsPage();
@@ -1022,6 +1056,7 @@
       '<div class="tile"><div class="label">Round winners</div>' +
       winners.map(function (w) { return '<div class="tile-row"><span>R' + w.no + " · " + esc(w.short) + "</span><span>" + esc(w.driver) + "</span></div>"; }).join("") +
       "</div>";
+    wcwBox();
 
     var cell = roundCell;
 
