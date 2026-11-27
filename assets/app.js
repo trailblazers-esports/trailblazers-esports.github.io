@@ -2105,7 +2105,7 @@
   // Each series keeps its own last-updated time (its results/standings pages); the home page shows "home".
   // Race results: update that series AND home (with a note). Other site changes: update home only (no note).
   var UPDATES = {
-    "home": { when: "2026-11-27T22:40:00+10:00", what: "WJF Trophy Round 8 results added (provisional)" },
+    "home": { when: "2026-11-28T00:15:00+10:00", what: "" },
     "wrx-evo-gr4": { when: "2026-11-26T22:20:00+10:00", what: "Tuesday Series Round 8 results made official" },
     "narly-cup": { when: "2026-11-27T00:48:00+10:00", what: "Narly Cup Round 8 results added (provisional)" },
     "gt3-endurance": { when: "2026-11-27T22:40:00+10:00", what: "WJF Trophy Round 8 results added (provisional)" }
