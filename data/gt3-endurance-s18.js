@@ -13,7 +13,7 @@ window.SERIES["gt3-endurance"] = {
   title: "WJF Trophy GT3 Endurance Championship Season 18",
   eyebrow: "WJF Trophy · GT3 Endurance Championship · Season 18 · Friday series",
   seriesLine: "Trailblazers S18 WJF Trophy",
-  pages: { results: "wjf-trophy.html", championship: "championship.html", titlerace: "wjf-titlerace.html", calendar: "wjf-calendar.html", records: "records-drivers.html?series=gt3-endurance", teamrecords: "records-teams.html?series=gt3-endurance", champions: "records-titles.html?series=gt3-endurance" },
+  pages: { results: "wjf-trophy.html", championship: "championship.html", calendar: "wjf-calendar.html", records: "records-drivers.html?series=gt3-endurance", teamrecords: "records-teams.html?series=gt3-endurance", champions: "records-titles.html?series=gt3-endurance" },
   hasLobbies: true,
   provisional: { rounds: [8], text: "Results pending Round 8 stewards\u2019 reviews" },
   // Provisional until the club confirms stewards' reviews are done (remove when told).

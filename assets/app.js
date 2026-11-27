@@ -90,9 +90,9 @@
       if (page === "seasoncal") $("pageNav").hidden = true; // the combined calendar is in the top menu now
     }
     // Series pages: current-season race results and championship standings only.
-    var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", '<span class="tab-long">Championship </span>Standings'], ["titlerace", "Title Race"], ["calendar", "Calendar"]].filter(function (t) { return t[0] === "titlerace" ? BASE.pages.titlerace && !BASE.final && (BASE.roundCount || 10) > (BASE.standingsAfter || 0) : S.pages[t[0]] || BASE.pages[t[0]]; });
+    var tabs = RECORD_PAGES.test(page) ? [] : [["results", "Race Results"], ["championship", '<span class="tab-long">Championship </span>Standings'], ["calendar", "Calendar"]].filter(function (t) { return S.pages[t[0]] || BASE.pages[t[0]]; });
     if (!RECORD_PAGES.test(page)) $("pageNav").innerHTML = tabs.length > 1 ? tabs.map(function (t) {
-      var href = t[0] === "titlerace" ? BASE.pages.titlerace : S.pages[t[0]] ? S.pages[t[0]] + (t[0] === "calendar" ? "" : seasonQuery(S)) : BASE.pages[t[0]];
+      var href = S.pages[t[0]] ? S.pages[t[0]] + (t[0] === "calendar" ? "" : seasonQuery(S)) : BASE.pages[t[0]];
       return '<a href="' + href + '"' + (t[0] === page ? ' aria-current="page"' : "") + ">" + t[1] + "</a>";
     }).join("") : "";
     if (!RECORD_PAGES.test(page) && tabs.length < 2) $("pageNav").hidden = true;
@@ -984,152 +984,6 @@
     }).join("");
   }
 
-  /* "Who can still win?" – current season driver standings only. */
-  /* Each driver's record at a track, all series and seasons: races, average finishing position, wins,
-     and a "form" score = how much better (or worse) they finish there than they do everywhere else. */
-  function trackForm(track) {
-    var all = {}, at = {};
-    var add = function (name, pos, field, here) {
-      if (field < 2) return; var pct = 1 - (pos - 1) / (field - 1);
-      var a = all[name] = all[name] || { n: 0, s: 0 }; a.n++; a.s += pct;
-      if (here) { var t = at[name] = at[name] || { n: 0, s: 0, pos: 0, wins: 0, best: 99 }; t.n++; t.s += pct; t.pos += pos; if (pos === 1) t.wins++; if (pos < t.best) t.best = pos; }
-    };
-    Object.keys(ALL).forEach(function (k) {
-      var x = ALL[k];
-      if (x.standingsFormat === "archive" && x.roundNames) {
-        x.roundNames.forEach(function (nm, i) {
-          if (!nm) return; var here = trackOf(nm) === track;
-          var sc = (x.standings || []).map(function (r) { var c = String((r[3] || [])[i] || ""); return [r[1], /^\d/.test(c) ? parseInt(c, 10) : null]; }).filter(function (z) { return z[1] !== null && z[1] > 0; });
-          sc.sort(function (a, b) { return b[1] - a[1]; });
-          sc.forEach(function (z, j) { var pos = 1 + sc.filter(function (y) { return y[1] > z[1]; }).length; add(z[0], pos, sc.length, here); });
-        });
-      } else if (x.rounds && !x.final) {
-        x.rounds.forEach(function (rd) {
-          var here = trackOf(rd.track || rd.short) === track, fin = rd.rows.filter(function (r) { return r[8] !== "o"; });
-          fin.forEach(function (r, j) { add(r[0], j + 1, fin.length, here); });
-        });
-      }
-    });
-    var out = {};
-    Object.keys(at).forEach(function (n) {
-      var t = at[n], a = all[n], diff = t.s / t.n - a.s / a.n;
-      out[n] = { n: t.n, avg: t.pos / t.n, wins: t.wins, best: t.best, form: diff * t.n / (t.n + 3) };
-    });
-    return out;
-  }
-
-  function wcwBox(S, calcOnly) {
-    var box = calcOnly ? null : $("wcw");
-    if (!calcOnly && !box) { box = document.createElement("section"); box.id = "wcw"; box.className = "wcw"; $("tiles").parentNode.insertBefore(box, $("tiles").nextSibling); }
-    var total = S.roundCount || 10, done = S.standingsAfter || S.rounds.length, left = total - done;
-    if (S.final || left <= 0) { if (box) box.hidden = true; return null; }
-    if (box) box.hidden = false;
-    var num = function (c) { return /^\d/.test(c) ? parseInt(c, 10) : null; };
-    var rows = S.standings.map(function (r) {
-      var cells = r[4], sum = 0, low = Infinity, missed = false, dns = false;
-      cells.forEach(function (c) { var n = num(c); if (n !== null) { sum += n; if (n < low) low = n; } if (c === "\u2013" || c === "-") missed = true; if (c === "DNS") dns = true; });
-      var drop = missed || dns || low === Infinity ? 0 : Math.min(low, 45);
-      var gone = r[1] === "WallFinder"; // removed from the league – no more rounds
-      return { r: r, name: r[1], team: r[2], pts: r[8], max: gone ? r[8] : sum + left * 45 - drop };
-    });
-    var lead = rows[0];
-    rows.forEach(function (o) { o.gap = lead.pts - o.pts; o.out = o.max < lead.pts; o.fight = !o.out && o.gap <= 45; });
-    var fight = rows.filter(function (o) { return o.fight; }), poss = rows.filter(function (o) { return !o.out && !o.fight; }), out = rows.filter(function (o) { return o.out; });
-    // remaining tracks (TBC rounds get no track adjustment)
-    var CAL = window.CALENDAR, nextRd = [];
-    for (var rr = done + 1; rr <= total; rr++) { var cr = CAL && CAL.rounds.filter(function (q) { return q.no === rr; })[0]; nextRd.push(cr && !cr.tbc ? trackOf(cr.track) : null); }
-    var forms = nextRd.map(function (t) { return t ? trackForm(t) : null; });
-    var nextTrack = nextRd[0], nextForm = forms[0];
-    /* Win chance: simulate the remaining rounds 20,000 times.
-       Strength = Bradley-Terry fit of this season's head-to-heads (who scored more in rounds both raced),
-       attendance = share of rounds entered so far, points 45/43/41/40… by finishing order, drop rules applied. */
-    (function () {
-      var n = rows.length, k = done, i, j, r;
-      var sc = rows.map(function (o) { return o.r[4].map(function (c) { return /^\d/.test(c) ? parseInt(c, 10) : (c === "RGQ" || c === "DNF" || c === "DQ" ? -1 : null); }); });
-      var W = new Array(n).fill(0), N = [];
-      for (i = 0; i < n; i++) { N.push(new Array(n).fill(0)); }
-      rows.forEach(function (o) { o.h2hW = 0; o.h2hL = 0; });
-      for (r = 0; r < k; r++) for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {
-        var a = sc[i][r], b = sc[j][r]; if (a === null || b === null || a === b) continue;
-        N[i][j]++; N[j][i]++; if (a > b) W[i]++; else W[j]++;
-        if (j < i) continue;
-        // head-to-head of each driver against the drivers ahead of them in the standings
-        if (a > b) { rows[j].h2hL++; } else { rows[j].h2hW++; }
-      }
-      var p = new Array(n).fill(1), A = 3;
-      for (var it = 0; it < 200; it++) {
-        var q = p.slice();
-        for (i = 0; i < n; i++) { var d = 2 * A / (p[i] + 1); for (j = 0; j < n; j++) if (N[i][j]) d += N[i][j] / (p[i] + p[j]); q[i] = (W[i] + A) / d; }
-        p = q;
-      }
-      // turnout: rounds actually started (a DNS counts as not turning up)
-      var att = rows.map(function (o) { if (o.name === "WallFinder") return 0; var e = o.r[4].filter(function (c) { return c !== "\u2013" && c !== "-" && c !== "DNS"; }).length; return e / k; });
-      // bad-night rate (RGQ, DNF, DQ): each driver's own record, blended with the whole field's rate
-      var badAll = 0, startAll = 0;
-      var bad = rows.map(function (o) { var b2 = 0, st2 = 0; o.r[4].forEach(function (c) { if (/^\d/.test(c)) st2++; else if (c === "RGQ" || c === "DNF" || c === "DQ") { st2++; b2++; } }); badAll += b2; startAll += st2; return [b2, st2]; });
-      var g = startAll ? badAll / startAll : 0.05;
-      var inc = bad.map(function (x) { return (x[0] + 4 * g) / (x[1] + 4); });
-      var seed = 12345 + done * 7919; var rnd = function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
-      var lp = p.map(function (x) { return Math.log(x); }), PTS = function (pos) { return pos === 0 ? 45 : pos === 1 ? 43 : pos === 2 ? 41 : 44 - (pos + 1); };
-      var wins = new Array(n).fill(0), SIMS = 20000, idx = [], perf = new Array(n), extra = [], tot = new Array(n);
-      for (var sim = 0; sim < SIMS; sim++) {
-        extra = rows.map(function (o, i2) { return sc[i2].slice(); });
-        for (r = 0; r < left; r++) {
-          idx = []; var badN = [], fm = forms[r];
-          for (i = 0; i < n; i++) if (rnd() < att[i]) { if (rnd() < inc[i]) badN.push(i); else { idx.push(i); perf[i] = lp[i] + (fm && fm[rows[i].name] ? 2.5 * fm[rows[i].name].form : 0) - Math.log(-Math.log(rnd() || 1e-12)); } }
-          idx.sort(function (x, y) { return perf[y] - perf[x]; });
-          var got = {}; idx.forEach(function (d2, pos) { got[d2] = PTS(pos); }); badN.forEach(function (d2) { got[d2] = -1; });
-          for (i = 0; i < n; i++) extra[i].push(got[i] !== undefined ? got[i] : null);
-        }
-        var best = -1, bi = [];
-        for (i = 0; i < n; i++) {
-          var cells = extra[i], sum = 0, low = Infinity, ok = true, dnsd = rows[i].r[4].indexOf("DNS") >= 0;
-          for (r = 0; r < total; r++) { var v = cells[r]; if (v > 0) sum += v; if (r < total - 1) { if (v === null || v === undefined) ok = false; else if (v > 0 && v < low) low = v; } }
-          if (rows[i].name === "WallFinder") { ok = true; }
-          tot[i] = sum - (ok && !dnsd && low < Infinity ? low : 0);
-          if (tot[i] > best) { best = tot[i]; bi = [i]; } else if (tot[i] === best) bi.push(i);
-        }
-        if (bi.length > 1) {
-          // countback: most wins, then 2nds, 3rds… (45, 43, 41, 40, 39…)
-          bi.sort(function (x, y) { for (var pv = 45; pv > 0; pv--) { var cx = extra[x].filter(function (v) { return v === pv; }).length, cy = extra[y].filter(function (v) { return v === pv; }).length; if (cx !== cy) return cy - cx; } return 0; });
-        }
-        wins[bi[0]]++;
-      }
-      rows.forEach(function (o, i2) { o.chance = wins[i2] / SIMS; });
-    })();
-    fight.sort(function (a, b) { return b.chance - a.chance || a.gap - b.gap; });
-    var topC = fight[0];
-    if (calcOnly) return { fight: fight, left: left };
-    var pct = function (c) { return c <= 0 ? "0%" : c < 0.01 ? "<1%" : c > 0.99 && c < 1 ? ">99%" : Math.round(c * 100) + "%"; };
-    var bar = ""; for (var i = 1; i <= total; i++) bar += '<span class="' + (i <= done ? "on" : "") + '"></span>';
-    var card = function (o) {
-      var t = team(o.team);
-      var tf = nextForm && nextForm[o.name], ord = function (k2) { return k2 + (k2 % 10 === 1 && k2 !== 11 ? "st" : k2 % 10 === 2 && k2 !== 12 ? "nd" : k2 % 10 === 3 && k2 !== 13 ? "rd" : "th"); };
-      var tline = !nextTrack ? "" : tf ? '<div class="wcwtf"><span>' + esc(nextTrack) + '</span> ' + tf.n + " race" + (tf.n > 1 ? "s" : "") + " \u00b7 avg " + ord(Math.round(tf.avg)) + (tf.wins ? " \u00b7 <b>" + tf.wins + " win" + (tf.wins > 1 ? "s" : "") + "</b>" : " \u00b7 best " + ord(tf.best)) + "</div>" : '<div class="wcwtf"><span>' + esc(nextTrack) + "</span> no races here yet</div>";
-      return '<div class="wcwc' + (o === lead ? " lead" : "") + (o === topC ? " top" : "") + '" style="--tc:' + t.colour + '"><div class="wcwn">' + plink(o.name) + '</div><div class="wcwt">' + esc(t.name) + '</div>' +
-        '<div class="wcws"><span><b>' + o.pts + "</b> pts</span><span>" + (o === lead ? '<b class="ld">Leader</b>' : o.gap === 0 ? '<b class="ld">Level</b>' : "<b>\u2212" + o.gap + "</b>") + "</span><span>max <b>" + o.max + "</b></span></div>" +
-        '<div class="wcwp"><div class="wcwpt"><span>Win chance</span><b>' + pct(o.chance) + '</b></div><div class="wcwpb"><i style="width:' + Math.max(1, Math.round(o.chance * 100)) + '%"></i></div>' +
-        "</div>" + tline + "</div>";
-    };
-    box.innerHTML = '<div class="wcwh"><div><div class="label">Title race</div><h2>Who can still win?</h2>' +
-      '<div class="sub">' + left + " round" + (left > 1 ? "s" : "") + " left \u00b7 up to " + left * 45 + " more points each \u00b7 a win is worth 45</div></div>" +
-      '<div class="wcwbar" title="Round ' + done + " of " + total + '">' + bar + "</div></div>" +
-      '<div class="wcwg"><div class="label">In the fight <span>within one win of the lead</span></div><div class="wcwcards">' + fight.map(card).join("") + "</div></div>" +
-      (poss.length ? '<div class="wcwg"><div class="label">Still mathematically possible <span>need the leaders to slip</span></div><div class="wcwchips">' + poss.map(function (o) { return '<span class="wcwchip" style="--tc:' + team(o.team).colour + '">' + plink(o.name) + " <i>\u2212" + o.gap + " \u00b7 max " + o.max + " \u00b7 <em>" + pct(o.chance) + "</em></i></span>"; }).join("") + "</div></div>" : "") +
-      (out.length ? '<details class="wcwg wcwout"><summary class="label">Out of contention <span>' + out.length + " drivers \u00b7 can\u2019t reach " + lead.pts + " pts</span></summary><div class=\"wcwx\">" + out.map(function (o) { return "<s>" + esc(o.name) + "</s>"; }).join(" ") + "</div></details>" : "") +
-      '<p class="wcwnote">Max = points if they win every remaining round, with their drop applied (a driver only gets a drop if they enter every round). Anyone whose max is below the leader\u2019s current total can\u2019t win the title. Win chance comes from 20,000 simulations of the remaining rounds, based on this season\u2019s head-to-head results, how often each driver starts and has a bad night (RGQ, DNF, DQ), and their record at the next track across every season and series on the site (how much better or worse they finish there than everywhere else), plus the points gap, drop and countback rules. TBC tracks get no track adjustment. It\u2019s a guide for fun, not a prediction.</p>';
-  }
-
-  function titleRacePage() {
-    S = BASE;
-    $("eyebrow").textContent = S.eyebrow + " \u00b7 After Round " + S.standingsAfter;
-    $("meta").textContent = "Who can still win the championship, and each driver\u2019s chance of doing it";
-    document.title = "Title Race \u00b7 " + S.navLabel + " \u00b7 TB Race Results";
-    provNote(!!S.provisional);
-    var r = wcwBox(S);
-    if (r === null) $("wcw").innerHTML = '<p class="pfnote">The ' + esc(S.navLabel) + " championship has been decided \u2013 see the final standings.</p>";
-  }
-
   function championshipPage() {
     teamClick = null;
     if ($("tiles")) $("tiles").classList.remove("tiles3");
@@ -1247,8 +1101,7 @@
         })() +
         '<div class="facts">' + (lr ? "Last winner: <b>" + esc(lr.rows[0][0]) + "</b> · " + esc(lr.short) + "<br>" : "") +
         (past ? "Season " + past.season + " champion: <b>" + esc(past.standings[0][1]) + "</b>" : "") + "</div>" +
-
-        '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a>' + "</div></article>";
+        '<div class="btns"><a class="pri" href="' + x.pages.results + '">Results</a><a href="' + x.pages.championship + '">Standings</a></div></article>';
     }).join("");
   }
 
@@ -2102,7 +1955,6 @@
   if (page === "home") homePage();
   if (page === "results") resultsPage();
   if (page === "championship") championshipPage();
-  if (page === "titlerace") titleRacePage();
   if (page === "records") recordsPage();
   if (page === "teamrecords") teamRecordsPage();
   if (page === "champions") championsPage();
@@ -2111,7 +1963,7 @@
   // Each series keeps its own last-updated time (its results/standings pages); the home page shows "home".
   // Race results: update that series AND home (with a note). Other site changes: update home only (no note).
   var UPDATES = {
-    "home": { when: "2026-11-28T00:25:00+10:00", what: "" },
+    "home": { when: "2026-11-28T01:05:00+10:00", what: "" },
     "wrx-evo-gr4": { when: "2026-11-26T22:20:00+10:00", what: "Tuesday Series Round 8 results made official" },
     "narly-cup": { when: "2026-11-27T00:48:00+10:00", what: "Narly Cup Round 8 results added (provisional)" },
     "gt3-endurance": { when: "2026-11-27T22:40:00+10:00", what: "WJF Trophy Round 8 results added (provisional)" }
@@ -2125,7 +1977,7 @@
     var rel = diff === 0 ? "Today" : diff === 1 ? "Yesterday" : d.toLocaleDateString("en-AU", { weekday: "short", day: "numeric", month: "short", timeZone: "Australia/Brisbane" });
     var time = d.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit", timeZone: "Australia/Brisbane" }).replace(" ", "").toLowerCase();
     var eb = $("eyebrow");
-    if (eb && /^(home|results|championship|titlerace)$/.test(page)) {
+    if (eb && /^(home|results|championship)$/.test(page)) {
       // Joined to the red heading line: "GT7 SEASON 18 · AFTER ROUND 7 · ● UPDATED TODAY, 2:00PM"
       var tag = function () {
         if (eb.querySelector(".updeb")) return;
@@ -2162,13 +2014,7 @@
     panel.innerHTML = '<div class="smshade" data-close></div><nav class="smpanel" aria-label="Site menu"><div class="smtop"><span>Menu</span><button type="button" class="smclose" aria-label="Close menu" data-close>&times;</button></div>' +
       '<div class="smsec">Records</div>' + REC.map(item).join("") +
       '<div class="smsec">Profiles</div>' + item(["driver.html", "Driver Profiles", "Every driver, past and present"]) + item(["team.html", "Team Profiles", "Every team\u2019s history and line-up"]) + item(["compare.html", "Head to Head", "Compare any two drivers"]) +
-      '<div class="smsec">Season ' + ((window.CALENDAR || {}).season || 18) + "</div>" + item(["season-calendar.html", "Calendar", "Every round, all three series"]) +
-      (function () {
-        var live = ["wrx-evo-gr4", "narly-cup", "gt3-endurance"].map(function (id) { return ALL[id]; }).filter(function (x) { return x && x.pages.titlerace && !x.final && (x.roundCount || 10) > (x.standingsAfter || 0); });
-        if (!live.length) return "";
-        var SHN = { "wrx-evo-gr4": "Tuesday", "narly-cup": "Narly Cup", "gt3-endurance": "WJF Trophy" };
-        return '<div class="smtr"><b>Title Race</b><span>Who can still win?</span><div class="smtrl">' + live.map(function (x) { return '<a href="' + x.pages.titlerace + '">' + SHN[x.id] + "</a>"; }).join("") + "</div></div>";
-      })() + "</nav>";
+      '<div class="smsec">Season ' + ((window.CALENDAR || {}).season || 18) + "</div>" + item(["season-calendar.html", "Calendar", "Every round, all three series"]) + "</nav>";
     document.body.appendChild(panel);
     var open = function (on) { panel.hidden = !on; btn.setAttribute("aria-expanded", on ? "true" : "false"); document.documentElement.classList.toggle("smopen", on); if (on) panel.querySelector(".smpanel a").focus(); else btn.focus(); };
     btn.addEventListener("click", function () { open(panel.hidden); });
